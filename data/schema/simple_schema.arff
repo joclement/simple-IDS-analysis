@@ -1,0 +1,24 @@
+% Prototyp schema for dataset CTU-13
+
+@RELATION simple-ctu-13
+
+%TODO decide: good for merged data schema with other groups later?
+@ATTRIBUTE type         CLASS   {netflow, pcap}
+
+@ATTRIBUTE protocol     CLASS   {icmp, tcp, udp, arp, rtp, pim, igmp, ipx/spx, ipv6, udt, esp}
+@ATTRIBUTE srcip        NUMERIC
+@ATTRIBUTE destip       NUMERIC
+@ATTRIBUTE srcport      NUMERIC
+@ATTRIBUTE destport     NUMERIC
+@ATTRIBUTE time         DATE    "yyyy-MM-dd HH:mm:ss"
+%TODO decide: or maybe better class?
+@ATTRIBUTE tos          numeric
+@ATTRIBUTE duration     NUMERIC
+@ATTRIBUTE numPack      NUMERIC
+@ATTRIBUTE totNumByt    NUMERIC
+@ATTRIBUTE srcNumByt    NUMERIC
+%TODO specify values
+@ATTRIBUTE state        CLASS   {}
+@ATTRIBUTE label        CLASS   {Normal, Background, Botnet}
+
+@DATA
