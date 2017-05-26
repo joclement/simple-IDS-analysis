@@ -13,6 +13,8 @@
 @ATTRIBUTE time         DATE    "yyyy-MM-dd HH:mm:ss"
 %TODO decide: or maybe better class?
 @ATTRIBUTE tos          numeric
+@ATTRIBUTE sTos         NUMERIC
+@ATTRIBUTE dTos         NUMERIC
 @ATTRIBUTE duration     NUMERIC
 @ATTRIBUTE numPack      NUMERIC
 @ATTRIBUTE totNumByt    NUMERIC
@@ -20,5 +22,5 @@
 %TODO specify values
 @ATTRIBUTE state        CLASS   {}
 @ATTRIBUTE label        CLASS   {Normal, Background, Botnet}
-
+@ATTRIBUTE dir          CLASS   {from, to, both, unknown}
 @DATA
