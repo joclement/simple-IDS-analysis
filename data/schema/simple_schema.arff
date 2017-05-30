@@ -1,26 +1,23 @@
 % Prototyp schema for dataset CTU-13
 
-@RELATION simple-ctu-13
+@relation simple-ctu-13
 
-%TODO decide: good for merged data schema with other groups later?
-@ATTRIBUTE type         CLASS   {netflow, pcap}
-
-@ATTRIBUTE protocol     CLASS   {icmp, tcp, udp, arp, rtp, pim, igmp, ipx/spx, ipv6, udt, esp}
-@ATTRIBUTE srcip        INTEGER
-@ATTRIBUTE destip       INTEGER
-@ATTRIBUTE srcport      INTEGER
-@ATTRIBUTE destport     INTEGER
-@ATTRIBUTE time         DATE    "yyyy-MM-dd HH:mm:ss"
+@attribute protocol     class   {icmp, tcp, udp, arp, rtp, pim, igmp, ipx/spx, ipv6, udt, esp}
+@attribute ipSrc        integer
+@attribute ipDest       integer
+@attribute portSrc      integer
+@attribute portDest     integer
+@attribute time         DATE    "yyyy-MM-dd HH:mm:ss"
 %TODO decide: or maybe better class?
-@ATTRIBUTE sTos         INTEGER
-@ATTRIBUTE dTos         INTEGER
-@ATTRIBUTE duration     REAL
-@ATTRIBUTE numPack      INTEGER
-@ATTRIBUTE totNumByt    INTEGER
-@ATTRIBUTE srcNumByt    INTEGER
+@attribute tos          integer
+@attribute TosDest      integer
+@attribute duration     real
+@attribute numPack      integer
+@attribute totNumByt    integer
+@attribute srcNumByt    integer
 %TODO specify values
-@ATTRIBUTE state        STRING
-@ATTRIBUTE label        CLASS   {Normal, Background, Botnet}
-@ATTRIBUTE dir          CLASS  {from, to, both, unknownTo, unknownFrom, unknownBoth}
+@attribute state        class   {}
+@attribute label        class   {normal, Background, Botnet}
+@attribute dir          class   {from, to, both, unknownTo, unknownFrom, unknownBoth}
 
-@DATA
+@data
