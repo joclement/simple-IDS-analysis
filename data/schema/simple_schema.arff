@@ -6,21 +6,21 @@
 @ATTRIBUTE type         CLASS   {netflow, pcap}
 
 @ATTRIBUTE protocol     CLASS   {icmp, tcp, udp, arp, rtp, pim, igmp, ipx/spx, ipv6, udt, esp}
-@ATTRIBUTE srcip        NUMERIC
-@ATTRIBUTE destip       NUMERIC
-@ATTRIBUTE srcport      NUMERIC
-@ATTRIBUTE destport     NUMERIC
+@ATTRIBUTE srcip        INTEGER
+@ATTRIBUTE destip       INTEGER
+@ATTRIBUTE srcport      INTEGER
+@ATTRIBUTE destport     INTEGER
 @ATTRIBUTE time         DATE    "yyyy-MM-dd HH:mm:ss"
 %TODO decide: or maybe better class?
-@ATTRIBUTE tos          numeric
-@ATTRIBUTE sTos         NUMERIC
-@ATTRIBUTE dTos         NUMERIC
-@ATTRIBUTE duration     NUMERIC
-@ATTRIBUTE numPack      NUMERIC
-@ATTRIBUTE totNumByt    NUMERIC
-@ATTRIBUTE srcNumByt    NUMERIC
+@ATTRIBUTE sTos         INTEGER
+@ATTRIBUTE dTos         INTEGER
+@ATTRIBUTE duration     REAL
+@ATTRIBUTE numPack      INTEGER
+@ATTRIBUTE totNumByt    INTEGER
+@ATTRIBUTE srcNumByt    INTEGER
 %TODO specify values
-@ATTRIBUTE state        CLASS   {}
+@ATTRIBUTE state        STRING
 @ATTRIBUTE label        CLASS   {Normal, Background, Botnet}
-@ATTRIBUTE dir          CLASS   {from, to, both, unknown}
+@ATTRIBUTE dir          CLASS  {from, to, both, unknownTo, unknownFrom, unknownBoth}
+
 @DATA
