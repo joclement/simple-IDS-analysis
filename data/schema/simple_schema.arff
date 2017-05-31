@@ -2,22 +2,22 @@
 
 @relation simple-ctu-13
 
-@attribute protocol     class   {icmp, tcp, udp, arp, rtp, pim, igmp, ipx/spx, ipv6, udt, esp}
+@attribute protocol     {icmp, tcp, udp, arp, rtp, pim, igmp, ipx/spx, ipv6, udt, esp}
 @attribute ipSrc        integer
 @attribute ipDest       integer
 @attribute portSrc      integer
 @attribute portDest     integer
 @attribute time         DATE    "yyyy-MM-dd HH:mm:ss"
-%TODO decide: or maybe better class?
+ %TODO decide: or maybe better class?
 @attribute tos          integer
 @attribute TosDest      integer
 @attribute duration     real
 @attribute numPack      integer
 @attribute totNumByt    integer
 @attribute srcNumByt    integer
-%TODO specify values
-@attribute state        class   {}
-@attribute label        class   {normal, Background, Botnet}
-@attribute dir          class   {from, to, both, unknownTo, unknownFrom, unknownBoth}
+ %TODO specify values
+@attribute state        {}
+@attribute label        {normal, Background, Botnet}
+@attribute dir          {from, to, both, unknownTo, unknownFrom, unknownBoth}
 
 @data
