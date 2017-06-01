@@ -1,13 +1,16 @@
 package de.tub.insin.ss17.grp1;
 
-/**
- * Hello world!
- *
- */
-public class App 
+import com.beust.jcommander.JCommander;
+
+public class App
 {
-    public static void main( String[] args )
+    public static void main(String[] argv)
     {
-        System.out.println( "Hello World!" );
+        CliManager cliManager = new CliManager();
+        JCommander.newBuilder()
+        .addObject(cliManager)
+        .build()
+        .parse(argv);
+        cliManager.run();
     }
 }
