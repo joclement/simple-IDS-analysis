@@ -1,0 +1,28 @@
+% Prototyp schema for dataset CTU-13
+
+@relation simple-ctu-13-binetflow-1-example
+
+@attribute time         DATE "yyyy/MM/dd HH:mm:ss"
+@attribute duration     real
+@attribute protocol     {icmp, tcp, udp, arp, rtp, pim, igmp, ipx/spx, ipv6, udt, esp}
+@attribute ipSrc        string
+@attribute portSrc      integer
+@attribute dir          { -> , <- , <-> , ?> , <? , <?> }
+@attribute ipDest       string
+@attribute portDest     integer
+@attribute state        {S_RA , SR_SA , SRPA_SPA , SRPA_FSPA, SR_A} % ES GIBT MEHR; ABER FÜR DEN TEST ERST DIESE HINGESCHRIEBEN
+@attribute tos          integer
+@attribute TosDest      integer
+@attribute numPack      integer
+@attribute totNumByt    integer
+@attribute srcNumByt    integer
+@attribute label        {flow=Background-Established-cmpgw-CVUT, flow=Background-TCP-Attempt}
+
+
+@data
+"2011/08/10 09:46:59.607825",1.026539,tcp,94.44.127.113,1577,   ->,147.32.84.59,6881,S_RA,0,0,4,276,156,flow=Background-Established-cmpgw-CVUT
+"2011/08/10 09:47:00.634364",1.009595,tcp,94.44.127.113,1577,   ->,147.32.84.59,6881,S_RA,0,0,4,276,156,flow=Background-Established-cmpgw-CVUT
+"2011/08/10 09:47:48.185538",3.056586,tcp,147.32.86.89,4768,   ->,77.75.73.33,80,SR_A,0,0,3,182,122,flow=Background-TCP-Attempt
+"2011/08/10 09:47:48.230897",3.111769,tcp,147.32.86.89,4788,   ->,77.75.73.33,80,SR_A,0,0,3,182,122,flow=Background-TCP-Attempt
+"2011/08/10 09:47:48.963351",3.083411,tcp,147.32.86.89,4850,   ->,77.75.73.33,80,SR_A,0,0,3,182,122,flow=Background-TCP-Attempt
+"2011/08/10 09:47:58.806814",3.097288,tcp,147.32.86.89,4866,   ->,77.75.73.33,80,SR_A,0,0,3,182,122,flow=Background-TCP-Attempt
