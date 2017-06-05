@@ -16,18 +16,17 @@ public class CTUManager {
 		this.filename = filename;
 	}
 
-	public List<File> find(List<Integer> integers) throws FileNotFoundException {
-		// TODO Auto-generated method stub
+	public List<File> find(List<Integer> scenarios) throws FileNotFoundException {
 		List<File> files = new LinkedList<File>();
-		for(Integer integer : integers){
-			files.add(find(integer));
+		for(Integer scenario : scenarios){
+			files.add(find(scenario));
 		}
 
 		return files;
 	}
 
-	private File find(Integer integer) throws FileNotFoundException {
-		String pathInDataset = integer.toString() + File.separator + this.filename;
+	private File find(Integer scenario) throws FileNotFoundException {
+		String pathInDataset = scenario.toString() + File.separator + this.filename;
 		File file = new File(datasetDir, pathInDataset);
 		if(!file.exists()){
 			throw new FileNotFoundException();
