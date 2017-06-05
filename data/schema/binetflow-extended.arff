@@ -1,0 +1,47 @@
+% Prototyp schema for dataset CTU-13
+
+@relation simple-ctu-13-binetflow-1-example
+
+@attribute ipSrc        string
+@attribute ipDest       string
+@attribute protocol     {icmp, tcp, udp, arp, rtp, pim, igmp, ipx/spx, ipv6, udt, esp}
+@attribute portSrc      integer
+@attribute portDest     integer
+@attribute state        {RST} % ES GIBT MEHR; ABER FÜR DEN TEST ERST DIESE HINGESCHRIEBEN
+@attribute tosSource    integer
+@attribute TosDest      integer
+@attribute WinSource    integer
+@attribute WinDest      integer
+@attribute HopsSource   integer
+@attribute HopsDest     integer
+@attribute StartTime    DATE "yyyy/MM/dd HH:mm:ss"
+@attribute LastTime     DATE "yyyy/MM/dd HH:mm:ss"
+@attribute sTtl         integer
+@attribute dTtl         integer
+@attribute TcpRtt       real
+@attribute SynAck       real
+@attribute AckDat       real
+@attribute SrcPckts     integer
+@attribute DestPckts    integer
+@attribute SrcBytes     integer
+@attribute DstBytes     integer
+@attribute SAppBytes    integer
+@attribute DAppBytes    integer
+@attribute Dur          real
+@attribute TotPkts      integer
+@attribute TotBytes     integer
+@attribute TotAppByte   integer
+@attribute Rate         real
+@attribute SrcRate      real
+@attribute DstRate      real
+@attribute label        {flow=Background-Established-cmpgw-CVUT, flow=Background-TCP-Attempt}
+
+
+@data
+94.44.127.113,147.32.84.59,tcp,1577,6881,RST,0,0,131070,0,14,1,"2011/08/10 09:46:59.607825","2011/08/10 09:47:00.634364",114,63,0.000000,0.000000,0.000000,2,2,156,120,0,0,1.026539,4,276,0,2.922441,0.974147,1.900205,flow=Background-Established-cmpgw-CVUT
+94.44.127.113,147.32.84.59,tcp,1577,6881,RST,0,0,131070,0,14,1,"2011/08/10 09:47:00.634364","2011/08/10 09:47:01.643959",114,63,0.000000,0.000000,0.000000,2,2,156,120,0,0,1.009595,4,276,0,2.971488,0.990496,1.999236,flow=Background-Established-cmpgw-CVUT
+147.32.86.89,77.75.73.33,tcp,4768,80,RST,0,0,65535,6886,1,8,"2011/08/10 09:47:48.185538","2011/08/10 09:47:51.242124",127,56,0.000000,0.000000,0.000000,2,1,122,60,0,0,3.056586,3,182,0,0.654325,0.327162,0.000000,flow=Background-TCP-Attempt
+147.32.86.89,77.75.73.33,tcp,4788,80,RST,0,0,65535,6897,1,8,"2011/08/10 09:47:48.230897","2011/08/10 09:47:51.342666",127,56,0.000000,0.000000,0.000000,2,1,122,60,0,0,3.111769,3,182,0,0.642721,0.321361,0.000000,flow=Background-TCP-Attempt
+147.32.86.89,77.75.73.33,tcp,4850,80,RST,0,0,65535,6809,1,8,"2011/08/10 09:47:48.963351","2011/08/10 09:47:52.046762",127,56,0.000000,0.000000,0.000000,2,1,122,60,0,0,3.083411,3,182,0,0.648632,0.324316,0.000000,flow=Background-TCP-Attempt
+147.32.86.89,77.75.73.33,tcp,4866,80,RST,0,0,65535,6820,1,8,"2011/08/10 09:47:58.806814","2011/08/10 09:48:01.904102",127,56,0.000000,0.000000,0.000000,2,1,122,60,0,0,3.097288,3,182,0,0.645726,0.322863,0.000000,flow=Background-TCP-Attempt
+
