@@ -1,19 +1,18 @@
 % Prototyp schema for dataset CTU-13
 
 @relation simple-ctu-13-binetflow-1-example
-
-@attribute ipSrc        string
-@attribute ipDest       string
-@attribute protocol     {icmp, tcp, udp, arp, rtp, pim, igmp, ipx/spx, ipv6, udt, esp}
-@attribute portSrc      integer
-@attribute portDest     integer
-@attribute state        {RST, CON} % ES GIBT MEHR; ABER FÜR DEN TEST ERST DIESE HINGESCHRIEBEN
-@attribute tosSource    integer
-@attribute TosDest      integer
-@attribute WinSource    integer
-@attribute WinDest      integer
-@attribute HopsSource   integer
-@attribute HopsDest     integer
+@attribute SrcAddr      string
+@attribute DstAddr      string
+@attribute Proto        {icmp, tcp, udp, arp, rtp, pim, igmp, ipx/spx, ipv6, udt, esp}
+@attribute Sport        integer
+@attribute Dport        integer
+@attribute State        {RST, CON} % ES GIBT MEHR; ABER FÜR DEN TEST ERST DIESE HINGESCHRIEBEN
+@attribute sTos         integer
+@attribute dTos         integer
+@attribute SrcWin       integer
+@attribute DstWin       integer
+@attribute sHops        integer
+@attribute dHops        integer
 @attribute StartTime    DATE "yyyy/MM/dd HH:mm:ss"
 @attribute LastTime     DATE "yyyy/MM/dd HH:mm:ss"
 @attribute sTtl         integer
@@ -22,7 +21,7 @@
 @attribute SynAck       real
 @attribute AckDat       real
 @attribute SrcPckts     integer
-@attribute DestPckts    integer
+@attribute DstPckts     integer
 @attribute SrcBytes     integer
 @attribute DstBytes     integer
 @attribute SAppBytes    integer
