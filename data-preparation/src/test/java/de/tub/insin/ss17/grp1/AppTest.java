@@ -1,38 +1,39 @@
 package de.tub.insin.ss17.grp1;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Test;
+
+
+public class AppTest {
+
+    private static App app;
+
+    @Before
+    public void beforeEachTest() {
+        System.out.println("This is executed before each Test");
     }
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
+    @After
+    public void afterEachTest() {
+        System.out.println("This is exceuted after each Test");
     }
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
+    @Test
+    public void testScenarios() {
+        String[] argv = {"-s", "1,2,3"};
+        app.main(argv);
+    }
+
+    @Test(expected = Exception.class)
+    public void testNoArgs() throws Exception {
+        String[] argv = {};
+        app.main(argv);
     }
 }
