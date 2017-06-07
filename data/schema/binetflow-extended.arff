@@ -7,7 +7,7 @@
 @attribute protocol     {icmp, tcp, udp, arp, rtp, pim, igmp, ipx/spx, ipv6, udt, esp}
 @attribute portSrc      integer
 @attribute portDest     integer
-@attribute state        {RST} % ES GIBT MEHR; ABER FÜR DEN TEST ERST DIESE HINGESCHRIEBEN
+@attribute state        {RST, CON} % ES GIBT MEHR; ABER FÜR DEN TEST ERST DIESE HINGESCHRIEBEN
 @attribute tosSource    integer
 @attribute TosDest      integer
 @attribute WinSource    integer
@@ -38,10 +38,11 @@
 
 % Data mit label "From-Normal" ist normal, "From-Botnet" : Botnet und Background = Background.
 % Wichtig, datum muss zwischen klammern, weil er sonst bis zum ersten leerzeichen liest. Bsp. : 2011/08/10
+% In den attributen SrcBytes und DstBytes, wenn 0 pakete geschikt wurden, gibt es gar keine zeichen, also : "beispiel,,,1". Da müssen aber werte drin stehen, vielleicht automatisch 0 einfügen.
 @data
 94.44.127.113,147.32.84.59,tcp,1577,6881,RST,0,0,131070,0,14,1,"2011/08/10 09:46:59.607825","2011/08/10 09:47:00.634364",114,63,0.000000,0.000000,0.000000,2,2,156,120,0,0,1.026539,4,276,0,2.922441,0.974147,1.900205,flow=Background-Established-cmpgw-CVUT
 94.44.127.113,147.32.84.59,tcp,1577,6881,RST,0,0,131070,0,14,1,"2011/08/10 09:47:00.634364","2011/08/10 09:47:01.643959",114,63,0.000000,0.000000,0.000000,2,2,156,120,0,0,1.009595,4,276,0,2.971488,0.990496,1.999236,flow=Background-Established-cmpgw-CVUT
 147.32.84.165,193.23.181.44,tcp,1372,80,RST,0,0,64240,6432,1,13,"2011/08/11 10:39:42.414864","2011/08/11 10:41:52.842711",127,51,0.146928,0.060172,0.086756,6,4,574,446,218,210,130.427841,10,1020,428,0.069004,0.038335,18.304403,flow=From-Botnet-V43-TCP-HTTP-Persistent-Down-1
 147.32.84.165,72.20.15.61,tcp,1378,80,RST,0,0,64240,65535,1,17,"2011/08/11 10:39:42.415145","2011/08/11 10:41:53.142840",127,47,0.506781,0.184469,0.322312,5,3,447,182,149,0,130.727692,8,629,149,0.053546,0.030598,3.921738,flow=From-Botnet-V43-TCP-HTTP-Persistent-Down-1
-147.32.84.170,147.32.80.9,udp,53856,53,CON,0,0,,,1,1,"2011/08/11 09:49:36.116159","2011/08/11 09:49:36.116473",63,63,0.000000,0.000000,0.000000,1,1,75,152,33,110,0.000314,2,227,143,3184.713379,0.000000,0.000000,flow=From-Normal-V43-Stribrek
-147.32.84.170,147.32.80.9,udp,49715,53,CON,0,0,,,1,1,"2011/08/11 09:49:36.116922","2011/08/11 09:49:36.117378",63,63,0.000000,0.000000,0.000000,1,1,75,302,33,260,0.000456,2,377,293,2192.982422,0.000000,0.000000,flow=From-Normal-V43-Stribrek
+147.32.84.170,147.32.80.9,udp,53856,53,CON,0,0,0,0,1,1,"2011/08/11 09:49:36.116159","2011/08/11 09:49:36.116473",63,63,0.000000,0.000000,0.000000,1,1,75,152,33,110,0.000314,2,227,143,3184.713379,0.000000,0.000000,flow=From-Normal-V43-Stribrek
+147.32.84.170,147.32.80.9,udp,49715,53,CON,0,0,0,0,1,1,"2011/08/11 09:49:36.116922","2011/08/11 09:49:36.117378",63,63,0.000000,0.000000,0.000000,1,1,75,302,33,260,0.000456,2,377,293,2192.982422,0.000000,0.000000,flow=From-Normal-V43-Stribrek
