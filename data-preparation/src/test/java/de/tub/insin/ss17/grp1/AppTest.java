@@ -13,8 +13,6 @@ import org.junit.Test;
 
 public class AppTest {
 
-    private static App app;
-
     @Before
     public void beforeEachTest() {
         System.out.println("This is executed before each Test");
@@ -28,12 +26,12 @@ public class AppTest {
     @Test
     public void testScenarios() {
         String[] argv = {"-s", "1,2,3"};
-        app.main(argv);
+        App.main(argv);
     }
 
     @Test(expected = Exception.class)
     public void testNoArgs() throws Exception {
         String[] argv = {};
-        app.main(argv);
+        App.main(argv);
     }
 }
