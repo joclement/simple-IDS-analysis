@@ -16,13 +16,13 @@
 @attribute numPack      integer
 @attribute totNumByt    integer
 @attribute srcNumByt    integer
-@attribute label        {flow=Background-Established-cmpgw-CVUT, flow=Background-TCP-Attempt}
+@attribute label        {flow=Background-Established-cmpgw-CVUT, flow=Background-TCP-Attempt, flow=From-Normal-V44-Stribrek, flow=From-Botnet-V44-ICMP, flow=From-Botnet-V44-TCP-CC107-IRC-Not-Encrypted}
 
-
+% Data mit label "From-Normal" ist normal, "From-Botnet" : Botnet und Background = Background.
+% Wichtig, datum muss zwischen klammern, weil er sonst bis zum ersten leerzeichen liest. Bsp. : 2011/08/10
 @data
 "2011/08/10 09:46:59.607825",1.026539,tcp,94.44.127.113,1577,   ->,147.32.84.59,6881,S_RA,0,0,4,276,156,flow=Background-Established-cmpgw-CVUT
-"2011/08/10 09:47:00.634364",1.009595,tcp,94.44.127.113,1577,   ->,147.32.84.59,6881,S_RA,0,0,4,276,156,flow=Background-Established-cmpgw-CVUT
-"2011/08/10 09:47:48.185538",3.056586,tcp,147.32.86.89,4768,   ->,77.75.73.33,80,SR_A,0,0,3,182,122,flow=Background-TCP-Attempt
-"2011/08/10 09:47:48.230897",3.111769,tcp,147.32.86.89,4788,   ->,77.75.73.33,80,SR_A,0,0,3,182,122,flow=Background-TCP-Attempt
-"2011/08/10 09:47:48.963351",3.083411,tcp,147.32.86.89,4850,   ->,77.75.73.33,80,SR_A,0,0,3,182,122,flow=Background-TCP-Attempt
-"2011/08/10 09:47:58.806814",3.097288,tcp,147.32.86.89,4866,   ->,77.75.73.33,80,SR_A,0,0,3,182,122,flow=Background-TCP-Attempt
+"2011/08/12 15:24:03.251544",0.000396,udp,147.32.84.170,43074,  <->,147.32.80.9,53,CON,0,0,2,400,74,flow=From-Normal-V44-Stribrek
+"2011/08/12 15:25:50.064002",3588.116699,tcp,38.229.70.20,6667,  <?>,147.32.84.165,1027,PA_PA,0,0,81,5886,3753,flow=From-Botnet-V44-TCP-CC107-IRC-Not-Encrypted
+"2011/08/12 15:25:50.627745",62.902481,tcp,147.32.84.59,15271,   ->,69.171.229.28,443,SRPA_SPA,0,0,14,2925,2183,flow=Background-Established-cmpgw-CVUT
+"2011/08/12 15:53:17.142311",1966.745239,icmp,147.32.84.165,0x0303,   ->,81.166.246.198,0x8769,URP,0,,3,285,285,flow=From-Botnet-V44-ICMP
