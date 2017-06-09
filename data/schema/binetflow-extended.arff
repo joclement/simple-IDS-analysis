@@ -1,8 +1,8 @@
 % Prototyp schema for dataset CTU-13
 
 @relation simple-ctu-13-binetflow-1-example
-@attribute SrcAddr      string
-@attribute DstAddr      string
+@attribute SrcAddr      {94.44.127.113, 147.32.84.165, 147.32.84.170}
+@attribute DstAddr      {147.32.84.59, 193.23.181.44, 72.20.15.61, 147.32.80.9}
 @attribute Proto        {icmp, tcp, udp, arp, rtp, pim, igmp, ipx/spx, ipv6, udt, esp}
 @attribute Sport        integer
 @attribute Dport        integer
