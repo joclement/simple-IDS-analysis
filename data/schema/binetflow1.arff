@@ -4,10 +4,10 @@
 @attribute StartTime    DATE "yyyy/MM/dd HH:mm:ss"
 @attribute dur          real
 @attribute Proto        {icmp, tcp, udp, arp, rtp, pim, igmp, ipx/spx, ipv6, udt, esp}
-@attribute SrcAddr      string
+@attribute SrcAddr      {94.44.127.113, 147.32.84.170, 38.229.70.20, 147.32.84.59, 147.32.84.165 }
 @attribute Sport        integer
 @attribute Dir          { -> , <- , <-> , ?> , <? , <?> }
-@attribute DstAddr      string
+@attribute DstAddr      {147.32.84.59, 147.32.80.9, 147.32.84.165, 69.171.229.28, 81.166.246.198}
 @attribute Dport        integer
 @attribute State        {S_RA , SR_SA , SRPA_SPA , SRPA_FSPA, SR_A, CON, PA_PA, URP} % ES GIBT MEHR; ABER FÜR DEN TEST ERST DIESE HINGESCHRIEBEN
 @attribute stos         integer
