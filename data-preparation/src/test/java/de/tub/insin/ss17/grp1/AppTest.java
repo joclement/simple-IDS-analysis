@@ -25,7 +25,7 @@ public class AppTest {
 
     @Test
     public void testScenarios() {
-        String[] argv = {"-s", "1,2,3"};
+        String[] argv = {"-s", "6,11,12"};
         App.main(argv);
     }
 
