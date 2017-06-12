@@ -4,6 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+
+import org.apache.commons.io.FileUtils;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -21,7 +25,7 @@ public class AppTest {
 
     @Before
     public void beforeEachTest() {
-        System.out.println("This is executed before each Test");
+        FileUtils.deleteQuietly(new File(destFolder));
     }
 
     @After
