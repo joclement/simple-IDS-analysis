@@ -13,6 +13,12 @@ import org.junit.Test;
 
 public class AppTest {
 
+    private final static String destFolder = "../IDS/src/main/resources/test/";
+
+    private final static String ctuFolder = "src/main/resources/TestCTU13/";
+
+    private final static String scenarios = "6,11,12";
+
     @Before
     public void beforeEachTest() {
         System.out.println("This is executed before each Test");
@@ -27,17 +33,17 @@ public class AppTest {
     @Ignore
     @Test
     public void testScenarios() {
-        String[] argv = {"-s", "6,11,12",
-                         "-d", "../IDS/src/main/resources/test/",
-                         "--ctu", "src/main/resources/TestCTU13/"};
+        String[] argv = {"-s", scenarios,
+                         "-d", destFolder,
+                         "--ctu", ctuFolder};
         App.main(argv);
     }
 
     @Test
     public void testSeperateTestScenario() {
-        String[] argv = {"-s", "6,11,12",
-                         "-d", "../IDS/src/main/resources/test/",
-                         "--ctu", "src/main/resources/TestCTU13/",
+        String[] argv = {"-s", scenarios,
+                         "-d", destFolder,
+                         "--ctu", ctuFolder,
                          "-t"};
         App.main(argv);
     }
