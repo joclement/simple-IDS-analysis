@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileReader;
 
 import org.apache.commons.io.FileUtils;
 
@@ -14,6 +15,9 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import weka.core.Instances;
+import weka.core.converters.ConverterUtils.DataSource;
+
 
 public class AppTest {
 
@@ -22,6 +26,8 @@ public class AppTest {
     private final static String ctuFolder = "src/main/resources/TestCTU13/";
 
     private final static String scenarios = "6,11,12";
+
+    private final static int ARFF_ATTRIBUTE_COUNT = 15;
 
     @Before
     public void beforeEachTest() {
@@ -50,6 +56,25 @@ public class AppTest {
                          "--ctu", ctuFolder,
                          "-t"};
         App.main(argv);
+
+        File destArffFolder = new File(destFolder);
+        assertTrue(destArffFolder.exists());
+        File trainingArff = new File(destArffFolder, "training/data.arff");
+        assertTrue(trainingArff.exists());
+        File testArff = new File(destArffFolder, "test/data.arff");
+        assertTrue(testArff.exists());
+
+        // TODO improve checks on arff data
+        try {
+            Instances instances = new DataSource(trainingArff.getAbsolutePath()).getDataSet();
+            assertEquals(ARFF_ATTRIBUTE_COUNT, instances.numAttributes());
+
+            instances = new DataSource(testArff.getAbsolutePath()).getDataSet();
+            assertEquals(ARFF_ATTRIBUTE_COUNT, instances.numAttributes());
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertTrue("Arff file loading failed",false);
+        }
     }
 
     //TODO fix test
