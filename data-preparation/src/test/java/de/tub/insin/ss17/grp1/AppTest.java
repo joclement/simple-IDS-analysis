@@ -36,7 +36,7 @@ public class AppTest {
     // TODO split data correctly
     @Ignore
     @Test
-    public void testScenarios() {
+    public void testSplittedScenarios() {
         String[] argv = {"-s", scenarios,
                          "-d", destFolder,
                          "--ctu", ctuFolder};
