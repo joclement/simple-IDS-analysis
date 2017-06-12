@@ -25,7 +25,18 @@ public class AppTest {
 
     @Test
     public void testScenarios() {
-        String[] argv = {"-s", "6,11,12"};
+        String[] argv = {"-s", "6,11,12",
+                         "-d", "../IDS/src/main/resources/test/",
+                         "--ctu", "src/main/resources/TestCTU13/"};
+        App.main(argv);
+    }
+
+    @Test
+    public void testSeperateTestScenario() {
+        String[] argv = {"-s", "6,11,12",
+                         "-d", "../IDS/src/main/resources/test/",
+                         "--ctu", "src/main/resources/TestCTU13/",
+                         "-t"};
         App.main(argv);
     }
 
