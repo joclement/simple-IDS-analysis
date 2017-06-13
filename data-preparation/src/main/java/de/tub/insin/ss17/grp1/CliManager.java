@@ -14,13 +14,10 @@ import com.beust.jcommander.Parameter;
 
 public class CliManager {
 
-    // TODO make this a parameter as well, but of course just optional
     private final String CSV_FILENAME = "netflow.csv";
 
     private final String DEFAULT_DEST_PARENT_DIR = "../IDS/src/main/resources/";
 
-    // TODO make this a parameter as well, but of course just optional
-    // TODO correct the default location
     private final String DEFAULT_CTU_DIR = "./src/main/resources/CTU13/";
 
     private final String ARFF_FILENAME = "data.arff";
@@ -29,25 +26,29 @@ public class CliManager {
 
     private final String TEST_ARFF_FILENAME = "./test/" + ARFF_FILENAME;
 
-    @Parameter
-    private List<String> parameters = new LinkedList<String>();
-
-	@Parameter(names = {"--ctu", "-c"}, description = "Path to the ctu13 folder")
+	@Parameter(names = {"--ctu", "-c"},
+               description = "Path to the ctu13 folder")
 	private String ctuFolder = DEFAULT_CTU_DIR;
 
-    @Parameter(names = { "--scenarios", "-s" }, description = "The number for the scenarios in the ctu dataset", required = true)
+    @Parameter(names = { "--scenarios", "-s" },
+               description = "The number for the scenarios in the ctu dataset",
+               required = true)
     private List<Integer> scenarios;
 
-    @Parameter(names = { "--percentageTrain", "-p" }, description = "Percentage of the data for the training set")
+    @Parameter(names = { "--percentageTrain", "-p" },
+               description = "Percentage of the data for the training set")
     private Integer percentageTrain = 80;
 
-    @Parameter(names = { "--numOfFolds", "-f" }, description = "number of folds for cross-validation")
+    @Parameter(names = { "--numOfFolds", "-f" },
+               description = "number of folds for cross-validation")
     private Integer numOfFolds = 5;
 
-    @Parameter(names = { "--seperateTestScenario", "-t" }, description = "Use the last number from the option --scenarios as the test scenario")
+    @Parameter(names = { "--seperateTestScenario", "-t" },
+               description = "Use the last number from the option --scenarios as the test scenario")
     private boolean seperateTestScenario = false;
 
-    @Parameter(names = { "--destFolder", "-d" }, description = "Path to the destination folder")
+    @Parameter(names = { "--destFolder", "-d" },
+               description = "Path to the destination folder")
     private File arffFolder = null;
 
     // TODO add better error reporting

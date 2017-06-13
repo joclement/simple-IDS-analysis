@@ -7,31 +7,31 @@ import java.util.List;
 
 public class CTUManager {
 
-	private final File datasetDir;
+    private final File datasetDir;
 
-	private final String filename;
+    private final String filename;
 
-	public CTUManager(String datasetDir, String filename){
-		this.datasetDir = new File(datasetDir);
-		this.filename = filename;
-	}
+    public CTUManager(String datasetDir, String filename){
+        this.datasetDir = new File(datasetDir);
+        this.filename = filename;
+    }
 
-	public List<File> find(List<Integer> scenarios) throws FileNotFoundException {
-		List<File> files = new LinkedList<File>();
-		for(Integer scenario : scenarios){
-			files.add(find(scenario));
-		}
+    public List<File> find(List<Integer> scenarios) throws FileNotFoundException {
+        List<File> files = new LinkedList<File>();
+        for(Integer scenario : scenarios){
+            files.add(find(scenario));
+        }
 
-		return files;
-	}
+        return files;
+    }
 
-	private File find(Integer scenario) throws FileNotFoundException {
-		String pathInDataset = scenario.toString() + File.separator + this.filename;
-		File file = new File(datasetDir, pathInDataset);
-		if(!file.exists()){
-			throw new FileNotFoundException();
-		}
-		return file;
-	}
+    private File find(Integer scenario) throws FileNotFoundException {
+        String pathInDataset = scenario.toString() + File.separator + this.filename;
+        File file = new File(datasetDir, pathInDataset);
+        if(!file.exists()){
+            throw new FileNotFoundException();
+        }
+        return file;
+    }
 
 }
