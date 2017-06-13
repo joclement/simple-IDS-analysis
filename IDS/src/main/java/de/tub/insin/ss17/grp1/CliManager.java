@@ -15,18 +15,18 @@ public class CliManager {
     private final static String TEST = "test";
     private final static String BOTH = "both";
 
-	@Parameter(description = "command, options: train, test or both")
-	private String command;
+    @Parameter(description = "command, options: train, test or both")
+    private String command;
 
-	@Parameter(names = {"--arffFolder", "-f"}, description = "Path to the arff folder", required = true)
-	private String dataFolder;
+    @Parameter(names = {"--arffFolder", "-f"}, description = "Path to the arff folder", required = true)
+    private String dataFolder;
 
     // TODO find good way to specify ml parameters, f.x. for NN classifier
-	@Parameter(names = {"--parameters", "-p"}, description = "Parameters for the ml algorithm", required = true)
-	private List<String> mlParameters = new LinkedList<String>();
+    @Parameter(names = {"--parameters", "-p"}, description = "Parameters for the ml algorithm", required = true)
+    private List<String> mlParameters = new LinkedList<String>();
 
-	public void run() {
-	    ArffLoader arffLoader = new ArffLoader(this.dataFolder);
+    public void run() {
+        ArffLoader arffLoader = new ArffLoader(this.dataFolder);
 
         Trainer trainer = null;
         try {
@@ -53,5 +53,5 @@ public class CliManager {
         if (command != TRAIN) {
             tester.test();
         }
-	}
+    }
 }
