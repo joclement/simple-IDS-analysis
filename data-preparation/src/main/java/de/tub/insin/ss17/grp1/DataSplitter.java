@@ -9,6 +9,8 @@ public class DataSplitter {
     private Integer percentageTrain;
 
     public DataSplitter(Integer percentageTrain) {
+        assert percentageTrain < 100;
+        assert percentageTrain > 0;
         this.percentageTrain = percentageTrain;
     }
 
