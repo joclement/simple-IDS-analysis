@@ -61,13 +61,7 @@ public class CSV2ArffConverter {
         loader.setSource(mergedSrcFile);
         Instances data = loader.getDataSet();
 
-        // save ARFF
-        ArffSaver saver = new ArffSaver();
-        saver.setInstances(data);
-        File arffTmp = File.createTempFile("combinedArff", ".arff");
-        saver.setFile(arffTmp);
-        saver.setDestination(arffTmp);
-        saver.writeBatch();
+        File arffTmp = Util.saveAsArff(data);
 
         return arffTmp;
     }
