@@ -8,9 +8,9 @@ public class App
     {
         CliManager cliManager = new CliManager();
         JCommander.newBuilder()
-        .addObject(cliManager)
-        .build()
-        .parse(argv);
+            .addObject(cliManager)
+            .build()
+            .parse(argv);
         cliManager.run();
     }
 }
