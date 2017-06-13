@@ -50,36 +50,88 @@ public class CliManager {
     @Parameter(names = { "--destFolder", "-d" }, description = "Path to the destination folder")
     private File arffFolder = null;
 
+    // TODO add better error reporting
     public void run() {
         if (this.arffFolder == null) {
             this.arffFolder = generateDestFolder();
         }
-        CTUManager ctuManager = new CTUManager(ctuFolder, CSV_FILENAME);
-        DataSplitter dataSplitter = new DataSplitter(percentageTrain);
 
-        try {
-            List<File> csvs = ctuManager.find(this.scenarios);
+        List<File> csvs = getScenarios();
 
-            if (this.seperateTestScenario) {
-                File arff = CSV2ArffConverter.parse(extractTestScenario(csvs));
-                moveToArffFolder(arff, TEST_ARFF_FILENAME);
-            }
+        if (this.seperateTestScenario) {
+            parseSeperateTestScenario(csvs);
+        }
 
-            File arff = CSV2ArffConverter.parse(csvs);
+        File arff = parse(csvs);
 
-            if (this.seperateTestScenario) {
+        if (this.seperateTestScenario) {
+            try {
                 moveToArffFolder(arff, TRAINING_ARFF_FILENAME);
-            } else {
-                List<File> splitted = dataSplitter.split(arff);
-                moveToArffFolder(splitted.get(0), TRAINING_ARFF_FILENAME);
-                moveToArffFolder(splitted.get(1), TEST_ARFF_FILENAME);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
+        } else {
+            split(arff);
+        }
 
-        } catch (FileNotFoundException e) {
+    }
+
+    private void split(File arff) {
+        DataSplitter dataSplitter = new DataSplitter(percentageTrain);
+        List<File> splitted = null;
+        try {
+            splitted = dataSplitter.split(arff);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
+            System.exit(-1);
+        }
+        try {
+            moveToArffFolder(splitted.get(0), TRAINING_ARFF_FILENAME);
+            moveToArffFolder(splitted.get(1), TEST_ARFF_FILENAME);
         } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
+    private File parse(List<File> csvs) {
+        File arff = null;
+        try {
+            arff = CSV2ArffConverter.parse(extractTestScenario(csvs));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            System.exit(-1);
+        }
+
+        return arff;
+    }
+
+    private void parseSeperateTestScenario(List<File> csvs) {
+        try {
+            File arff = this.parse(extractTestScenario(csvs));
+            this.moveToArffFolder(arff, TEST_ARFF_FILENAME);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    private List<File> getScenarios() {
+
+        CTUManager ctuManager = new CTUManager(ctuFolder, CSV_FILENAME);
+        List<File> csvs = null;
+        try {
+            csvs = ctuManager.find(this.scenarios);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+
+        return csvs;
     }
 
     private File generateDestFolder() {
