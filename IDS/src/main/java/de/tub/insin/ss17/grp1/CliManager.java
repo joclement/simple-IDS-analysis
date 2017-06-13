@@ -23,14 +23,14 @@ public class CliManager {
 
     // TODO find good way to specify ml parameters, f.x. for NN classifier
     @Parameter(names = {"--parameters", "-p"}, description = "Parameters for the ml algorithm", required = true)
-    private List<String> mlParameters = new LinkedList<String>();
+    private List<String> mlParams = new LinkedList<String>();
 
     public void run() {
         ArffLoader arffLoader = new ArffLoader(this.dataFolder);
 
         Trainer trainer = null;
         try {
-            trainer = new Trainer(arffLoader.loadTraining(), this.mlParameters);
+            trainer = new Trainer(arffLoader.loadTraining(), this.mlParams);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
