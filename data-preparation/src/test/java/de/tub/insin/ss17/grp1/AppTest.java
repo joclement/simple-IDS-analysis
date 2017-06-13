@@ -39,8 +39,7 @@ public class AppTest {
         System.out.println("This is executed after each Test");
     }
 
-    // TODO split data correctly
-    @Ignore
+    // TODO add checking for this test
     @Test
     public void testSplittedScenarios() {
         String[] argv = {"-s", scenarios,
