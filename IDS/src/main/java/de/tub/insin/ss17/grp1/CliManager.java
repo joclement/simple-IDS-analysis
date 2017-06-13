@@ -22,12 +22,30 @@ public class CliManager {
 	private String dataFolder;
 
     // TODO find good way to specify ml parameters, f.x. for NN classifier
-	@Parameter
+	@Parameter(names = {"--parameters", "-p"}, description = "Parameters for the ml algorithm", required = true)
 	private List<String> mlParameters = new LinkedList<String>();
 
 	public void run() {
-        Trainer trainer = new Trainer();
-        Tester tester = new Tester();
+	    ArffLoader arffLoader = new ArffLoader(this.dataFolder);
+
+        Trainer trainer = null;
+        try {
+            trainer = new Trainer(arffLoader.loadTraining(), this.mlParameters);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            System.exit(-1);
+        }
+
+        Tester tester = null;
+        try {
+            tester = new Tester(arffLoader.loadTest());
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            System.exit(-1);
+        }
+
         if (command != TEST) {
             trainer.train();
         }
