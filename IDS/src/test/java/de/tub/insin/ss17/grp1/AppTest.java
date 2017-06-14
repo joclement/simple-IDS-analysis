@@ -11,6 +11,11 @@ import org.junit.Test;
  */
 public class AppTest 
 {
+
+    private final static String ARFF_FOLDER = "./src/main/resources/testArffFolder/";
+
+    private final static String NN_PARAMS = "k=5,dist=20.0";
+
     @Before
     public void beforeEachTest() {
         System.out.println("This is executed before each Test");
@@ -22,7 +27,11 @@ public class AppTest
     }
 
     @Test
-    public void test() {
+    public void testTrainCommand() {
+        String[] argv = {"train",
+                         "-f", ARFF_FOLDER,
+                         "-p", NN_PARAMS};
+        App.main(argv);
     }
 
 }
