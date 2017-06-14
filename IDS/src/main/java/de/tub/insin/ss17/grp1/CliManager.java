@@ -14,10 +14,10 @@ public class CliManager {
 
     private final static String TRAIN = "train";
     private final static String TEST = "test";
-    private final static String BOTH = "both";
 
-    @Parameter(description = "command, options: train, test or both")
-    private String command;
+    @Parameter(description = "specify list of commands, options: train, test",
+               required = true)
+    private List<String> commands;
 
     @Parameter(names = {"--arffFolder", "-f"},
                description = "Path to the arff folder",
@@ -37,7 +37,7 @@ public class CliManager {
 
         Tester tester = new Tester();
 
-        if (command != TEST) {
+        if (commands.contains(TRAIN)) {
             try {
                 trainer.train(arffLoader.loadTraining());
             } catch (Exception e) {
@@ -47,7 +47,7 @@ public class CliManager {
             }
         }
 
-        if (command != TRAIN) {
+        if (commands.contains(TEST)) {
             try {
                 tester.test(arffLoader.loadTest());
             } catch (Exception e) {

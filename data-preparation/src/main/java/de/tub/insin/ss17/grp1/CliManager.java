@@ -153,7 +153,7 @@ public class CliManager {
         name.append("seperateTestScenario=");
         name.append(this.seperateTestScenario);
 
-        return new File(this.ctuFolder, name.toString());
+        return new File(DEFAULT_DEST_PARENT_DIR, name.toString());
     }
 
     private void moveToArffFolder(File arff, String arffFilename) throws IOException {

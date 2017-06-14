@@ -1,38 +1,55 @@
 package de.tub.insin.ss17.grp1;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+
 
 /**
- * Unit test for simple App.
+ * Unit test for IDS.
  */
 public class AppTest 
-    extends TestCase
 {
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
+
+    private final static String ARFF_FOLDER = "./src/main/resources/testArffFolder/";
+
+    private final static String NN_PARAMS = "k=5,dist=20.0";
+
+    @Before
+    public void beforeEachTest() {
+        System.out.println("This is executed before each Test");
     }
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
+    @After
+    public void afterEachTest() {
+        System.out.println("This is executed after each Test");
     }
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
+    // TODO add checks
+    @Test
+    public void testTrainCommand() {
+        String[] argv = {"train",
+                         "-f", ARFF_FOLDER,
+                         "-p", NN_PARAMS};
+        App.main(argv);
     }
+
+    // TODO add checks
+    @Ignore
+    @Test
+    public void testTestCommand() {
+        String[] argv = {"train,test",
+                         "-f", ARFF_FOLDER,
+                         "-p", NN_PARAMS};
+        App.main(argv);
+    }
+
+    // TODO add test for invalid args
+    @Ignore
+    @Test
+    public void testWrongInput() {
+    }
+
 }
