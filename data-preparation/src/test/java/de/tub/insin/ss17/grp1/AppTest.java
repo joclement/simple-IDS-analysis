@@ -65,11 +65,18 @@ public class AppTest {
 
         // TODO improve checks on arff data
         try {
-            Instances instances = new DataSource(trainingArff.getAbsolutePath()).getDataSet();
-            assertEquals(ARFF_ATTRIBUTE_COUNT, instances.numAttributes());
+            Instances trainInstance = new DataSource(trainingArff.getAbsolutePath()).getDataSet();
+            assertEquals(ARFF_ATTRIBUTE_COUNT, trainInstance.numAttributes());
 
-            instances = new DataSource(testArff.getAbsolutePath()).getDataSet();
-            assertEquals(ARFF_ATTRIBUTE_COUNT, instances.numAttributes());
+            Instances testInstance = new DataSource(testArff.getAbsolutePath()).getDataSet();
+            assertEquals(ARFF_ATTRIBUTE_COUNT, testInstance.numAttributes());
+            
+            assertFalse("Data has missing values(replace with 0 most likely)",trainInstance.contains(",,"));
+            assertFalse("Data has missing values(replace with 0 most likely)",testInstance.contains(",,"));
+            
+            assertFalse("portSrc and portDest start with \"0x\"",trainInstance.contains(",0x"));
+            assertFalse("sPort and dPort start with \"0x\"",testInstance.contains(",0x"));
+            
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue("Arff file loading failed",false);
