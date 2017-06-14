@@ -1,19 +1,12 @@
-package de.tub.insin.ss17.grp1;
+package de.tub.insin.ss17.grp1.util;
 
-import weka.core.converters.ArffLoader.ArffReader;
-import weka.classifiers.Evaluation;
-import weka.classifiers.meta.ClassificationViaRegression;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Random;
 
 
 // TODO improve this loading operations
-public class ArffLoader{
+public class ArffLoader {
 
     private static final String arffFilename = "data.arff";
 
@@ -29,12 +22,12 @@ public class ArffLoader{
 
     public Instances loadTraining() throws Exception {
         File trainFile = new File(this.arffFolder, trainFilepath);
-        return load(trainFile);
+        return this.load(trainFile);
     }
 
     public Instances loadTest() throws Exception {
         File testFile = new File(this.arffFolder, testFilepath);
-        return load(testFile);
+        return this.load(testFile);
     }
 
     private Instances load(File file) throws Exception {
