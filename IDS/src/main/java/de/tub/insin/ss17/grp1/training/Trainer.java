@@ -8,10 +8,14 @@ import weka.core.Instances;
 
 public class Trainer {
 
+    private NNClassifier nnClassifier;
+
     public Trainer(List<Param> params) {
+        this.nnClassifier = new NNClassifier(params);
     }
 
     public void train(Instances trainingData) {
+        this.nnClassifier.train(trainingData);
     }
 
     // TODO save the trained model somewhere
