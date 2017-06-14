@@ -21,13 +21,20 @@ import weka.core.converters.ConverterUtils.DataSource;
 
 public class AppTest {
 
-    private final static String destFolder = "../IDS/src/main/resources/test/";
+    private final static String destFolder = "../IDS/"
+    		+ "src/main/"
+    		+ "resources/test/";
 
     private final static String ctuFolder = "src/main/resources/TestCTU13/";
 
     private final static String scenarios = "6,11,12";
 
     private final static int ARFF_ATTRIBUTE_COUNT = 15;
+    
+    {
+    	StringBuilder builder = new StringBuilder();
+    	builder.append(".." + File.separator);
+    }
 
     @Before
     public void beforeEachTest() {
@@ -71,17 +78,21 @@ public class AppTest {
             Instances testInstance = new DataSource(testArff.getAbsolutePath()).getDataSet();
             assertEquals(ARFF_ATTRIBUTE_COUNT, testInstance.numAttributes());
             
-            assertFalse("Data has missing values(replace with 0 most likely)",trainInstance.contains(",,"));
-            assertFalse("Data has missing values(replace with 0 most likely)",testInstance.contains(",,"));
+            assertFalse("Data has missing values",trainInstance.contains(",,"));
+            assertFalse("Data has missing values",testInstance.contains(",,"));
             
-            assertFalse("portSrc and portDest start with \"0x\"",trainInstance.contains(",0x"));
-            assertFalse("sPort and dPort start with \"0x\"",testInstance.contains(",0x"));
+            assertFalse("portSrc and portDest start with \"0x\"",
+            		trainInstance.contains(",0x"));
+            assertFalse("portSrc and portDest start with \"0x\"",
+            		testInstance.contains(",0x"));
             
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue("Arff file loading failed",false);
         }
     }
+    
+
 
     //TODO fix test
     @Ignore
