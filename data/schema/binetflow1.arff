@@ -19,7 +19,7 @@
 
 % Data mit label "From-Normal" ist normal, "From-Botnet" : Botnet und Background = Background.
 % Wichtig, datum muss zwischen klammern, weil er sonst bis zum ersten leerzeichen liest. Bsp. : 2011/08/10
-% Manchmal erscheinen PortSrc und PortDst als "0x0303" und das ist keine zahl. Entweder Port in ein String umwandeln oder eine klasse die zahlen und "0x..." akzeptiert.
+% Manchmal erscheinen sPort und dPort als "0x0303" und das ist keine zahl. Entweder Port in ein String umwandeln oder eine klasse die zahlen und "0x..." akzeptiert.
 % dTos ist manchmal leer, mit 0 ersetzen?????
 @data
 "2011/08/10 09:46:59.607825",1.026539,tcp,94.44.127.113,1577,   ->,147.32.84.59,6881,S_RA,0,0,4,276,156,flow=Background-Established-cmpgw-CVUT
