@@ -28,5 +28,6 @@ public class Trainer {
     public void Serializer(File file) throws IOException {
         this.serializer = new Serializer(file);
     }
+    //TODO Deserializer
 
 }
