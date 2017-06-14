@@ -1,6 +1,5 @@
 package de.tub.insin.ss17.grp1;
 
-import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,11 +18,15 @@ public class CliManager {
     @Parameter(description = "command, options: train, test or both")
     private String command;
 
-    @Parameter(names = {"--arffFolder", "-f"}, description = "Path to the arff folder", required = true)
+    @Parameter(names = {"--arffFolder", "-f"},
+               description = "Path to the arff folder",
+               required = true)
     private String dataFolder;
 
     // TODO find good way to specify ml parameters, f.x. for NN classifier
-    @Parameter(names = {"--parameters", "-p"}, description = "Parameters for the ml algorithm", required = true)
+    @Parameter(names = {"--parameters", "-p"},
+               description = "Parameters for the ml algorithm",
+               required = true)
     private List<String> mlParams = new LinkedList<String>();
 
     public void run() {
