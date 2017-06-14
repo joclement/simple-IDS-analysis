@@ -4,11 +4,11 @@ import weka.core.Instances;
 
 public class Tester {
 
-    public Tester(Instances loadTest) {
+    public Tester() {
         // TODO Auto-generated constructor stub
     }
 
-    public void test() {
+    public void test(Instances instances) {
         // TODO Auto-generated method stub
     }
 
