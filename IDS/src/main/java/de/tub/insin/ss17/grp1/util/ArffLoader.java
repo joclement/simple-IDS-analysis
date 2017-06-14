@@ -1,4 +1,4 @@
-package de.tub.insin.ss17.grp1;
+package de.tub.insin.ss17.grp1.util;
 
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;

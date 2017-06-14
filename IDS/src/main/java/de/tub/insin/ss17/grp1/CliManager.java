@@ -6,6 +6,7 @@ import java.util.List;
 import com.beust.jcommander.Parameter;
 
 import de.tub.insin.ss17.grp1.training.Trainer;
+import de.tub.insin.ss17.grp1.util.ArffLoader;
 import de.tub.insin.ss17.grp1.util.Param;
 import de.tub.insin.ss17.grp1.validation.Tester;
 
