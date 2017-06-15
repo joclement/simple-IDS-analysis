@@ -33,22 +33,25 @@ public class CSV2ArffConverter {
         for (File csv: csvs ){
             if(flag){  
                 //TODO Code is copied from StackOverflow :)
-                    RandomAccessFile raf = new RandomAccessFile(csv, "rw");                                                    
-                    long writePosition = raf.getFilePointer();                            
-                    raf.readLine();                                                                                           
-                    long readPosition = raf.getFilePointer();                             
+            	File copy = File.createTempFile("copy", ".netflow");
+            	Files.copy(csv.toPath(), copy.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            	RandomAccessFile raf = new RandomAccessFile(copy, "rw");                                                    
+                long writePosition = raf.getFilePointer();                            
+                raf.readLine();                                                                                           
+                long readPosition = raf.getFilePointer();                             
 
-                    byte[] buff = new byte[1024];                                         
-                    int n;                                                                
-                    while (-1 != (n = raf.read(buff))) {                                  
-                        raf.seek(writePosition);                                          
-                        raf.write(buff, 0, n);                                            
-                        readPosition += n;                                                
-                        writePosition += n;                                               
-                        raf.seek(readPosition);                                           
-                    }                                                                     
-                    raf.setLength(writePosition);                                         
-                    raf.close();                                                          
+                byte[] buff = new byte[1024];                                         
+                int n;                                                                
+                while (-1 != (n = raf.read(buff))) {                                  
+                    raf.seek(writePosition);                                          
+                    raf.write(buff, 0, n);                                            
+                    readPosition += n;                                                
+                    writePosition += n;                                               
+                    raf.seek(readPosition);                                           
+                }                                                                     
+                raf.setLength(writePosition);                                         
+                raf.close(); 
+                                                                             
             }
            flag = true; 
         }
