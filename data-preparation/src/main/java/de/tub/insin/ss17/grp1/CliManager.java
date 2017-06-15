@@ -28,6 +28,7 @@ public class CliManager {
 
     private final String TEST_ARFF_FILENAME = "./test/" + ARFF_FILENAME;
 
+
 	@Parameter(names = {"--ctu", "-c"},
                description = "Path to the ctu13 folder")
 	private String ctuFolder = DEFAULT_CTU_DIR;
@@ -122,7 +123,7 @@ public class CliManager {
         }
     }
 
-    private List<File> getScenarios() {
+    public List<File> getScenarios() {
 
         CTUManager ctuManager = new CTUManager(ctuFolder, CSV_FILENAME);
         List<File> csvs = null;
