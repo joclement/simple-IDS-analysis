@@ -53,10 +53,11 @@ public class AppTest {
                          "-d", destFolder,
                          "--ctu", ctuFolder};
         App.main(argv);
+        
     }
 
     @Test
-    public void testSeperateTestScenario() {
+    public void testSeparateTestScenario() {
         String[] argv = {"-s", scenarios,
                          "-d", destFolder,
                          "--ctu", ctuFolder,

@@ -45,9 +45,9 @@ public class CliManager {
                description = "number of folds for cross-validation")
     private Integer numOfFolds = 5;
 
-    @Parameter(names = { "--seperateTestScenario", "-t" },
+    @Parameter(names = { "--separateTestScenario", "-t" },
                description = "Use the last number from the option --scenarios as the test scenario")
-    private boolean seperateTestScenario = false;
+    private boolean separateTestScenario = false;
 
     @Parameter(names = { "--destFolder", "-d" },
                description = "Path to the destination folder")
@@ -61,12 +61,12 @@ public class CliManager {
 
         List<File> csvs = getScenarios();
 
-        if (this.seperateTestScenario) {
-            parseSeperateTestScenario(csvs);
+        if (this.separateTestScenario) {
+            parseSeparateTestScenario(csvs);
         }
 
         File arff = parse(csvs);
-        if (this.seperateTestScenario) {
+        if (this.separateTestScenario) {
             try {
                 moveToArffFolder(arff, TRAINING_ARFF_FILENAME);
             } catch (IOException e) {
@@ -112,7 +112,7 @@ public class CliManager {
         return arff;
     }
 
-    private void parseSeperateTestScenario(List<File> csvs) {
+    private void parseSeparateTestScenario(List<File> csvs) {
         try {
             File arff = this.parse(extractTestScenario(csvs));
             this.moveToArffFolder(arff, TEST_ARFF_FILENAME);
@@ -151,8 +151,8 @@ public class CliManager {
 
         name.append("_");
 
-        name.append("seperateTestScenario=");
-        name.append(this.seperateTestScenario);
+        name.append("separateTestScenario=");
+        name.append(this.separateTestScenario);
 
         return new File(DEFAULT_DEST_PARENT_DIR, name.toString());
     }
