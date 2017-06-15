@@ -54,7 +54,7 @@ public class CliManager {
     private File arffFolder = null;
 
     // TODO add better error reporting
-    public void run() throws FileNotFoundException, IOException {
+    public void run()  {
         if (this.arffFolder == null) {
             this.arffFolder = generateDestFolder();
         }
@@ -64,9 +64,8 @@ public class CliManager {
         if (this.seperateTestScenario) {
             parseSeperateTestScenario(csvs);
         }
-
+        System.out.println("csvsRun\n"+csvs);
         File arff = parse(csvs);
-
         if (this.seperateTestScenario) {
             try {
                 moveToArffFolder(arff, TRAINING_ARFF_FILENAME);
@@ -103,7 +102,9 @@ public class CliManager {
     private File parse(List<File> csvs) {
         File arff = null;
         try {
+        	System.out.println("preCOnvcsvs\n"+csvs);
             arff = CSV2ArffConverter.parse(csvs);
+            System.out.println("postConvcsvs\n"+csvs);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
