@@ -9,8 +9,7 @@ import de.tub.insin.ss17.grp1.util.Param;
 import weka.core.Instances;
 
 
-// TODO add interface for ml algos to implement
-public class NNClassifier {
+public class NNClassifier implements MlAlgo {
 
     private double dist;
 
