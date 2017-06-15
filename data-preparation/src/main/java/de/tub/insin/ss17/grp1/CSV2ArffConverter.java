@@ -32,6 +32,7 @@ public class CSV2ArffConverter {
         boolean flag = false;
         for (File csv: csvs ){
             if(flag){  
+                //TODO Code is copied from StackOverflow :)
                     RandomAccessFile raf = new RandomAccessFile(csv, "rw");                                                    
                     long writePosition = raf.getFilePointer();                            
                     raf.readLine();                                                                                           
@@ -79,13 +80,6 @@ public class CSV2ArffConverter {
         Files.copy(csvs.remove(0).toPath(), combination.toPath(), StandardCopyOption.REPLACE_EXISTING);
         
         appendCSVs(csvs, combination);
-        System.out.println("\n");
-        try (BufferedReader br = new BufferedReader(new FileReader(combination))) {
-     	   String line = null;
-     	   while ((line = br.readLine()) != null) {
-     	       System.out.println(line);
-     	   }
-     	}
 
         return combination;
     }
@@ -103,13 +97,6 @@ public class CSV2ArffConverter {
 
     public static File parse(List<File> csvs) throws IOException {
         File combinedCsv = combine(csvs);
-        System.out.println("postCombine:"+csvs+"\n");
-//        try (BufferedReader br = new BufferedReader(new FileReader(combinedCsv))) {
-//     	   String line = null;
-//     	   while ((line = br.readLine()) != null) {
-//     	       System.out.println(line);
-//     	   }
-//     	}
         File combinedArff = convert(combinedCsv);
         return combinedArff;
     }
