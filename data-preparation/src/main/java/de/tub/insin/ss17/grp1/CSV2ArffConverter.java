@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.LineNumberReader;
 import java.util.Scanner;
 import java.io.FileWriter;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.util.List;
 
@@ -35,12 +36,13 @@ public class CSV2ArffConverter {
     }
 
     private static void appendCSVs(final List<File> csvs, final File combination)
-                 throws IOException{
+                 throws IOException {
 
         for (File csv : csvs) {
              try (Reader source = new LineNumberReader(new FileReader(csv));
-                  Writer destination = new BufferedWriter(new FileWriter(combination)); ) {
-                 transfer(source, destination);
+            Writer destination = new BufferedWriter(new FileWriter(combination, true)); ) {
+                
+            transfer(source, destination);
              }
         }
     }
@@ -49,8 +51,15 @@ public class CSV2ArffConverter {
 
         File combination = File.createTempFile("combination", ".netflow");
         Files.copy(csvs.remove(0).toPath(), combination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
+        
         appendCSVs(csvs, combination);
+        System.out.println("\n");
+        try (BufferedReader br = new BufferedReader(new FileReader(combination))) {
+     	   String line = null;
+     	   while ((line = br.readLine()) != null) {
+     	       System.out.println(line);
+     	   }
+     	}
 
         return combination;
     }
@@ -68,6 +77,13 @@ public class CSV2ArffConverter {
 
     public static File parse(List<File> csvs) throws IOException {
         File combinedCsv = combine(csvs);
+        System.out.println("postCombine:"+csvs+"\n");
+//        try (BufferedReader br = new BufferedReader(new FileReader(combinedCsv))) {
+//     	   String line = null;
+//     	   while ((line = br.readLine()) != null) {
+//     	       System.out.println(line);
+//     	   }
+//     	}
         File combinedArff = convert(combinedCsv);
         return combinedArff;
     }
