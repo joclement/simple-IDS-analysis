@@ -62,7 +62,6 @@ public class CliManager {
         List<File> csvs = getScenarios();
 
         if (this.seperateTestScenario) {
-        	System.out.println("im here");
             parseSeperateTestScenario(csvs);
         }
 
