@@ -1,7 +1,9 @@
 package de.tub.insin.ss17.grp1;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
@@ -52,7 +54,7 @@ public class CliManager {
     private File arffFolder = null;
 
     // TODO add better error reporting
-    public void run() {
+    public void run() throws FileNotFoundException, IOException {
         if (this.arffFolder == null) {
             this.arffFolder = generateDestFolder();
         }
@@ -60,6 +62,7 @@ public class CliManager {
         List<File> csvs = getScenarios();
 
         if (this.seperateTestScenario) {
+        	System.out.println("im here");
             parseSeperateTestScenario(csvs);
         }
 
@@ -101,7 +104,7 @@ public class CliManager {
     private File parse(List<File> csvs) {
         File arff = null;
         try {
-            arff = CSV2ArffConverter.parse(extractTestScenario(csvs));
+            arff = CSV2ArffConverter.parse(csvs);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
