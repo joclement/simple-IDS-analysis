@@ -8,6 +8,7 @@ import weka.core.converters.CSVLoader;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
@@ -26,6 +27,31 @@ import java.io.BufferedWriter;
 import java.util.List;
 
 public class CSV2ArffConverter {
+    
+    private static final void removeCsvHeader(List<File> csvs) throws IOException{
+        boolean flag = false;
+        for (File csv: csvs ){
+            if(flag){  
+                    RandomAccessFile raf = new RandomAccessFile(csv, "rw");                                                    
+                    long writePosition = raf.getFilePointer();                            
+                    raf.readLine();                                                                                           
+                    long readPosition = raf.getFilePointer();                             
+
+                    byte[] buff = new byte[1024];                                         
+                    int n;                                                                
+                    while (-1 != (n = raf.read(buff))) {                                  
+                        raf.seek(writePosition);                                          
+                        raf.write(buff, 0, n);                                            
+                        readPosition += n;                                                
+                        writePosition += n;                                               
+                        raf.seek(readPosition);                                           
+                    }                                                                     
+                    raf.setLength(writePosition);                                         
+                    raf.close();                                                          
+            }
+           flag = true; 
+        }
+    }
 
     private static final void transfer(final Reader source, final Writer destination) throws IOException {
         char[] buffer = new char[1024 * 16];
@@ -48,7 +74,7 @@ public class CSV2ArffConverter {
     }
 
     private static File combine(List<File> csvs) throws IOException{
-
+        removeCsvHeader(csvs);
         File combination = File.createTempFile("combination", ".netflow");
         Files.copy(csvs.remove(0).toPath(), combination.toPath(), StandardCopyOption.REPLACE_EXISTING);
         
