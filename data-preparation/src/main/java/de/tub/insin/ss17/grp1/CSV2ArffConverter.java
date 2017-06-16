@@ -99,7 +99,7 @@ public class CSV2ArffConverter {
     public static File parse(List<File> csvs) throws IOException {
         List<File> copyList = new ArrayList<File>();
         for(File csv : csvs){
-        	File copy = new File(csv.getParent()+"/copy.csv");
+        	File copy = File.createTempFile("copy",".csv");
         	copyList.add(copy);
         	Files.copy(csv.toPath(), copy.toPath(), StandardCopyOption.REPLACE_EXISTING);
         }
