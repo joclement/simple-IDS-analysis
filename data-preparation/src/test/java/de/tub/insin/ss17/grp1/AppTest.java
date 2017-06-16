@@ -5,7 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FileReader;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 
@@ -14,6 +14,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import com.beust.jcommander.JCommander;
 
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
@@ -31,6 +33,8 @@ public class AppTest {
 
     private final static int ARFF_ATTRIBUTE_COUNT = 15;
     
+    private final static int trainingPercentage = 80;
+    
     {
     	StringBuilder builder = new StringBuilder();
     	builder.append(".." + File.separator);
@@ -43,7 +47,7 @@ public class AppTest {
 
     @After
     public void afterEachTest() {
-        System.out.println("This is executed after each Test");
+
     }
 
     // TODO add checking for this test
@@ -93,7 +97,38 @@ public class AppTest {
         }
     }
     
+    @Test
+    public void testTrainingPercentage() throws Exception {
+        String[] argv = {"-s", scenarios,
+                         "-d", destFolder,
+                         "--ctu", ctuFolder};
 
+        CliManager manager = new CliManager();
+        JCommander.newBuilder()
+        .addObject(manager)
+        .build()
+        .parse(argv);
+        List<File> csvs = manager.getScenarios();
+        
+        int totLength =0;
+        for(File csv:csvs){
+            DataSource source = new DataSource(csv.getPath());
+            source.getDataSet();
+            Instances data = source.getDataSet();
+        	totLength+=data.size();
+        }
+        App.main(argv);
+        int trainingLength = totLength * trainingPercentage/100;
+        
+        DataSource source = new DataSource(destFolder+"training/data.arff");
+        Instances data = source.getDataSet();
+        assertEquals( trainingLength, data.size());
+        
+        source = new DataSource(destFolder+"test/data.arff");
+        data = source.getDataSet();
+        assertEquals(totLength - trainingLength, data.size());
+        
+    }
 
     //TODO fix test
     @Ignore
