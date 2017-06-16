@@ -24,18 +24,17 @@ import java.util.Scanner;
 import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CSV2ArffConverter {
     
-    private static final void removeCsvHeader(List<File> csvs) throws IOException{
+    private static final void removeCsvHeader(List<File> csvsCopy) throws IOException{
         boolean flag = false;
-        for (File csv: csvs ){
+        for (File csv: csvsCopy ){
             if(flag){  
                 //TODO Code is copied from StackOverflow :)
-            	File copy = File.createTempFile("copy", ".netflow");
-            	Files.copy(csv.toPath(), copy.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            	RandomAccessFile raf = new RandomAccessFile(copy, "rw");                                                    
+            	RandomAccessFile raf = new RandomAccessFile(csv, "rw");                                                    
                 long writePosition = raf.getFilePointer();                            
                 raf.readLine();                                                                                           
                 long readPosition = raf.getFilePointer();                             
@@ -51,7 +50,7 @@ public class CSV2ArffConverter {
                 }                                                                     
                 raf.setLength(writePosition);                                         
                 raf.close(); 
-                                                                             
+                                       
             }
            flag = true; 
         }
@@ -78,7 +77,6 @@ public class CSV2ArffConverter {
     }
 
     private static File combine(List<File> csvs) throws IOException{
-        removeCsvHeader(csvs);
         File combination = File.createTempFile("combination", ".netflow");
         Files.copy(csvs.remove(0).toPath(), combination.toPath(), StandardCopyOption.REPLACE_EXISTING);
         
@@ -99,8 +97,19 @@ public class CSV2ArffConverter {
     }
 
     public static File parse(List<File> csvs) throws IOException {
-        File combinedCsv = combine(csvs);
+        List<File> copyList = new ArrayList<File>();
+        for(File csv : csvs){
+        	File copy = new File(csv.getParent()+"/copy.csv");
+        	copyList.add(copy);
+        	Files.copy(csv.toPath(), copy.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        }
+
+        removeCsvHeader(copyList);
+
+        File combinedCsv = combine(copyList);
         File combinedArff = convert(combinedCsv);
+        
+        copyList.clear();
         return combinedArff;
     }
 }
