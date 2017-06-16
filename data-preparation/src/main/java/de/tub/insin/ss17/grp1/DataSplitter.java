@@ -27,7 +27,7 @@ public class DataSplitter {
         source.getDataSet();
         Instances data = source.getDataSet();
 
-        int totSize = data.size() - 19;
+        int totSize = data.size();
         int trainSize = (int) (totSize * percentageTrain / 100.0);
         int testSize = totSize - trainSize;
 
