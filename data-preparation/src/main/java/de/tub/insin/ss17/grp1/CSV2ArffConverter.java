@@ -29,7 +29,7 @@ import java.util.List;
 
 public class CSV2ArffConverter {
     
-    private static final void removeCsvHeader(List<File> csvsCopy) throws IOException{
+    private static final void removeCsvHeader(List<File> csvsCopy) throws IOException {
         boolean flag = false;
         for (File csv: csvsCopy ){
             if(flag){  
@@ -56,7 +56,7 @@ public class CSV2ArffConverter {
         }
     }
 
-    private static final void transfer(final Reader source, final Writer destination) throws IOException {
+    private static final void transfer(final Reader source, final Writer destination) throws IOException  {
         char[] buffer = new char[1024 * 16];
         int len = 0;
         while ((len = source.read(buffer)) >= 0) {
@@ -76,7 +76,7 @@ public class CSV2ArffConverter {
         }
     }
 
-    private static File combine(List<File> csvs) throws IOException{
+    private static File combine(List<File> csvs) throws IOException {
         File combination = File.createTempFile("combination", ".netflow");
         Files.copy(csvs.remove(0).toPath(), combination.toPath(), StandardCopyOption.REPLACE_EXISTING);
         
@@ -85,7 +85,7 @@ public class CSV2ArffConverter {
         return combination;
     }
 
-    private static File convert(File mergedSrcFile) throws IOException {
+    private static File convert(File mergedSrcFile) throws IOException  {
         // TODO code is copied from weka website
         CSVLoader loader = new CSVLoader();
         loader.setSource(mergedSrcFile);
