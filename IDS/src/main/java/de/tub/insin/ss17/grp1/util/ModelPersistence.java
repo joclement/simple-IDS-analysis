@@ -19,4 +19,5 @@ public class ModelPersistence {
         oos.close();
     }
 
+    // TODO move deserialization here
 }
