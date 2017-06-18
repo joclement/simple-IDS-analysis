@@ -55,7 +55,7 @@ public class CliManager {
     private File arffFolder = null;
 
     // TODO add better error reporting
-    public void run() {
+    public void run() throws Exception {
         if (this.arffFolder == null) {
             this.arffFolder = generateDestFolder();
         }
@@ -100,7 +100,7 @@ public class CliManager {
         }
     }
 
-    private File parse(List<File> csvs) {
+    private File parse(List<File> csvs) throws Exception {
         File arff = null;
         try {
             arff = CSV2ArffConverter.parse(csvs);
@@ -113,7 +113,7 @@ public class CliManager {
         return arff;
     }
 
-    private void parseSeparateTestScenario(List<File> csvs) {
+    private void parseSeparateTestScenario(List<File> csvs) throws Exception {
         try {
             File arff = this.parse(extractTestScenario(csvs));
             this.moveToArffFolder(arff, TEST_ARFF_FILENAME);

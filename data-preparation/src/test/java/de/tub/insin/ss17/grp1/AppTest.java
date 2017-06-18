@@ -52,7 +52,7 @@ public class AppTest {
 
     // TODO add checking for this test
     @Test
-    public void testSplittedScenarios() {
+    public void testSplittedScenarios() throws Exception {
         String[] argv = {"-s", scenarios,
                          "-d", destFolder,
                          "--ctu", ctuFolder};
@@ -61,7 +61,7 @@ public class AppTest {
     }
 
     @Test
-    public void testSeparateTestScenario() {
+    public void testSeparateTestScenario() throws Exception {
         String[] argv = {"-s", scenarios,
                          "-d", destFolder,
                          "--ctu", ctuFolder,

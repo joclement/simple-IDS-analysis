@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CSV2ArffConverter {
+	
+	private final static String NOMINAL_LIST = "5,8";
     
     private static final void removeCsvHeader(List<File> csvsCopy) throws IOException {
         boolean flag = false;
@@ -85,9 +87,10 @@ public class CSV2ArffConverter {
         return combination;
     }
 
-    private static File convert(File mergedSrcFile) throws IOException  {
+    private static File convert(File mergedSrcFile) throws Exception  {
         // TODO code is copied from weka website
         CSVLoader loader = new CSVLoader();
+        loader.setNominalAttributes(NOMINAL_LIST);
         loader.setSource(mergedSrcFile);
         Instances data = loader.getDataSet();
 
@@ -96,7 +99,7 @@ public class CSV2ArffConverter {
         return arffTmp;
     }
 
-    public static File parse(List<File> csvs) throws IOException {
+    public static File parse(List<File> csvs) throws Exception {
         List<File> copyList = new ArrayList<File>();
         for(File csv : csvs){
         	File copy = File.createTempFile("copy",".csv");
