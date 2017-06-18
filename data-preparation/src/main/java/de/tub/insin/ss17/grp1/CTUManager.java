@@ -25,7 +25,7 @@ public class CTUManager {
         return files;
     }
 
-    private File find(Integer scenario) throws FileNotFoundException {
+    private File find(Integer scenario) throws FileNotFoundException{
         String pathInDataset = scenario.toString() + File.separator + this.filename;
         File file = new File(datasetDir, pathInDataset);
         if(!file.exists()){
