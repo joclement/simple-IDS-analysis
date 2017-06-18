@@ -1,15 +1,19 @@
 package de.tub.insin.ss17.grp1.training;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
 import de.tub.insin.ss17.grp1.util.Param;
+import weka.classifiers.Classifier;
+import weka.classifiers.lazy.IBk;
 import weka.core.Instances;
+import weka.core.neighboursearch.NearestNeighbourSearch;
 
 
-public class NNClassifier implements MlAlgo {
+abstract public class NNClassifier implements MlAlgo {
 
     private double dist;
 
@@ -17,9 +21,12 @@ public class NNClassifier implements MlAlgo {
 
     private Map<String, Consumer<String>> paramDict;
 
+    IBk nnClassifier;
+
     public NNClassifier(List<Param> params) {
         this.paramDict = new HashMap<>();
         this.setParams(params);
+        this.nnClassifier = new IBk(this.k);
     }
 
     private void setParams(List<Param> params) {
@@ -43,8 +50,22 @@ public class NNClassifier implements MlAlgo {
         assert this.dist > 0;
     }
 
-    public void train(Instances trainingData) {
-        // TODO Auto-generated method stub
+    @Override
+    public void train(Instances trainingData) throws Exception {
+        this.nnClassifier.buildClassifier(trainingData);
+    }
+
+    @Override
+    public Classifier getClassifier() {
+        return this.nnClassifier;
+    }
+
+    @Override
+    public String getFilename() {
+        String filename = "nearestNeighbour_";
+        filename += this.nnClassifier.globalInfo();
+
+        return filename;
     }
 
 }
