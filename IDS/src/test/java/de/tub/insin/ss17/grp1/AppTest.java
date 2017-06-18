@@ -21,7 +21,7 @@ import weka.core.Instances;
 public class AppTest 
 {
 
-    private final static String ARFF_FOLDER = "./src/main/resources/test/";
+    private final static String ARFF_FOLDER = "./src/main/resources/testArff/";
 
     private final static String NN_PARAMS = "k=5,dist=20.0";
 
