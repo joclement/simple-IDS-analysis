@@ -1,5 +1,6 @@
 package de.tub.insin.ss17.grp1;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,16 +31,31 @@ public class CliManager {
                required = true)
     private List<String> mlParams = new LinkedList<String>();
 
+
+    private static final String classifierNameDescription = Trainer.getClassifierNamesDescription();
+    // TODO specify options for classifiers somewehere, in annotation it is not really possible
+    @Parameter(names = {"--classifierName", "-c"},
+               description = "Name of the classifier, options: TODO",
+               required = true)
+    private String classifierName;
+
     public void run() {
         ArffLoader arffLoader = new ArffLoader(this.dataFolder);
 
-        Trainer trainer = new Trainer(prepare(this.mlParams));
+        Trainer trainer = new Trainer(this.classifierName, prepare(this.mlParams));
 
         Tester tester = new Tester();
 
         if (commands.contains(TRAIN)) {
             try {
                 trainer.train(arffLoader.loadTraining());
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                System.exit(-1);
+            }
+            try {
+                trainer.save(new File(this.dataFolder));
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

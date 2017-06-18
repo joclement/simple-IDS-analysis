@@ -10,7 +10,10 @@ import weka.classifiers.Classifier;
 import weka.core.Instances;
 
 public class deserializer {
-    
+
+    // TODO this needs to change
+    // TODO better move it in util package in class ModelPersistence
+
     private static final String modelFilename = "training.model";
 
     private static final String trainFilepath = "./training/" + modelFilename;
