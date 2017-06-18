@@ -40,10 +40,10 @@ public class AppTest
         String[] argv = {"train",
                          "-f", ARFF_FOLDER,
                          "-p", NN_PARAMS};
-        App.main(argv);
         ArffLoader loader = new ArffLoader(ARFF_FOLDER);
         Instances testData = loader.loadTest();
         ClassificationViaRegression cvr = new ClassificationViaRegression();
+        testData.setClass(testData.attribute("label"));
         cvr.buildClassifier(testData);
         Evaluation eval = new Evaluation(testData);
         eval.crossValidateModel(cvr, testData, 15, new Random(1));
