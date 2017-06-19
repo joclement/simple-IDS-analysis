@@ -9,6 +9,18 @@ import weka.classifiers.Classifier;
 
 public class ModelPersistence {
 
+    private static final String MODEL_FOLDER_PATH = "./model/";
+
+    private static final String MODEL_FILE_EXTENSION = ".model";
+
+    public static void save(Classifier classifier,
+                            File arffFolder,
+                            String classifierDescription) throws IOException {
+        String modelPath = MODEL_FOLDER_PATH + classifierDescription + MODEL_FILE_EXTENSION;
+        File model = new File(arffFolder, modelPath);
+        save(classifier, model);
+    }
+
     public static void save(Classifier classifier, File file) throws IOException {
 
         // TODO I think some rework for the try, catch, throw IOException is necessary here for 

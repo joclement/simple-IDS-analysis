@@ -49,9 +49,8 @@ public class Trainer {
     }
 
     public void save(File folder) throws IOException {
-        File file = new File(folder, this.classifier.getFilename() + ".model");
         Classifier classifier = this.classifier.getClassifier();
-        ModelPersistence.save(classifier, file);
+        ModelPersistence.save(classifier, folder, this.classifier.getFilename());
     }
 
     public static String[] getClassifierNames() {
