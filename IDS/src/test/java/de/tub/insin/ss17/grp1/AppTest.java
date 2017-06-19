@@ -51,6 +51,7 @@ public class AppTest
     @Test
     public void testTrainCommand() {
         String[] argv = {"train",
+                         "-c", "lnns",
                          "-f", ARFF_FOLDER,
                          "-p", NN_PARAMS};
         App.main(argv);
@@ -61,6 +62,7 @@ public class AppTest
     @Test
     public void testTestCommand() {
         String[] argv = {"train,test",
+                         "-c", "lnns",
                          "-f", ARFF_FOLDER,
                          "-p", NN_PARAMS};
         App.main(argv);
