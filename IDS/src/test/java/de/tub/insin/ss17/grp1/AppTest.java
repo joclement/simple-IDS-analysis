@@ -1,17 +1,9 @@
 package de.tub.insin.ss17.grp1;
 
-
-import java.util.Random;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import de.tub.insin.ss17.grp1.util.ArffLoader;
-import weka.classifiers.Evaluation;
-import weka.classifiers.meta.ClassificationViaRegression;
-import weka.core.Instances;
 
 
 /**
@@ -20,7 +12,7 @@ import weka.core.Instances;
 public class AppTest
 {
 
-    private final static String ARFF_FOLDER = "./src/main/resources/testArff/";
+    protected final static String ARFF_FOLDER = "./src/main/resources/testArff/";
 
     private final static String NN_PARAMS = "k=5,dist=20.0";
 
@@ -32,19 +24,6 @@ public class AppTest
     @After
     public void afterEachTest() {
         System.out.println("This is executed after each Test");
-    }
-
-    @Test
-    public void testArffLoaderWithRandomAlgorithm() throws Exception {
-        ArffLoader loader = new ArffLoader(ARFF_FOLDER);
-        Instances testData = loader.loadTest();
-        ClassificationViaRegression cvr = new ClassificationViaRegression();
-        testData.setClass(testData.attribute("label"));
-        cvr.buildClassifier(testData);
-        Evaluation eval = new Evaluation(testData);
-        eval.crossValidateModel(cvr, testData, 15, new Random(1));
-        System.out.println(eval.toSummaryString());
-
     }
 
     // TODO add checks
