@@ -18,6 +18,7 @@ public class ModelPersistence {
                             String classifierDescription) throws IOException {
         String modelPath = MODEL_FOLDER_PATH + classifierDescription + MODEL_FILE_EXTENSION;
         File model = new File(arffFolder, modelPath);
+        model.getParentFile().mkdirs();
         save(classifier, model);
     }
 
