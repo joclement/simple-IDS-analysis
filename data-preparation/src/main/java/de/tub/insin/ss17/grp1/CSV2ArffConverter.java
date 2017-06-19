@@ -45,11 +45,7 @@ public class CSV2ArffConverter {
     		index++;
     	}
         FileOutputStream fileOut = new FileOutputStream(temp,true);
-
-        System.out.println(line);
-        System.out.println(toDelete);
         line = line.replace(toDelete, "");
-        System.out.println(line+"\n\n\n\n");
 
         fileOut.write(line.getBytes(),0,line.length());
         if(lineNum < totLines-1){
@@ -72,7 +68,6 @@ public class CSV2ArffConverter {
 	    for(int j =0; j<=totLines-1;j++){
 	    	
 	        String line = scanner.nextLine();
-	        System.out.println("------------"+lineNum);
 	        
 	        if(line.contains(botnet)) {
 	        	deleteExcess(6,line,botnet,csv,lineNum, totLines,temp);
