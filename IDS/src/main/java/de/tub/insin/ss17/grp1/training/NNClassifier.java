@@ -15,16 +15,14 @@ abstract public class NNClassifier implements MlAlgo {
 
     private double dist;
 
-    private int k;
-
     private Map<String, Consumer<String>> paramDict;
 
     IBk nnClassifier;
 
     public NNClassifier(List<Param> params) {
         this.paramDict = new HashMap<>();
+        this.nnClassifier = new IBk();
         this.setParams(params);
-        this.nnClassifier = new IBk(this.k);
     }
 
     private void setParams(List<Param> params) {
@@ -38,9 +36,10 @@ abstract public class NNClassifier implements MlAlgo {
         }
     }
 
-    private void setK(String k) {
-        this.k = Integer.valueOf(k);
-        assert this.k > 0;
+    private void setK(String kParam) {
+        int k = Integer.valueOf(kParam);
+        assert k > 0;
+        this.nnClassifier.setKNN(k);
     }
 
     private void setDist(String dist) {
