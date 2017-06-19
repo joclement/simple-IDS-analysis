@@ -14,7 +14,7 @@ public class AppTest
 
     protected final static String ARFF_FOLDER = "./src/main/resources/testArff/";
 
-    private final static String NN_PARAMS = "k=5,dist=20.0";
+    private final static String NN_PARAMS = "k=5,dist=20.0,distweight=none";
 
     @Before
     public void beforeEachTest() {
