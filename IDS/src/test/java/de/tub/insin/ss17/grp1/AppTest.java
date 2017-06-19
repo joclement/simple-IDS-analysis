@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import de.tub.insin.ss17.grp1.util.ArffLoader;
 import weka.classifiers.Evaluation;
-import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.meta.ClassificationViaRegression;
 import weka.core.Instances;
 
@@ -18,7 +17,7 @@ import weka.core.Instances;
 /**
  * Unit test for IDS.
  */
-public class AppTest 
+public class AppTest
 {
 
     private final static String ARFF_FOLDER = "./src/main/resources/testArff/";
@@ -34,12 +33,9 @@ public class AppTest
     public void afterEachTest() {
         System.out.println("This is executed after each Test");
     }
-    
+
     @Test
     public void testArffLoaderWithRandomAlgorithm() throws Exception {
-        String[] argv = {"train",
-                         "-f", ARFF_FOLDER,
-                         "-p", NN_PARAMS};
         ArffLoader loader = new ArffLoader(ARFF_FOLDER);
         Instances testData = loader.loadTest();
         ClassificationViaRegression cvr = new ClassificationViaRegression();
@@ -48,7 +44,7 @@ public class AppTest
         Evaluation eval = new Evaluation(testData);
         eval.crossValidateModel(cvr, testData, 15, new Random(1));
         System.out.println(eval.toSummaryString());
-        
+
     }
 
     // TODO add checks
