@@ -30,6 +30,72 @@ import java.util.List;
 public class CSV2ArffConverter {
 	
 	private final static String NOMINAL_LIST = "5,8";
+	
+	private final static String botnet = "Botnet";
+	private final static String normal = "Normal";
+	private final static String background = "Background";
+	
+	private static final void deleteExcess(int index, String line,String traffic,File csv, int lineNum
+			,int totLines, File temp) throws IOException{
+	    String toDelete = "";
+
+		index += line.lastIndexOf(traffic);
+    	while(index != line.length()){
+    		toDelete += line.charAt(index);
+    		index++;
+    	}
+        FileOutputStream fileOut = new FileOutputStream(temp,true);
+
+        System.out.println(line);
+        System.out.println(toDelete);
+        line = line.replace(toDelete, "");
+        System.out.println(line+"\n\n\n\n");
+
+        fileOut.write(line.getBytes(),0,line.length());
+        if(lineNum < totLines-1){
+        	fileOut.write("\n".getBytes(),0,"\n".length());
+        }
+
+        fileOut.close();
+	}
+	
+	private static final void parseLabel(File csv) throws FileNotFoundException, IOException{
+		Scanner scanner = new Scanner(csv);
+	    File temp = File.createTempFile("temp",".csv");
+	    //now read the file line by line...
+	    int totLines = 0;
+	    int lineNum = 0;
+	    LineNumberReader lnr = new LineNumberReader(new FileReader(csv));
+    	while (lnr.readLine() != null){
+        	totLines++;
+            }
+	    for(int j =0; j<=totLines-1;j++){
+	    	
+	        String line = scanner.nextLine();
+	        System.out.println("------------"+lineNum);
+	        
+	        if(line.contains(botnet)) {
+	        	deleteExcess(6,line,botnet,csv,lineNum, totLines,temp);
+	        }
+	        else if(line.contains(normal)) { 
+	        	deleteExcess(6,line,normal,csv,lineNum,totLines,temp);
+	        }
+	        else if(line.contains(background)) { 
+	        	deleteExcess(10,line,background,csv,lineNum,totLines,temp);
+	        }
+	        else{
+	        	FileOutputStream fileOut = new FileOutputStream(temp,true);
+	        	fileOut.write(line.getBytes(),0,line.length());
+	        	fileOut.write("\n".getBytes(),0,"\n".length());
+	        	fileOut.close();
+	        }
+	        lineNum++;
+	    }
+	    lnr.close();
+	    scanner.close();  
+	    Files.copy(temp.toPath(), csv.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		
+	}
     
     private static final void removeCsvHeader(List<File> csvsCopy) throws IOException {
         boolean flag = false;
@@ -110,6 +176,8 @@ public class CSV2ArffConverter {
         removeCsvHeader(copyList);
 
         File combinedCsv = combine(copyList);
+        parseLabel(combinedCsv);
+
         File combinedArff = convert(combinedCsv);
         
         copyList.clear();
