@@ -34,6 +34,8 @@ public class ArffLoader {
         DataSource source = new DataSource(file.getAbsolutePath());
         Instances data = source.getDataSet();
 
+        data.setClassIndex(data.numAttributes() - 1);
+
         return data;
     }
 }
