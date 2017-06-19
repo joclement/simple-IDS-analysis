@@ -8,11 +8,11 @@ import java.io.File;
 // TODO improve this loading operations
 public class ArffLoader {
 
-    private static final String arffFilename = "data.arff";
+    private static final String ARFF_FILENAME = "data.arff";
 
-    private static final String trainFilepath = "./training/" + arffFilename;
+    private static final String TRAIN_FILEPATH = "./training/" + ARFF_FILENAME;
 
-    private static final String testFilepath = "./test/" + arffFilename;
+    private static final String TEST_FILEPATH = "./test/" + ARFF_FILENAME;
 
     private final File arffFolder;
 
@@ -21,12 +21,12 @@ public class ArffLoader {
     }
 
     public Instances loadTraining() throws Exception {
-        File trainFile = new File(this.arffFolder, trainFilepath);
+        File trainFile = new File(this.arffFolder, TRAIN_FILEPATH);
         return this.load(trainFile);
     }
 
     public Instances loadTest() throws Exception {
-        File testFile = new File(this.arffFolder, testFilepath);
+        File testFile = new File(this.arffFolder, TEST_FILEPATH);
         return this.load(testFile);
     }
 
