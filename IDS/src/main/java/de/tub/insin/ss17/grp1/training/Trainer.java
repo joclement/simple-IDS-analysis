@@ -1,17 +1,14 @@
 package de.tub.insin.ss17.grp1.training;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.nio.file.Paths;
 import java.util.List;
 
 import de.tub.insin.ss17.grp1.util.ModelPersistence;
 import de.tub.insin.ss17.grp1.util.Param;
 import weka.classifiers.Classifier;
 import weka.core.Instances;
+
 
 public class Trainer {
 

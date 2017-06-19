@@ -1,6 +1,5 @@
 package de.tub.insin.ss17.grp1.training;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,6 @@ import de.tub.insin.ss17.grp1.util.Param;
 import weka.classifiers.Classifier;
 import weka.classifiers.lazy.IBk;
 import weka.core.Instances;
-import weka.core.neighboursearch.NearestNeighbourSearch;
 
 
 abstract public class NNClassifier implements MlAlgo {
