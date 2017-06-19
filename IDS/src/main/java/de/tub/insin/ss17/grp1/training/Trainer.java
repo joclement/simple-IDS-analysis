@@ -14,9 +14,10 @@ public class Trainer {
 
     private static final String LINEAR_NEAREST_NEIGHBOUR_SEARCH = "lnns";
 
-    private static final String[] CLASSIFIER_NAMES = new String[1];
+    private static final String[] CLASSIFIER_NAMES;
 
-    {
+    static {
+        CLASSIFIER_NAMES = new String[1];
         CLASSIFIER_NAMES[0] = LINEAR_NEAREST_NEIGHBOUR_SEARCH;
     }
 

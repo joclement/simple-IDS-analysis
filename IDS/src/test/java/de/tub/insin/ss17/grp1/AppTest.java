@@ -48,7 +48,6 @@ public class AppTest
     }
 
     // TODO add checks
-    @Ignore
     @Test
     public void testTrainCommand() {
         String[] argv = {"train",
