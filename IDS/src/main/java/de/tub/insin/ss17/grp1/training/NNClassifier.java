@@ -60,10 +60,15 @@ abstract public class NNClassifier implements MlAlgo {
 
     @Override
     public String getFilename() {
-        String filename = "nearestNeighbour_";
-        filename += this.nnClassifier.globalInfo();
+        StringBuilder filename = new StringBuilder("nearestNeighbour");
 
-        return filename;
+        filename.append("_k=");
+        filename.append(this.nnClassifier.getKNN());
+
+        filename.append("_n=");
+        filename.append(this.nnClassifier.getNumTraining());
+
+        return filename.toString();
     }
 
 }
