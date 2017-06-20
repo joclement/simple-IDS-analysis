@@ -11,7 +11,7 @@ import weka.classifiers.meta.ClassificationViaRegression;
 import weka.core.Instances;
 
 
-public class TestArffLoader {
+public class ArffLoaderTest {
 
     @Test
     public void testArffLoaderWithRandomAlgorithm() throws Exception {

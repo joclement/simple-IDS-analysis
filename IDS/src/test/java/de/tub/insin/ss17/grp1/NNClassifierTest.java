@@ -12,7 +12,7 @@ import de.tub.insin.ss17.grp1.util.Param;
 import weka.classifiers.Evaluation;
 import weka.core.Instances;
 
-public class TestNNClassifier {
+public class NNClassifierTest {
 
     @Test
     public void testBasic() throws Exception {
