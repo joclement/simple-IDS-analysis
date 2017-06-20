@@ -74,7 +74,7 @@ public class CliManager {
         }
     }
 
-    private List<Param> prepare(List<String> encodedParams) {
+    public static List<Param> prepare(List<String> encodedParams) {
         List<Param> params = new LinkedList<Param>();
 
         for (String encodedParam : encodedParams) {

@@ -14,7 +14,7 @@ public class AppTest
 
     protected final static String ARFF_FOLDER = "./src/main/resources/testArff/";
 
-    private final static String NN_PARAMS = "k=5,dist=20.0,distweight=none";
+    protected final static String BASIC_NN_PARAMS = "k=5,dist=20.0,distweight=none";
 
     @Before
     public void beforeEachTest() {
@@ -32,7 +32,7 @@ public class AppTest
         String[] argv = {"train",
                          "-c", "lnns",
                          "-f", ARFF_FOLDER,
-                         "-p", NN_PARAMS};
+                         "-p", BASIC_NN_PARAMS};
         App.main(argv);
     }
 
@@ -43,7 +43,7 @@ public class AppTest
         String[] argv = {"train,test",
                          "-c", "lnns",
                          "-f", ARFF_FOLDER,
-                         "-p", NN_PARAMS};
+                         "-p", BASIC_NN_PARAMS};
         App.main(argv);
     }
 
