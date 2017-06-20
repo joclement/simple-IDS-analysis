@@ -20,7 +20,8 @@ public class Tester {
     public void load(File folder) throws IOException {
        // Classifier classifier = ModelPersistence.load(folder, null); 
         Classifier classifier = this.classifier.getClassifier();
-        ModelPersistence.load(folder, classifierDescription);
+        // TODO do not commit non compilable code
+        //ModelPersistence.load(folder, classifierDescription);
         
         
     }
