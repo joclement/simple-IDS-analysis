@@ -91,13 +91,8 @@ public class AppTest {
             assertTrue("Arff file loading failed",false);
         }
     }
-
-    @Test
-    public void testTrainingPercentage() throws Exception {
-        String[] argv = {"-s", scenarios,
-                         "-d", destFolder,
-                         "--ctu", ctuFolder};
-
+    
+    private int totalLengthCsvs(String[] argv) throws Exception{
         CliManager manager = new CliManager();
         JCommander.newBuilder()
         .addObject(manager)
@@ -110,8 +105,18 @@ public class AppTest {
             DataSource source = new DataSource(csv.getPath());
             source.getDataSet();
             Instances data = source.getDataSet();
-        	totLength+=data.size();
+            totLength+=data.size();
         }
+        return totLength;
+    }
+
+    @Test
+    public void testTrainingPercentage() throws Exception {
+        String[] argv = {"-s", scenarios,
+                         "-d", destFolder,
+                         "--ctu", ctuFolder};
+
+        int totLength = totalLengthCsvs(argv);
         App.main(argv);
         int trainingLength = totLength * trainingPercentage/100;
         
