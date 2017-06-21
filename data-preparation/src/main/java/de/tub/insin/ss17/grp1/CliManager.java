@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -139,10 +140,12 @@ public class CliManager {
 
     private File generateDestFolder() {
         StringBuilder name = new StringBuilder();
-        name.append("scenarios");
-        for (Integer scenario : this.scenarios) {
+        name.append("scenarios=");
+        Iterator<Integer> it = this.scenarios.iterator();
+        name.append(it.next());
+        while(it.hasNext()) {
             name.append(",");
-            name.append(scenario);
+            name.append(it.next());
         }
 
         name.append("_");
