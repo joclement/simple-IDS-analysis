@@ -29,15 +29,10 @@ public class ModelPersistence {
 
         // TODO I think some rework for the try, catch, throw IOException is necessary here for 
         // good closing of the stream
-        try{
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
         oos.writeObject(classifier);
         oos.flush();
         oos.close();
-        System.out.println("Speichern erfolgreich");
-        }catch (IOException e){
-            System.out.println("Speichern nicht erfolgreich");
-        }
     }
 
     // TODO move deserialization here

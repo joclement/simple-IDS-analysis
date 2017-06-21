@@ -11,7 +11,7 @@ import de.tub.insin.ss17.grp1.training.MlAlgo;
 import de.tub.insin.ss17.grp1.util.ModelPersistence;
 
 public class Tester {
-    
+
     private test classifier;
 
     public Tester() {
@@ -22,8 +22,8 @@ public class Tester {
         Classifier classifier = this.classifier.getClassifier();
         // TODO do not commit non compilable code
         //ModelPersistence.load(folder, classifierDescription);
-        
-        
+
+
     }
 
     public void test(Instances testingData) {
@@ -37,25 +37,25 @@ public class Tester {
         // TODO include class evaluation and validation
         // TODO load metrics
     }
-    
+
     public void crossValidateModel(Classifier classifier, 
                                    Instances data, 
                                    int numFolds, 
                                    java.util.Random random){
      // TODO generate cross-validation method
     }
-        
-    
+
+
     // TODO Modify 
     public void save(File folder) throws IOException {
         Classifier classifier = this.classifier.getClassifier();
         ModelPersistence.save(classifier, folder, this.classifier.getFilename());
     }
-        // TODO Auto-generated method stub
-        // save test-results in folder 
-        
+    // TODO Auto-generated method stub
+    // save test-results in folder
+
     // TODO Generate Graphs
     // TODO find Graph Library
-    
+
 
 }
