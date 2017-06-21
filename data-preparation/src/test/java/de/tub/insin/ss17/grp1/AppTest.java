@@ -32,13 +32,8 @@ public class AppTest {
     private final static String scenarios = "6,11,12";
 
     private final static int ARFF_ATTRIBUTE_COUNT = 15;
-    
+
     private final static int trainingPercentage = 80;
-    
-    {
-    	StringBuilder builder = new StringBuilder();
-    	builder.append(".." + File.separator);
-    }
 
     @Before
     public void beforeEachTest() {
@@ -96,7 +91,7 @@ public class AppTest {
             assertTrue("Arff file loading failed",false);
         }
     }
-    
+
     @Test
     public void testTrainingPercentage() throws Exception {
         String[] argv = {"-s", scenarios,
