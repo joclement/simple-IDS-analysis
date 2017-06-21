@@ -26,10 +26,18 @@ public class AppTest
         System.out.println("This is executed after each Test");
     }
 
+    @Test
+    public void testBasic() {
+        String[] argv = {"-c", "lnns",
+                         "-f", ARFF_FOLDER,
+                         "-p", BASIC_NN_PARAMS};
+        App.main(argv);
+    }
+
     // TODO add checks
     @Test
-    public void testTrainCommand() {
-        String[] argv = {"train",
+    public void testOnlyTrain() {
+        String[] argv = {"-o", "train",
                          "-c", "lnns",
                          "-f", ARFF_FOLDER,
                          "-p", BASIC_NN_PARAMS};
@@ -40,7 +48,7 @@ public class AppTest
     @Ignore
     @Test
     public void testTestCommand() {
-        String[] argv = {"train,test",
+        String[] argv = {"-o", "test",
                          "-c", "lnns",
                          "-f", ARFF_FOLDER,
                          "-p", BASIC_NN_PARAMS};

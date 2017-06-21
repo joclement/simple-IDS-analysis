@@ -20,9 +20,10 @@ public class CliManager {
     private final static String TRAIN = "train";
     private final static String TEST = "test";
 
-    @Parameter(description = "specify list of commands, options: train, test",
-               required = true)
-    private List<String> commands;
+    // TODO check for correct value
+    @Parameter(names = {"--only", "-o"},
+               description = "to specify to do just train, test. options: train, test")
+    private String only = null;
 
     @Parameter(names = {"--arffFolder", "-f"},
                description = "Path to the arff folder",
@@ -49,7 +50,7 @@ public class CliManager {
         Trainer trainer = new Trainer(this.classifierName, prepare(this.mlParams));
 
 
-        if (commands.contains(TRAIN)) {
+        if (only != TEST) {
             try {
                 trainer.train(arffLoader.loadTraining());
             } catch (Exception e) {
@@ -66,8 +67,7 @@ public class CliManager {
             }
         }
 
-
-        if (commands.contains(TEST)) {
+        if (only != TRAIN) {
             List<Classifier> classifiers = null;
             try {
                 classifiers = ModelPersistence.loadAll(new File(this.dataFolder));
