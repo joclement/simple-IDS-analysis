@@ -10,13 +10,13 @@ import java.io.IOException;
 import de.tub.insin.ss17.grp1.training.MlAlgo;
 import de.tub.insin.ss17.grp1.util.ModelPersistence;
 
-public class Tester {
+public class Evaluater {
 
-    public Tester(Classifier classifier) {
+    public Evaluater(Classifier classifier) {
         // TODO Auto-generated constructor stub
     }
 
-    public void test(Instances testData) {
+    public void evaluate(Instances testData) {
     }
 
 }

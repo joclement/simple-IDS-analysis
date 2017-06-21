@@ -12,7 +12,7 @@ import de.tub.insin.ss17.grp1.training.Trainer;
 import de.tub.insin.ss17.grp1.util.ArffLoader;
 import de.tub.insin.ss17.grp1.util.ModelPersistence;
 import de.tub.insin.ss17.grp1.util.Param;
-import de.tub.insin.ss17.grp1.validation.Tester;
+import de.tub.insin.ss17.grp1.validation.Evaluater;
 import weka.classifiers.Classifier;
 
 public class CliManager {
@@ -88,8 +88,8 @@ public class CliManager {
             Classifier classifier = this.decide(classifiers);
 
             try {
-                Tester tester = new Tester(classifier);
-                tester.test(arffLoader.loadTest());
+                Evaluater evaluater = new Evaluater(classifier);
+                evaluater.evaluate(arffLoader.loadTest());
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
