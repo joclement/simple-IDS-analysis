@@ -27,9 +27,9 @@ public class AppTest {
     		+ "src/main/"
     		+ "resources/test/";
 
-    private final static String ctuFolder = "src/main/resources/CTU13/";
+    private final static String ctuFolder = "src/main/resources/TestCTU13/";
 
-    private final static String scenarios = "7";
+    private final static String scenarios = "6,11,12";
 
     private final static int ARFF_ATTRIBUTE_COUNT = 15;
 
@@ -49,6 +49,7 @@ public class AppTest {
     @Test
     public void testSplittedScenarios() throws Exception {
         String[] argv = {"-s", scenarios,
+                         "-d", destFolder,
                          "--ctu", ctuFolder};
         App.main(argv);
         
