@@ -1,6 +1,8 @@
 package de.tub.insin.ss17.grp1;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,8 +10,10 @@ import com.beust.jcommander.Parameter;
 
 import de.tub.insin.ss17.grp1.training.Trainer;
 import de.tub.insin.ss17.grp1.util.ArffLoader;
+import de.tub.insin.ss17.grp1.util.ModelPersistence;
 import de.tub.insin.ss17.grp1.util.Param;
 import de.tub.insin.ss17.grp1.validation.Tester;
+import weka.classifiers.Classifier;
 
 public class CliManager {
 
@@ -44,7 +48,6 @@ public class CliManager {
 
         Trainer trainer = new Trainer(this.classifierName, prepare(this.mlParams));
 
-        Tester tester = new Tester();
 
         if (commands.contains(TRAIN)) {
             try {
@@ -63,8 +66,29 @@ public class CliManager {
             }
         }
 
+
         if (commands.contains(TEST)) {
+            List<Classifier> classifiers = null;
             try {
+                classifiers = ModelPersistence.loadAll(new File(this.dataFolder));
+            } catch (FileNotFoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                System.exit(-1);
+            } catch (ClassNotFoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                System.exit(-1);
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                System.exit(-1);
+            }
+
+            Classifier classifier = this.decide(classifiers);
+
+            try {
+                Tester tester = new Tester(classifier);
                 tester.test(arffLoader.loadTest());
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -72,6 +96,11 @@ public class CliManager {
                 System.exit(-1);
             }
         }
+    }
+
+    private Classifier decide(List<Classifier> classifiers) {
+        // TODO let it work correctly
+        return classifiers.get(0);
     }
 
     public static List<Param> prepare(List<String> encodedParams) {

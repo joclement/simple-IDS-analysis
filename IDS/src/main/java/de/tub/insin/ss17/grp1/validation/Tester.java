@@ -12,7 +12,7 @@ import de.tub.insin.ss17.grp1.util.ModelPersistence;
 
 public class Tester {
 
-    public Tester() {
+    public Tester(Classifier classifier) {
         // TODO Auto-generated constructor stub
     }
 
