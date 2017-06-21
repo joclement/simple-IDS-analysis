@@ -38,7 +38,8 @@ public class CSV2ArffConverter {
 	private static final void deleteExcess(int index, String line,String traffic,File csv, int lineNum
 			,int totLines, File temp) throws IOException{
 	    String toDelete = "";
-
+        line = line.replace("From-", "");
+        line = line.replace("To-", "");
 		index += line.lastIndexOf(traffic);
     	while(index != line.length()){
     		toDelete += line.charAt(index);
