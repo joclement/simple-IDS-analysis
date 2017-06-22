@@ -6,7 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import weka.core.Instances;
-import weka.core.converters.ArffSaver;
 
 public class Util {
 
