@@ -88,7 +88,7 @@ public class CliManager {
             Classifier classifier = this.decide(classifiers);
 
             try {
-                Evaluater evaluater = new Evaluater(classifier);
+                Evaluater evaluater = new Evaluater(classifier, arffLoader.loadTraining());
                 evaluater.evaluate(arffLoader.loadTest());
             } catch (Exception e) {
                 // TODO Auto-generated catch block
