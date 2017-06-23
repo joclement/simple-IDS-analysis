@@ -47,10 +47,8 @@ public class CliManager {
     public void run() {
         ArffLoader arffLoader = new ArffLoader(this.dataFolder);
 
-        Trainer trainer = new Trainer(this.classifierName, prepare(this.mlParams));
-
-
         if (only != TEST) {
+            Trainer trainer = new Trainer(this.classifierName, prepare(this.mlParams));
             try {
                 trainer.train(arffLoader.loadTraining());
             } catch (Exception e) {
