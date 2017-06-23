@@ -12,7 +12,7 @@ import org.junit.Test;
 public class AppTest
 {
 
-    protected final static String ARFF_FOLDER = "./src/main/resources/testArff/";
+    protected final static String ARFF_FOLDER = "./src/main/resources/test/";
 
     protected final static String BASIC_NN_PARAMS = "k=5,dist=20.0,distweight=none";
 
