@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 
@@ -14,13 +17,18 @@ public class DataSplitter {
 
     private Integer percentageTrain;
 
+    private static final Logger log = LoggerFactory.getLogger(DataSplitter.class);
+
     public DataSplitter(Integer percentageTrain) {
+        log.debug("-start: DataSplitter");
         assert percentageTrain < 100;
         assert percentageTrain > 0;
         this.percentageTrain = percentageTrain;
+        log.debug("-finished: DataSplitter");
     }
 
     public List<File> split(File arff) throws Exception {
+        log.debug("-start: List split");
         List<File> splittedArffs = new LinkedList<File>();
 
         DataSource source = new DataSource(arff.getPath());
@@ -41,7 +49,9 @@ public class DataSplitter {
         splittedArffs.add(testArff);
         assert splittedArffs.size() == 2;
 
+        log.debug("-finished: List split");
         return splittedArffs;
     }
+
 
 }
