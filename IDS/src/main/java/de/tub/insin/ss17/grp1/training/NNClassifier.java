@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import de.tub.insin.ss17.grp1.util.ClassIndexs;
 import de.tub.insin.ss17.grp1.util.Param;
 import weka.classifiers.Classifier;
 import weka.classifiers.lazy.IBk;
@@ -19,11 +20,11 @@ abstract public class NNClassifier implements MlAlgo {
 
     private Map<String, Consumer<String>> paramDict;
 
-    IBk nnClassifier;
+    CTUIBk nnClassifier;
 
     public NNClassifier(List<Param> params) {
         this.paramDict = new HashMap<>();
-        this.nnClassifier = new IBk();
+        this.nnClassifier = new CTUIBk();
         this.setParams(params);
     }
 
@@ -73,6 +74,7 @@ abstract public class NNClassifier implements MlAlgo {
 
     @Override
     public void train(Instances trainingData) throws Exception {
+        this.nnClassifier.setClassIndexs(new ClassIndexs(trainingData));
         this.nnClassifier.buildClassifier(trainingData);
     }
 

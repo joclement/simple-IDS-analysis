@@ -39,10 +39,32 @@ public class Evaluater {
         }
     }
 
-    public void evaluate(Instances testData) {
+    public void evaluate(Instances testData) throws Exception {
         assert this.classIndexs.equals(new ClassIndexs(testData));
 
         this.removeBackground(testData);
+
+        evaluation.evaluateModel(classifier, testData);
+
+        // TODO improve the text based output
+        System.out.println(this.generateTextResult());
+    }
+
+    private String generateTextResult() {
+        StringBuilder result = new StringBuilder();
+
+        // TODO add info about classifier, which is evaluated
+
+        result.append("Results: " + System.lineSeparator());
+        result.append(System.lineSeparator());
+        result.append(evaluation.toSummaryString());
+        result.append(System.lineSeparator());
+        result.append("TP: " + evaluation.truePositiveRate(this.classIndexs.NORMAL));
+        result.append("FP: " + evaluation.falsePositiveRate(this.classIndexs.NORMAL));
+        result.append("TN: " + evaluation.trueNegativeRate(this.classIndexs.NORMAL));
+        result.append("FN: " + evaluation.falseNegativeRate(this.classIndexs.NORMAL));
+
+        return result.toString();
     }
 
 }
