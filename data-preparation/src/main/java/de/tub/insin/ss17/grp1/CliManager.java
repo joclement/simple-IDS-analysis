@@ -60,31 +60,41 @@ public class CliManager {
     // TODO add better error reporting
     public void run() throws Exception {
         log.info("---- Start run ----");
-        log.debug("---- Start run ----");
+        log.debug("---- start run ----");
+        
+        log.debug("-start if: arffFolder = generateDestFolder-");
         if (this.arffFolder == null) {
             this.arffFolder = generateDestFolder();
         }
+        log.debug("-finished if: arffFolder = generateDestFolder-");
 
         List<File> csvs = getScenarios();
 
+        log.debug("-start if: parseSeperateTestScenario-");
         if (this.separateTestScenario) {
             parseSeparateTestScenario(csvs);
         }
+        log.debug("-finished if: parseSeperateTestScenario-");
 
         File arff = parse(csvs);
+        log.debug("-start if: move to arff folder-");
         if (this.separateTestScenario) {
+            log.debug("-start try: moveToArffFolder-");
             try {
-                log.debug("---- move to arff folder ----");
+                log.debug("- move to arff folder -");
                 moveToArffFolder(arff, TRAINING_ARFF_FILENAME);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                log.error("---- failed to move to arff folder ----");
+                log.error("---- error to move to arff folder ----");
                 e.printStackTrace();
             }
-        } else {
-            log.debug("----  split arff ----");
+        }
+        else {
+            log.debug("-else: split-");
             split(arff);
         }
+        log.debug("-finished if: move to arff folder-");
+        
         log.info("---- finished run ----");
         log.debug("---- finished run ----");
     }
@@ -99,7 +109,7 @@ public class CliManager {
             splitted = dataSplitter.split(arff);
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            log.error("---- failed to splitt data ----");
+            log.error("---- error to splitt data ----");
             e.printStackTrace();
             log.error("---- quit program ----");
             System.exit(-1);
@@ -111,7 +121,7 @@ public class CliManager {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             
-            log.error("---- failed to move to arff folder ----");
+            log.error("---- error to move to arff folder ----");
             e.printStackTrace();
             log.error("---- quit program ----");
             System.exit(-1);
@@ -130,13 +140,13 @@ public class CliManager {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             
-            log.error("---- failed to parse data ----");
+            log.error("---- error to parse data ----");
             e.printStackTrace();
             log.error("---- quit program ----");
             System.exit(-1);
         }
-        log.info("---- finished parse data with: " + arff);
-        log.debug("---- finished parse data with: " + arff);
+        log.info("---- finished parse data with: {}", arff);
+        log.debug("---- finished parse data with: {}", arff);
         return arff;
     }
 
@@ -149,7 +159,7 @@ public class CliManager {
             this.moveToArffFolder(arff, TEST_ARFF_FILENAME);
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            log.error("---- failed to extract test scenario ----");
+            log.error("---- ERROR extracting test scenario ----");
             e.printStackTrace();
         }
         log.info("---- finished seperate test scenario ----");
@@ -166,7 +176,7 @@ public class CliManager {
             csvs = ctuManager.find(this.scenarios);
         } catch (FileNotFoundException e) {
             
-            log.error("---- file not found ----");
+            log.error("---- ERROR file not found ----");
             e.printStackTrace();
             log.error("---- exit program ----");
             System.exit(-1);
