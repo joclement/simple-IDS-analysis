@@ -23,11 +23,8 @@ public class Trainer {
 
     private MlAlgo classifier;
 
-    private String currentClassifierIdentifier;
-
     public Trainer(String classifierIdentifier, List<Param> params) {
         this.setClassifier(classifierIdentifier, params);
-        this.currentClassifierIdentifier = classifierIdentifier;
     }
 
     private void setClassifier(String classifierIdentifier, List<Param> params) {

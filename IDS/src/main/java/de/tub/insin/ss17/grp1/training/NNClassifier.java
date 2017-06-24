@@ -11,7 +11,6 @@ import weka.classifiers.Classifier;
 import weka.classifiers.lazy.IBk;
 import weka.core.Instances;
 import weka.core.SelectedTag;
-import weka.core.Tag;
 
 
 abstract public class NNClassifier implements MlAlgo {

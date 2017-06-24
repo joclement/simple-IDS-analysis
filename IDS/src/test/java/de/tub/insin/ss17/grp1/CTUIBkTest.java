@@ -8,7 +8,6 @@ import org.junit.Test;
 import de.tub.insin.ss17.grp1.training.CTUIBk;
 import de.tub.insin.ss17.grp1.util.ClassIndexs;
 import de.tub.insin.ss17.grp1.util.IDSSharedConstants;
-import weka.classifiers.lazy.IBk;
 import weka.core.Instances;
 
 public class CTUIBkTest {

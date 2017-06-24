@@ -1,11 +1,12 @@
 package de.tub.insin.ss17.grp1.training;
 
 import de.tub.insin.ss17.grp1.util.ClassIndexs;
-import de.tub.insin.ss17.grp1.util.IDSSharedConstants;
 import weka.classifiers.lazy.IBk;
 import weka.core.Instance;
 
 public class CTUIBk extends IBk {
+
+    private static final long serialVersionUID = 1L;
 
     private ClassIndexs classIndexs;
 

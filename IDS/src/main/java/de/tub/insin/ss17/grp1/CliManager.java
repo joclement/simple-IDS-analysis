@@ -37,8 +37,9 @@ public class CliManager {
     private List<String> mlParams = new LinkedList<String>();
 
 
-    private static final String classifierNameDescription = Trainer.getClassifierNamesDescription();
     // TODO specify options for classifiers somewehere, in annotation it is not really possible
+    @SuppressWarnings("unused")
+    private static final String classifierNameDescription = Trainer.getClassifierNamesDescription();
     @Parameter(names = {"--classifierName", "-c"},
                description = "Name of the classifier, options: TODO",
                required = true)
