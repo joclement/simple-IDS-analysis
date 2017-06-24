@@ -10,8 +10,6 @@
   <artifactId>IDS</artifactId>
 
   <packaging>jar</packaging>
-  <name>IDS</name>
-  <url>http://maven.apache.org</url>
 
   <dependencies>
     <dependency>

@@ -9,9 +9,6 @@
   </parent>
   <artifactId>data-preparation</artifactId>
 
-  <name>data-preparation</name>
-
-  <url>http://maven.apache.org</url>
   <packaging>jar</packaging>
 
   <dependencies>
