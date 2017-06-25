@@ -60,9 +60,13 @@ public class Evaluater {
         result.append(evaluation.toSummaryString());
         result.append(System.lineSeparator());
         result.append("TP: " + evaluation.truePositiveRate(this.classIndexs.NORMAL));
+        result.append(System.lineSeparator());
         result.append("FP: " + evaluation.falsePositiveRate(this.classIndexs.NORMAL));
+        result.append(System.lineSeparator());
         result.append("TN: " + evaluation.trueNegativeRate(this.classIndexs.NORMAL));
+        result.append(System.lineSeparator());
         result.append("FN: " + evaluation.falseNegativeRate(this.classIndexs.NORMAL));
+        result.append(System.lineSeparator());
 
         return result.toString();
     }
