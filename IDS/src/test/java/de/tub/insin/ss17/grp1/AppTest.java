@@ -28,8 +28,9 @@ public class AppTest
         System.out.println("This is executed after each Test");
     }
 
+    // TODO add checks
     @Test
-    public void testBasic() {
+    public void testBoth() {
         String[] argv = {"-c", classifierName,
                          "-f", ARFF_FOLDER,
                          "-p", BASIC_NN_PARAMS};
@@ -49,7 +50,7 @@ public class AppTest
     // TODO add checks
     @Ignore
     @Test
-    public void testTestCommand() {
+    public void testOnlyTest() {
         String[] argv = {"-o", "test",
                          "-c", classifierName,
                          "-f", ARFF_FOLDER,
