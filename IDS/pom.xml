@@ -38,6 +38,7 @@
         <version>2.20</version>
         <configuration>
           <argLine>-Xmx8000m</argLine>
+          <trimStackTrace>false</trimStackTrace>
         </configuration>
       </plugin>
     </plugins>
