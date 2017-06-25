@@ -1,5 +1,9 @@
 package de.tub.insin.ss17.grp1;
 
+import static org.junit.Assert.*;
+
+import java.io.File;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -12,15 +16,13 @@ import org.junit.Test;
 public class AppTest
 {
 
-    protected final static String ARFF_FOLDER = "./src/main/resources/test/";
-
     protected final static String BASIC_NN_PARAMS = "k=5,dist=20.0,distweight=none";
 
     protected final static String classifierName = "lnns";
 
     @Before
     public void beforeEachTest() {
-        System.out.println("This is executed before each Test");
+        TestHelper.assertArff();
     }
 
     @After
@@ -32,7 +34,7 @@ public class AppTest
     @Test
     public void testBoth() {
         String[] argv = {"-c", classifierName,
-                         "-f", ARFF_FOLDER,
+                         "-f", TestHelper.ARFF_FOLDER,
                          "-p", BASIC_NN_PARAMS};
         App.main(argv);
     }
@@ -42,7 +44,7 @@ public class AppTest
     public void testOnlyTrain() {
         String[] argv = {"-o", "train",
                          "-c", classifierName,
-                         "-f", ARFF_FOLDER,
+                         "-f", TestHelper.ARFF_FOLDER,
                          "-p", BASIC_NN_PARAMS};
         App.main(argv);
     }
@@ -53,7 +55,7 @@ public class AppTest
     public void testOnlyTest() {
         String[] argv = {"-o", "test",
                          "-c", classifierName,
-                         "-f", ARFF_FOLDER,
+                         "-f", TestHelper.ARFF_FOLDER,
                          "-p", BASIC_NN_PARAMS};
         App.main(argv);
     }

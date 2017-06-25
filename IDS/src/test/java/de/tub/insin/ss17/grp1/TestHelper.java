@@ -1,5 +1,6 @@
 package de.tub.insin.ss17.grp1;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,12 +11,22 @@ import weka.core.Instances;
 
 public class TestHelper {
 
+    protected final static String ARFF_FOLDER = "./src/main/resources/test/";
+
+    protected static final String NO_ARFF_FOLDER_TXT;
+
+    static {
+        NO_ARFF_FOLDER_TXT = "The test in data-preparation need to be executed "
+                           + "first to have an existing arff folder";
+    }
+
     public static List<String> splitParams(String params) {
         return Arrays.asList(params.split(","));
     }
 
     public static Instances loadTraining() {
-        ArffLoader loader = new ArffLoader(AppTest.ARFF_FOLDER);
+        assertArff();
+        ArffLoader loader = new ArffLoader(ARFF_FOLDER);
         try {
             return loader.loadTraining();
         } catch (Exception e) {
@@ -26,7 +37,8 @@ public class TestHelper {
     }
 
     public static Instances loadTest() {
-        ArffLoader loader = new ArffLoader(AppTest.ARFF_FOLDER);
+        assertArff();
+        ArffLoader loader = new ArffLoader(ARFF_FOLDER);
         try {
             return loader.loadTest();
         } catch (Exception e) {
@@ -45,5 +57,15 @@ public class TestHelper {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    public static boolean hasArff() {
+        File arffFolder = new File(ARFF_FOLDER);
+        return arffFolder.exists();
+    }
+
+    public static void assertArff() {
+        assert hasArff(): NO_ARFF_FOLDER_TXT;
     }
 }

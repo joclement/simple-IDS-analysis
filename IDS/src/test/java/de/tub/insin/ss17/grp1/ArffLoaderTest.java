@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.Random;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -16,10 +17,15 @@ import weka.core.Instances;
 
 public class ArffLoaderTest {
 
+    @Before
+    public void beforeEachTest() {
+        TestHelper.assertArff();
+    }
+
     @Ignore
     @Test
     public void testArffLoaderWithRandomAlgorithm() throws Exception {
-        ArffLoader loader = new ArffLoader(AppTest.ARFF_FOLDER);
+        ArffLoader loader = new ArffLoader(TestHelper.ARFF_FOLDER);
         Instances testData = loader.loadTest();
         ClassificationViaRegression cvr = new ClassificationViaRegression();
         cvr.buildClassifier(testData);
@@ -30,7 +36,7 @@ public class ArffLoaderTest {
 
     @Test
     public void testBasic() {
-        ArffLoader loader = new ArffLoader(AppTest.ARFF_FOLDER);
+        ArffLoader loader = new ArffLoader(TestHelper.ARFF_FOLDER);
         try {
             Instances testData = loader.loadTest();
             assertTrue(testData.classIndex() >= 0);

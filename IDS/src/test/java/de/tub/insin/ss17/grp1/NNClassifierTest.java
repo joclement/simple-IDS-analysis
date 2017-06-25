@@ -20,9 +20,8 @@ public class NNClassifierTest {
         List<Param> params = CliManager.prepare(TestHelper.splitParams(AppTest.BASIC_NN_PARAMS));
         LinearNNClassifier classifier = new LinearNNClassifier(params);
 
-        ArffLoader loader = new ArffLoader(AppTest.ARFF_FOLDER);
-        Instances traininData = loader.loadTraining();
-        Instances testData = loader.loadTest();
+        Instances traininData = TestHelper.loadTraining();
+        Instances testData = TestHelper.loadTest();
 
         classifier.train(traininData);
 
