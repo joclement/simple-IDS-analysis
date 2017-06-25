@@ -8,6 +8,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -52,6 +53,19 @@ public class ModelPersistence {
     public static List<Classifier> loadAll(File arffFolder)
             throws FileNotFoundException, ClassNotFoundException, IOException {
 
+        List<File> classifierFiles = loadAllFiles(arffFolder);
+
+        List<Classifier> classifiers = new LinkedList<>();
+
+        for (File classifierFile : classifierFiles) {
+            classifiers.add(load(classifierFile));
+        }
+
+        return classifiers;
+    }
+
+    public static List<File> loadAllFiles(File arffFolder) {
+
         File modelFolder = new File(arffFolder, MODEL_FOLDER_PATH);
         FilenameFilter fileExtensionFilter = new FilenameFilter() {
 
@@ -62,12 +76,6 @@ public class ModelPersistence {
         };
         File[] classifierFiles = modelFolder.listFiles(fileExtensionFilter);
 
-        List<Classifier> classifiers = new LinkedList<>();
-
-        for (File classifierFile : classifierFiles) {
-            classifiers.add(load(classifierFile));
-        }
-
-        return classifiers;
+        return Arrays.asList(classifierFiles);
     }
 }

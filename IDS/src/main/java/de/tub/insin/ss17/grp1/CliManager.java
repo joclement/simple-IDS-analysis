@@ -12,6 +12,7 @@ import de.tub.insin.ss17.grp1.training.Trainer;
 import de.tub.insin.ss17.grp1.util.ArffLoader;
 import de.tub.insin.ss17.grp1.util.ModelPersistence;
 import de.tub.insin.ss17.grp1.util.Param;
+import de.tub.insin.ss17.grp1.util.ResultPersistence;
 import de.tub.insin.ss17.grp1.validation.Evaluater;
 import weka.classifiers.Classifier;
 
@@ -67,9 +68,12 @@ public class CliManager {
         }
 
         if (only != TRAIN) {
-            List<Classifier> classifiers = null;
+            List<File> classifierFiles = ModelPersistence.loadAllFiles(new File(this.dataFolder));
+
+            File classifierFile = this.decide(classifierFiles);
+            Classifier classifier = null;
             try {
-                classifiers = ModelPersistence.loadAll(new File(this.dataFolder));
+                classifier = ModelPersistence.load(classifierFile);
             } catch (FileNotFoundException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
@@ -83,12 +87,12 @@ public class CliManager {
                 e1.printStackTrace();
                 System.exit(-1);
             }
-
-            Classifier classifier = this.decide(classifiers);
+            ResultPersistence resultPersistence = new ResultPersistence(
+                this.dataFolder, classifierFile.getName());
 
             try {
                 Evaluater evaluater = new Evaluater(classifier, arffLoader.loadTraining());
-                evaluater.evaluate(arffLoader.loadTest());
+                evaluater.evaluate(arffLoader.loadTest(), resultPersistence);
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -97,7 +101,7 @@ public class CliManager {
         }
     }
 
-    private Classifier decide(List<Classifier> classifiers) {
+    private File decide(List<File> classifiers) {
         // TODO let it work correctly
         return classifiers.get(0);
     }

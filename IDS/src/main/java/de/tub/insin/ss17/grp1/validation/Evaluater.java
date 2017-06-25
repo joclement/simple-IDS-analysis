@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 import de.tub.insin.ss17.grp1.util.ClassIndexs;
 import de.tub.insin.ss17.grp1.util.IDSSharedConstants;
+import de.tub.insin.ss17.grp1.util.ResultPersistence;
 
 public class Evaluater {
 
@@ -44,13 +45,12 @@ public class Evaluater {
         }
     }
 
-    public void evaluate(Instances testData) throws Exception {
+    public void evaluate(Instances testData, ResultPersistence resultPersistence) throws Exception {
         this.removeBackground(testData);
 
         evaluation.evaluateModel(classifier, testData);
 
-        // TODO improve the text based output
-        System.out.println(this.generateTextResult());
+        resultPersistence.saveTxtSummary(this.generateTextResult());
     }
 
     private String generateTextResult() {
