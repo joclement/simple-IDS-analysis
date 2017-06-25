@@ -20,12 +20,12 @@ public class NNClassifierTest {
         List<Param> params = CliManager.prepare(TestHelper.splitParams(AppTest.BASIC_NN_PARAMS));
         LinearNNClassifier classifier = new LinearNNClassifier(params);
 
-        Instances traininData = TestHelper.loadTraining();
+        Instances trainingData = TestHelper.loadTraining();
         Instances testData = TestHelper.loadTest();
 
-        classifier.train(traininData);
+        classifier.train(trainingData);
 
-        Evaluation eval = new Evaluation(traininData);
+        Evaluation eval = new Evaluation(trainingData);
         eval.evaluateModel(classifier.getClassifier(), testData);
         assertTrue(eval.correct() >= 25);
     }

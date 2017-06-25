@@ -16,7 +16,7 @@ public class TestHelper {
     protected static final String NO_ARFF_FOLDER_TXT;
 
     static {
-        NO_ARFF_FOLDER_TXT = "The test in data-preparation need to be executed "
+        NO_ARFF_FOLDER_TXT = "The tests in data-preparation need to be executed "
                            + "first to have an existing arff folder";
     }
 
