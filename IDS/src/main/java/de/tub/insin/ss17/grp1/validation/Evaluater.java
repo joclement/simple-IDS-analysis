@@ -6,6 +6,8 @@ import weka.core.Instances;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 
+import java.util.Iterator;
+
 import de.tub.insin.ss17.grp1.util.ClassIndexs;
 import de.tub.insin.ss17.grp1.util.IDSSharedConstants;
 
@@ -28,20 +30,21 @@ public class Evaluater {
     }
 
     public void removeBackground(Instances testData) {
-        for (int i = 0; i < testData.size(); i++) {
-            Instance instance = testData.get(i);
+        assert this.classIndexs.equals(new ClassIndexs(testData));
+
+        Iterator<Instance> it = testData.iterator();
+        while(it.hasNext()) {
+            Instance instance = it.next();
             int classValue = (int) instance.classValue();
             assert instance.classValue() == classValue;
 
             if (classValue == this.classIndexs.BACKGROUND) {
-                testData.remove(i);
+                it.remove();
             }
         }
     }
 
     public void evaluate(Instances testData) throws Exception {
-        assert this.classIndexs.equals(new ClassIndexs(testData));
-
         this.removeBackground(testData);
 
         evaluation.evaluateModel(classifier, testData);
