@@ -16,6 +16,8 @@ public class AppTest
 
     protected final static String BASIC_NN_PARAMS = "k=5,dist=20.0,distweight=none";
 
+    protected final static String classifierName = "lnns";
+
     @Before
     public void beforeEachTest() {
         System.out.println("This is executed before each Test");
@@ -28,7 +30,7 @@ public class AppTest
 
     @Test
     public void testBasic() {
-        String[] argv = {"-c", "lnns",
+        String[] argv = {"-c", classifierName,
                          "-f", ARFF_FOLDER,
                          "-p", BASIC_NN_PARAMS};
         App.main(argv);
@@ -38,7 +40,7 @@ public class AppTest
     @Test
     public void testOnlyTrain() {
         String[] argv = {"-o", "train",
-                         "-c", "lnns",
+                         "-c", classifierName,
                          "-f", ARFF_FOLDER,
                          "-p", BASIC_NN_PARAMS};
         App.main(argv);
@@ -49,7 +51,7 @@ public class AppTest
     @Test
     public void testTestCommand() {
         String[] argv = {"-o", "test",
-                         "-c", "lnns",
+                         "-c", classifierName,
                          "-f", ARFF_FOLDER,
                          "-p", BASIC_NN_PARAMS};
         App.main(argv);
