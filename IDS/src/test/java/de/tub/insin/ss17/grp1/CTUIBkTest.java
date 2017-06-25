@@ -36,7 +36,6 @@ public class CTUIBkTest {
         try {
             double[][] predictions = this.ibk.distributionsForInstances(trainingData);
 
-            System.out.println(predictions.length);
             for (int i = 0; i < predictions.length; i++) {
                 assertEquals(IDSSharedConstants.CLASS_COUNT, predictions[i].length);
                 assertEquals(0.0, predictions[i][this.indexs.BACKGROUND], 0.0);

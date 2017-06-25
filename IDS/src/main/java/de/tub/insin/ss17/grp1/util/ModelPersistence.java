@@ -39,7 +39,8 @@ public class ModelPersistence {
     }
 
     // TODO move deserialization here
-    public static Classifier load(File classifierFile) throws FileNotFoundException, IOException, ClassNotFoundException {
+    public static Classifier load(File classifierFile)
+            throws FileNotFoundException, IOException, ClassNotFoundException {
 
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(classifierFile));
         Classifier classifier = (Classifier) ois.readObject();
@@ -48,7 +49,8 @@ public class ModelPersistence {
         return classifier;
     }
 
-    public static List<Classifier> loadAll(File arffFolder) throws FileNotFoundException, ClassNotFoundException, IOException {
+    public static List<Classifier> loadAll(File arffFolder)
+            throws FileNotFoundException, ClassNotFoundException, IOException {
 
         File modelFolder = new File(arffFolder, MODEL_FOLDER_PATH);
         FilenameFilter fileExtensionFilter = new FilenameFilter() {
