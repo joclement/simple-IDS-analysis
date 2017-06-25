@@ -7,7 +7,6 @@ import java.util.List;
 import org.junit.Test;
 
 import de.tub.insin.ss17.grp1.training.LinearNNClassifier;
-import de.tub.insin.ss17.grp1.util.ArffLoader;
 import de.tub.insin.ss17.grp1.util.Param;
 import weka.classifiers.Evaluation;
 import weka.core.Instances;

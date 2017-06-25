@@ -1,10 +1,5 @@
 package de.tub.insin.ss17.grp1;
 
-import static org.junit.Assert.*;
-
-import java.io.File;
-
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -23,11 +18,6 @@ public class AppTest
     @Before
     public void beforeEachTest() {
         TestHelper.assertArff();
-    }
-
-    @After
-    public void afterEachTest() {
-        System.out.println("This is executed after each Test");
     }
 
     // TODO add checks
