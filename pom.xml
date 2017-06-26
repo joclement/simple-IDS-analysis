@@ -11,8 +11,8 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>IDS</module>
     <module>data-preparation</module>
+    <module>IDS</module>
   </modules>
 
   <properties>
