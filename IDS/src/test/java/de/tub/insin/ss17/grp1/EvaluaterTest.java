@@ -14,7 +14,7 @@ public class EvaluaterTest {
     @Test
     public void testRemoveBackground() {
         try {
-            Evaluater evaluater = new Evaluater(TestHelper.someClassifier(),
+            Evaluater evaluater = new Evaluater(TestHelper.quickClassifier(),
                                                 TestHelper.loadTraining());
 
             Instances data = TestHelper.loadTest();
