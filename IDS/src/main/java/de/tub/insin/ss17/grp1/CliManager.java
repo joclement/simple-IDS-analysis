@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.beust.jcommander.Parameter;
 
 import de.tub.insin.ss17.grp1.training.Trainer;
@@ -20,7 +23,7 @@ public class CliManager {
 
     private final static String TRAIN = "train";
     private final static String TEST = "test";
-
+    private final static Logger log = LoggerFactory.getLogger(CliManager.class);
     // TODO check for correct value
     @Parameter(names = {"--only", "-o"},
                description = "to specify to do just train, test. options: train, test")
@@ -47,27 +50,35 @@ public class CliManager {
     private String classifierName;
 
     public void run() {
+        log.info("--- start run ---");
+        log.debug("start: run");
         ArffLoader arffLoader = new ArffLoader(this.dataFolder);
 
         if (only != TEST) {
+            log.debug("start: test");
             Trainer trainer = new Trainer(this.classifierName, prepare(this.mlParams));
             try {
                 trainer.train(arffLoader.loadTraining());
             } catch (Exception e) {
                 // TODO Auto-generated catch block
+                log.error("ERROR: failed to train");
                 e.printStackTrace();
+                log.error("quit program");
                 System.exit(-1);
             }
             try {
                 trainer.save(new File(this.dataFolder));
             } catch (Exception e) {
                 // TODO Auto-generated catch block
+                log.error("ERROR: failed to save");
                 e.printStackTrace();
+                log.error("quit program");
                 System.exit(-1);
             }
         }
 
         if (only != TRAIN) {
+            log.debug("start: train");
             List<File> classifierFiles = ModelPersistence.loadAllFiles(new File(this.dataFolder));
 
             File classifierFile = this.decide(classifierFiles);
@@ -77,14 +88,17 @@ public class CliManager {
             } catch (FileNotFoundException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
+                log.error("quit program");
                 System.exit(-1);
             } catch (ClassNotFoundException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
+                log.error("quit program");
                 System.exit(-1);
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
+                log.error("quit program");
                 System.exit(-1);
             }
             ResultPersistence resultPersistence = new ResultPersistence(
@@ -95,10 +109,14 @@ public class CliManager {
                 evaluater.evaluate(arffLoader.loadTest(), resultPersistence);
             } catch (Exception e) {
                 // TODO Auto-generated catch block
+                log.error("ERROR: failed to evaluate");
                 e.printStackTrace();
+                log.error("Quit program");
                 System.exit(-1);
             }
         }
+        log.info("--- finished run ---");
+        log.debug("finished: run");
     }
 
     private File decide(List<File> classifiers) {

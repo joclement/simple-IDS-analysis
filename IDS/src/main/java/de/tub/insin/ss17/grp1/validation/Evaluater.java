@@ -7,6 +7,8 @@ import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 
 import java.util.Iterator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.tub.insin.ss17.grp1.util.ClassIndexs;
 import de.tub.insin.ss17.grp1.util.IDSSharedConstants;
@@ -20,7 +22,10 @@ public class Evaluater {
 
     private ClassIndexs classIndexs;
 
+    private final static Logger log = LoggerFactory.getLogger(Evaluater.class);
+
     public Evaluater(Classifier classifier, Instances trainingData) throws Exception {
+        log.debug("start: Evaluater");
         this.classifier = classifier;
         this.evaluation = new Evaluation(trainingData);
 
@@ -28,9 +33,11 @@ public class Evaluater {
         assert classAttr.isNominal();
         assert classAttr.numValues() == IDSSharedConstants.CLASS_COUNT;
         this.classIndexs = new ClassIndexs(trainingData);
+        log.debug("finished: Evaluater");
     }
 
     public void removeBackground(Instances testData) {
+        log.debug("start: removeBackground");
         assert this.classIndexs.equals(new ClassIndexs(testData));
 
         Iterator<Instance> it = testData.iterator();
@@ -43,17 +50,21 @@ public class Evaluater {
                 it.remove();
             }
         }
+        log.debug("finished: removeBackground");
     }
 
     public void evaluate(Instances testData, ResultPersistence resultPersistence) throws Exception {
+        log.debug("start: evaluate");
         this.removeBackground(testData);
 
         evaluation.evaluateModel(classifier, testData);
 
         resultPersistence.saveTxtSummary(this.generateTextResult());
+        log.debug("finished: evaluate");
     }
 
     private String generateTextResult() {
+        log.debug("start: generateTextResult");
         StringBuilder result = new StringBuilder();
 
         // TODO add info about classifier, which is evaluated
@@ -71,6 +82,7 @@ public class Evaluater {
         result.append("FN: " + evaluation.falseNegativeRate(this.classIndexs.NORMAL));
         result.append(System.lineSeparator());
 
+        log.debug("finished: generateTextResult");
         return result.toString();
     }
 
