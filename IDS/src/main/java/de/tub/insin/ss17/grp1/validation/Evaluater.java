@@ -59,7 +59,7 @@ public class Evaluater {
 
         evaluation.evaluateModel(classifier, testData);
 
-        resultPersistence.saveTxtSummary(this.generateTextResult());
+        resultPersistence.saveSummary(this.generateTextResult());
         log.debug("finished: evaluate");
     }
 
