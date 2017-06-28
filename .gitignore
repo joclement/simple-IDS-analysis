@@ -88,3 +88,6 @@ local.properties
 
 # Code Recommenders
 .recommenders/
+
+### HTML
+README.html
