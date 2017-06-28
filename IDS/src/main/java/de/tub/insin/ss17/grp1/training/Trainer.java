@@ -15,11 +15,11 @@ import weka.core.Instances;
 
 public class Trainer {
 
+    private static final Logger log = LoggerFactory.getLogger(Trainer.class);
+
     private static final String LINEAR_NEAREST_NEIGHBOUR_SEARCH = "lnns";
 
     private static final String[] CLASSIFIER_NAMES;
-
-    private static final Logger log = LoggerFactory.getLogger(Trainer.class);
 
     static {
         CLASSIFIER_NAMES = new String[1];
@@ -29,13 +29,10 @@ public class Trainer {
     private MlAlgo classifier;
 
     public Trainer(String classifierIdentifier, List<Param> params) {
-        log.debug("start: Trainer");
         this.setClassifier(classifierIdentifier, params);
-        log.debug("finished: Trainer");
     }
 
     private void setClassifier(String classifierIdentifier, List<Param> params) {
-        log.debug("start: setClassifier");
         switch (classifierIdentifier) {
             case LINEAR_NEAREST_NEIGHBOUR_SEARCH:
                 this.classifier = new LinearNNClassifier(params);
@@ -46,7 +43,6 @@ public class Trainer {
                 log.error("quit system");
                 System.exit(-1);
         }
-        log.debug("finished: setClassifier");
     }
 
     public void train(Instances trainingData) throws Exception {
@@ -56,26 +52,20 @@ public class Trainer {
     }
 
     public void save(File folder) throws IOException {
-        log.debug("start: save");
         Classifier classifier = this.classifier.getClassifier();
         ModelPersistence.save(classifier, folder, this.classifier.getFilename());
-        log.debug("finished: save");
     }
 
     public static String[] getClassifierNames() {
-        log.debug("start: getClassifierNames");
-        log.debug("finished: getClassifierNames with {}", CLASSIFIER_NAMES);
         return CLASSIFIER_NAMES;
     }
 
     public static String getClassifierNamesDescription() {
-        log.debug("start: getClassifierNamesDescription");
         StringBuilder classifierNames = new StringBuilder(CLASSIFIER_NAMES[0]);
 
         for (int i = 1; i < CLASSIFIER_NAMES.length; i++) {
             classifierNames.append(", " + CLASSIFIER_NAMES[i]);
         }
-        log.debug("finished: getClassifierNamesDescription");
         return classifierNames.toString();
     }
 }

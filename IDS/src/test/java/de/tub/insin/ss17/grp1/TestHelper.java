@@ -7,6 +7,7 @@ import java.util.List;
 import de.tub.insin.ss17.grp1.util.ArffLoader;
 import weka.classifiers.Classifier;
 import weka.classifiers.meta.ClassificationViaRegression;
+import weka.classifiers.trees.J48;
 import weka.core.Instances;
 
 public class TestHelper {
@@ -48,8 +49,19 @@ public class TestHelper {
         return null;
     }
 
-    public static Classifier someClassifier() {
+    public static Classifier slowClassifier() {
         ClassificationViaRegression cvr = new ClassificationViaRegression();
+        try {
+            cvr.buildClassifier(loadTraining());
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Classifier quickClassifier() {
+        J48 cvr = new J48();
         try {
             cvr.buildClassifier(loadTraining());
         } catch (Exception e) {

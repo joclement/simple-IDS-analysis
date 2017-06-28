@@ -21,9 +21,11 @@ import weka.classifiers.Classifier;
 
 public class CliManager {
 
+    private final static Logger log = LoggerFactory.getLogger(CliManager.class);
+
     private final static String TRAIN = "train";
     private final static String TEST = "test";
-    private final static Logger log = LoggerFactory.getLogger(CliManager.class);
+
     // TODO check for correct value
     @Parameter(names = {"--only", "-o"},
                description = "to specify to do just train, test. options: train, test")
@@ -50,12 +52,10 @@ public class CliManager {
     private String classifierName;
 
     public void run() {
-        log.info("--- start run ---");
-        log.debug("start: run");
         ArffLoader arffLoader = new ArffLoader(this.dataFolder);
 
         if (only != TEST) {
-            log.debug("start: test");
+            log.info("--- start " + TRAIN + " ---");
             Trainer trainer = new Trainer(this.classifierName, prepare(this.mlParams));
             try {
                 trainer.train(arffLoader.loadTraining());
@@ -75,10 +75,11 @@ public class CliManager {
                 log.error("quit program");
                 System.exit(-1);
             }
+            log.info("--- finished " + TRAIN + " ---");
         }
 
         if (only != TRAIN) {
-            log.debug("start: train");
+            log.info("--- start " + TEST + " ---");
             List<File> classifierFiles = ModelPersistence.loadAllFiles(new File(this.dataFolder));
 
             File classifierFile = this.decide(classifierFiles);
@@ -114,9 +115,8 @@ public class CliManager {
                 log.error("Quit program");
                 System.exit(-1);
             }
+            log.info("--- finished " + TEST + " ---");
         }
-        log.info("--- finished run ---");
-        log.debug("finished: run");
     }
 
     private File decide(List<File> classifiers) {
