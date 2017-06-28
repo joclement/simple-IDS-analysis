@@ -10,7 +10,7 @@ with a number of self chosen machine learning algorithms.
 We focus on the K-Nearest-Neighbor algorithm, but will also implement and test
 some others.
 
-##How-To
+## How-To
 
 This section focuses on hot to use our project. We divided the project into two
 parts.
