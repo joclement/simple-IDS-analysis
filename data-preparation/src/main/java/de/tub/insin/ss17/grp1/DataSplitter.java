@@ -20,15 +20,12 @@ public class DataSplitter {
     private static final Logger log = LoggerFactory.getLogger(DataSplitter.class);
 
     public DataSplitter(Integer percentageTrain) {
-        log.debug("-start: DataSplitter");
         assert percentageTrain < 100;
         assert percentageTrain > 0;
         this.percentageTrain = percentageTrain;
-        log.debug("-finished: DataSplitter");
     }
 
     public List<File> split(File arff) throws Exception {
-        log.debug("-start: List split");
         List<File> splittedArffs = new LinkedList<File>();
 
         DataSource source = new DataSource(arff.getPath());
@@ -49,7 +46,6 @@ public class DataSplitter {
         splittedArffs.add(testArff);
         assert splittedArffs.size() == 2;
 
-        log.debug("-finished: List split");
         return splittedArffs;
     }
 

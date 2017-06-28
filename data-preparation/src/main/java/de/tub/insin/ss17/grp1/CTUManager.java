@@ -17,10 +17,8 @@ public class CTUManager {
     private static final Logger log = LoggerFactory.getLogger(CTUManager.class);
 
     public CTUManager(String datasetDir, String filename){
-        log.debug("-start: CTUManager-");
         this.datasetDir = new File(datasetDir);
         this.filename = filename;
-        log.debug("-finished:CTUManager-");
     }
 
     public List<File> find(List<Integer> scenarios) throws FileNotFoundException {
@@ -34,14 +32,13 @@ public class CTUManager {
     }
 
     private File find(Integer scenario) throws FileNotFoundException{
-        log.debug("-start: File find-");
         String pathInDataset = scenario.toString() + File.separator + this.filename;
         File file = new File(datasetDir, pathInDataset);
         if(!file.exists()){
             log.error("ERROR: file not found");
             throw new FileNotFoundException();
         }
-        log.debug("-finished: File find");
+        log.debug("File: {}", file);
         return file;
     }
 
