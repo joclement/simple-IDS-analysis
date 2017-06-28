@@ -35,6 +35,7 @@ public class CSV2ArffConverter {
 
     private static final void deleteExcess(int index, String line,String traffic,File csv, int lineNum
             ,int totLines, File temp) throws IOException{
+        log.debug("start: deleteExcess");
         String toDelete = "";
         line = line.replace("flow=", "");
         line = line.replace("From-", "");
@@ -51,12 +52,12 @@ public class CSV2ArffConverter {
         if(lineNum < totLines-1){
             fileOut.write("\n".getBytes(),0,"\n".length());
         }
-
+        log.debug("finished: deleteExcess");
         fileOut.close();
     }
 
     private static final void parseLabel(File csv) throws FileNotFoundException, IOException{
-        log.debug("-start parse label-");
+        log.debug("start: parseLabel");
         Scanner scanner = new Scanner(csv);
         File temp = File.createTempFile("temp",".csv");
         //now read the file line by line...
@@ -90,17 +91,14 @@ public class CSV2ArffConverter {
         lnr.close();
         scanner.close();
         Files.copy(temp.toPath(), csv.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        log.debug("-finished parse label-");
+        log.debug("finished: parseLabel");
     }
 
     private static final void removeCsvHeader(List<File> csvsCopy) throws IOException {
-        int cnt = 1;
-        log.debug("-start removeCsvHeader-");
+        log.debug("start: removeCsvHeader");
         boolean flag = false;
         for (File csv: csvsCopy ){
-            log.debug("-start for-");
             if(flag){
-                log.debug("-start if-");
                 //TODO Code is copied from StackOverflow :)
                 RandomAccessFile raf = new RandomAccessFile(csv, "rw");
                 long writePosition = raf.getFilePointer();
@@ -110,39 +108,33 @@ public class CSV2ArffConverter {
                 byte[] buff = new byte[1024];
                 int n;
                 while (-1 != (n = raf.read(buff))) {
-                    
-                    log.debug("-start while loop nr.:{}",cnt);
                     raf.seek(writePosition);
                     raf.write(buff, 0, n);
                     readPosition += n;
                     writePosition += n;
                     raf.seek(readPosition);
-                    log.debug("-finished while loop nr.:{}", cnt);
-                    cnt++;
                 }
                 raf.setLength(writePosition);
                 raf.close();
-                log.debug("-finished if-");
             }
-            log.debug("-finished for-");
            flag = true;
         }
-        log.debug("-finished removeCsvHeader-");
+        log.debug("finished: removeCsvHeader");
     }
 
     private static final void transfer(final Reader source, final Writer destination) throws IOException  {
-        log.debug("-start transfer-");
+        log.debug("start: transfer");
         char[] buffer = new char[1024 * 16];
         int len = 0;
         while ((len = source.read(buffer)) >= 0) {
             destination.write(buffer, 0, len);
         }
-        log.debug("-finished transfer-");
+        log.debug("finished: transfer");
     }
 
     private static void appendCSVs(final List<File> csvs, final File combination)
                  throws IOException {
-        log.debug("-start appendCSVs-");
+        log.debug("start: appendCSVs");
         for (File csv : csvs) {
              try (Reader source = new LineNumberReader(new FileReader(csv));
             Writer destination = new BufferedWriter(new FileWriter(combination, true)); ) {
@@ -150,23 +142,23 @@ public class CSV2ArffConverter {
             transfer(source, destination);
              }
         }
-        log.debug("-finished appendCSVs-");
+        log.debug("finished: appendCSVs");
     }
 
     private static File combine(List<File> csvs) throws IOException {
-        log.debug("-start File combine-");
+        log.debug("start: File combine");
         File combination = File.createTempFile("combination", ".netflow");
         Files.copy(csvs.remove(0).toPath(), combination.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
         appendCSVs(csvs, combination);
 
-        log.debug("-finished File combine with: {}", combination);
+        log.debug("finished: File combine");
         return combination;
     }
 
     private static File convert(File mergedSrcFile) throws Exception  {
         // TODO code is copied from weka website
-        log.debug("-start File convert-");
+        log.debug("start: File convert");
         CSVLoader loader = new CSVLoader();
         loader.setNominalAttributes(NOMINAL_LIST);
         loader.setSource(mergedSrcFile);
@@ -174,11 +166,12 @@ public class CSV2ArffConverter {
 
         File arffTmp = Util.saveAsArff(data);
         
-        log.debug("-finished File convert with: {}", arffTmp);
+        log.debug("finished: File convert");
         return arffTmp;
     }
 
     public static File parse(List<File> csvs) throws Exception {
+        log.debug("start: File parse");
         List<File> copyList = new ArrayList<File>();
         for(File csv : csvs){
             File copy = File.createTempFile("copy",".csv");
@@ -194,6 +187,7 @@ public class CSV2ArffConverter {
         File combinedArff = convert(combinedCsv);
 
         copyList.clear();
+        log.debug("finished: File parse");
         return combinedArff;
     }
 }
