@@ -22,17 +22,21 @@ import weka.core.converters.ConverterUtils.DataSource;
 
 public class AppTest {
 
-    private final static String destFolder = "../IDS/"
-    		+ "src/main/"
-    		+ "resources/test/";
+    private final static String destFolder;
 
-    private final static String ctuFolder = "src/main/resources/TestCTU13/";
+    private final static String ctuFolder;
 
-    private final static String scenarios = "6,11,12";
+    private final static String scenarios;
 
     private final static int ARFF_ATTRIBUTE_COUNT = 15;
 
     private final static int trainingPercentage = 80;
+
+    static {
+        destFolder = "../IDS/src/main/resources/test/";
+        ctuFolder = "src/main/resources/TestCTU13/";
+        scenarios  = "6,11,12";
+    }
 
     @Before
     public void beforeEachTest() {
