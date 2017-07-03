@@ -48,7 +48,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>${groupId}.App</mainClass>
+              <mainClass>${project.groupId}.App</mainClass>
             </manifest>
           </archive>
         </configuration>
