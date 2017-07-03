@@ -32,7 +32,7 @@ public class Visualizer {
         this.resultPersistence = resultPersistence;
     }
 
-    private DefaultCategoryDataset generate(int tps, int fps, int fns, int tns) {
+    private DefaultCategoryDataset generateCounts(int tps, int fps, int fns, int tns) {
         final DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
 
         final String rowKey = "1 Scenario";
@@ -45,19 +45,65 @@ public class Visualizer {
         return dataset;
     }
 
-    public void plot(int tps, int fps, int fns, int tns) {
-        CategoryDataset dataset = generate(tps, fps, fns, tns);
+    private DefaultCategoryDataset generateRatios(int tps, int fps, int fns, int tns) {
+        final DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
+
+        final String rowKey = "1 Scenario";
+
+        System.out.println("tps: " + tps);
+        System.out.println("fps: " + fps);
+        System.out.println("fns: " + fns);
+        System.out.println("tns: " + tns);
+
+        double recall = tps / (double) (fns + tps);
+        System.out.println("Recall: " + recall);
+        double falsePositiveRate = fps / (double) (fps + tns);
+        double falseNegativeRate = fns / (double) (fns + tps);
+        double specificity = tns / (double) (fps + tns);
+        double accuracy = (tps + tns) / (double) (tps + tns + fps + fns);
+
+        dataset.addValue(recall, rowKey, "Recall");
+        dataset.addValue(falsePositiveRate, rowKey, "False Positive Rate");
+        dataset.addValue(falseNegativeRate, rowKey, "False Negative Rate");
+        dataset.addValue(specificity, rowKey, "Specificity");
+        dataset.addValue(accuracy, rowKey, "Accuracy");
+
+        return dataset;
+    }
+
+    public void plotCounts(int tps, int fps, int fns, int tns) {
+        CategoryDataset dataset = generateCounts(tps, fps, fns, tns);
         JFreeChart barChart = ChartFactory.createBarChart("Some Plot", "", "Count",
            dataset,PlotOrientation.VERTICAL,
            true, true, false);
 
-        File file = this.resultPersistence.getFileForSaving("TpsFpsFnsTns.jpeg");
+        File file = this.resultPersistence.getFileForSaving("TpsFpsFnsTnsCounts.jpeg");
         try {
             ChartUtilities.saveChartAsJPEG(file, barChart, IMG_WIDTH, IMG_HEIGHT);
         } catch (IOException e) {
             log.error("Failed to save a result plot to file,"
                     + " path: " + file.getAbsolutePath());
         }
+    }
+
+    public void plotRatios(int tps, int fps, int fns, int tns) {
+        CategoryDataset dataset = generateRatios(tps, fps, fns, tns);
+        JFreeChart barChart = ChartFactory.createBarChart("Some Plot", "", "Ratios",
+           dataset,PlotOrientation.VERTICAL,
+           true, true, false);
+
+        File file = this.resultPersistence.getFileForSaving("TpsFpsFnsTnsRatios.jpeg");
+        try {
+            ChartUtilities.saveChartAsJPEG(file, barChart, IMG_WIDTH, IMG_HEIGHT);
+        } catch (IOException e) {
+            log.error("Failed to save a result plot to file,"
+                    + " path: " + file.getAbsolutePath());
+        }
+    }
+
+    public void plotAll(int tps, int fps, int fns, int tns) {
+        plotCounts(tps, fps, fns, tns);
+        plotRatios(tps, fps, fns, tns);
     }
 
 }
