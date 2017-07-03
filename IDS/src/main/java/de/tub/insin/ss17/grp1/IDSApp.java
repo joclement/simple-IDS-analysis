@@ -13,13 +13,13 @@ public class IDSApp
 
     public static void main(String[] argv)
     {
-        log.info("--- START ---");
+        log.debug("--- START ---");
         IDSCliManager cliManager = new IDSCliManager();
         JCommander.newBuilder()
             .addObject(cliManager)
             .build()
             .parse(argv);
         cliManager.run();
-        log.info("--- FINISHED ---");
+        log.debug("--- FINISHED ---");
     }
 }
