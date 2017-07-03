@@ -1,5 +1,6 @@
 package de.tub.insin.ss17.grp1;
 
+import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.CSVLoader;
 
@@ -25,13 +26,15 @@ import org.slf4j.LoggerFactory;
 
 public class CSV2ArffConverter {
 
-    private final static String NOMINAL_LIST = "5,8";
-
+    private final static String NUMERIC_LIST = "5,8";
+    private final static boolean REMOVE_BACKGROUND = true;
     private final static String BOTNET = DataSharedConstants.BOTNET;
     private final static String NORMAL = DataSharedConstants.NORMAL;
     private final static String BACKGROUND = DataSharedConstants.BACKGROUND;
 
+
     private static final Logger log = LoggerFactory.getLogger(CSV2ArffConverter.class);
+    
 
     private static final void deleteExcess(int index, String line,String traffic,File csv, int lineNum
             ,int totLines, File temp) throws IOException{ 
@@ -44,12 +47,22 @@ public class CSV2ArffConverter {
             toDelete += line.charAt(index);
             index++;
         }
+        line = line.substring(0, 21) + line.substring(25);
         FileOutputStream fileOut = new FileOutputStream(temp,true);
-        line = line.replace(toDelete, "");
-
-        fileOut.write(line.getBytes(),0,line.length());
-        if(lineNum < totLines-1){
-            fileOut.write("\n".getBytes(),0,"\n".length());
+        if(line.contains("0x")){
+        	int hexaIndex = line.lastIndexOf("0x");
+        	String hexa = line.substring(hexaIndex, hexaIndex + 6 );
+        	line = line.replace(hexa, String.valueOf((Util.hex2decimal(hexa))));
+        }
+        if(traffic == BACKGROUND && REMOVE_BACKGROUND){
+        	fileOut.write("".getBytes());
+        }
+        else{
+        	line = line.replace(toDelete, "");
+        	fileOut.write(line.getBytes(),0,line.length());
+            if(lineNum < totLines-1){
+                fileOut.write("\n".getBytes(),0,"\n".length());
+            }
         }
         fileOut.close();
     }
@@ -75,7 +88,7 @@ public class CSV2ArffConverter {
                 deleteExcess(6,line,NORMAL,csv,lineNum,totLines,temp);
             }
             else if(line.contains(BACKGROUND)) {
-                deleteExcess(10,line,BACKGROUND,csv,lineNum,totLines,temp);
+            	deleteExcess(10,line,BACKGROUND,csv,lineNum,totLines,temp);
             }
             else{
                 FileOutputStream fileOut = new FileOutputStream(temp,true);
@@ -148,11 +161,28 @@ public class CSV2ArffConverter {
     private static File convert(File mergedSrcFile) throws Exception  {
         // TODO code is copied from weka website
         CSVLoader loader = new CSVLoader();
-        loader.setNominalAttributes(NOMINAL_LIST);
+        loader.setNumericAttributes(NUMERIC_LIST);
+        loader.setDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
+        loader.setDateAttributes("1");
+        loader.setBufferSize(4800000);
         loader.setSource(mergedSrcFile);
-        Instances data = loader.getDataSet();
-
-        File arffTmp = Util.saveAsArff(data);
+        List<Instances> splitData = new ArrayList<>();
+        Instance next = loader.getNextInstance(loader.getStructure());
+        while(next != null){
+            Instances temp = new Instances(loader.getStructure(), 0);
+        	int i = 0;
+            while(next != null && i<25000){
+            	temp.add(next);
+            	next = loader.getNextInstance(loader.getStructure());
+            	i++;
+            }
+            splitData.add(temp);
+        }
+        Instances fullData = new Instances(splitData.get(0),0);
+        for(Instances i : splitData){
+            fullData.addAll(i);
+        }
+        File arffTmp = Util.saveAsArff(fullData);
         return arffTmp;
     }
 
