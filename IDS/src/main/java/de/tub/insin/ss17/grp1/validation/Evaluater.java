@@ -70,13 +70,21 @@ public class Evaluater {
         result.append(System.lineSeparator());
         result.append(evaluation.toSummaryString());
         result.append(System.lineSeparator());
-        result.append("TP: " + evaluation.truePositiveRate(this.classIndexs.BOTNET));
+        result.append("TP Count: " + evaluation.numTruePositives(this.classIndexs.BOTNET));
         result.append(System.lineSeparator());
-        result.append("FP: " + evaluation.falsePositiveRate(this.classIndexs.BOTNET));
+        result.append("FP Count: " + evaluation.numFalsePositives(this.classIndexs.BOTNET));
         result.append(System.lineSeparator());
-        result.append("TN: " + evaluation.trueNegativeRate(this.classIndexs.BOTNET));
+        result.append("TN Count: " + evaluation.numTrueNegatives(this.classIndexs.BOTNET));
         result.append(System.lineSeparator());
-        result.append("FN: " + evaluation.falseNegativeRate(this.classIndexs.BOTNET));
+        result.append("FN Count: " + evaluation.numFalseNegatives(this.classIndexs.BOTNET));
+        result.append(System.lineSeparator());
+        result.append("TP Ratio: " + evaluation.truePositiveRate(this.classIndexs.BOTNET));
+        result.append(System.lineSeparator());
+        result.append("FP Ratio: " + evaluation.falsePositiveRate(this.classIndexs.BOTNET));
+        result.append(System.lineSeparator());
+        result.append("TN Ratio: " + evaluation.trueNegativeRate(this.classIndexs.BOTNET));
+        result.append(System.lineSeparator());
+        result.append("FN Ratio: " + evaluation.falseNegativeRate(this.classIndexs.BOTNET));
         result.append(System.lineSeparator());
 
         return result.toString();
