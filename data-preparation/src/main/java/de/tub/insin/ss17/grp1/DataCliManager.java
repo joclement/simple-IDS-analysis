@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.log4j.Level;
 
-public class CliManager {
+public class DataCliManager {
 
     private final String CSV_FILENAME = "netflow.csv";
 
@@ -30,12 +30,12 @@ public class CliManager {
 
     private final String TEST_ARFF_FILENAME = "./test/" + ARFF_FILENAME;
 
-    private static final Logger log = LoggerFactory.getLogger(CliManager.class);
+    private static final Logger log = LoggerFactory.getLogger(DataCliManager.class);
 
-    
-	@Parameter(names = {"--ctu", "-c"},
+
+    @Parameter(names = {"--ctu", "-c"},
                description = "Path to the ctu13 folder")
-	private String ctuFolder = DEFAULT_CTU_DIR;
+    private String ctuFolder = DEFAULT_CTU_DIR;
 
     @Parameter(names = { "--scenarios", "-s" },
                description = "The number for the scenarios in the ctu dataset",
@@ -106,7 +106,7 @@ public class CliManager {
             moveToArffFolder(splitted.get(1), TEST_ARFF_FILENAME);
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            
+
             log.error("ERROR: failed to move to Arff-Folder");
             e.printStackTrace();
             log.error("exit system");
@@ -121,7 +121,7 @@ public class CliManager {
             arff = CSV2ArffConverter.parse(csvs);
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            
+
             log.error("ERROR: failed to parse data");
             e.printStackTrace();
             System.exit(-1);
@@ -151,7 +151,7 @@ public class CliManager {
         try {
             csvs = ctuManager.find(this.scenarios);
         } catch (FileNotFoundException e) {
-            
+
             log.error("ERROR: file not found");
             e.printStackTrace();
             log.error("quit system");

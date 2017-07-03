@@ -14,7 +14,7 @@ public class App
     public static void main(String[] argv)
     {
         log.info("--- START ---");
-        CliManager cliManager = new CliManager();
+        IDSCliManager cliManager = new IDSCliManager();
         JCommander.newBuilder()
             .addObject(cliManager)
             .build()

@@ -92,7 +92,7 @@ public class AppTest {
     }
     
     private int totalLengthCsvs(String[] argv) throws Exception{
-        CliManager manager = new CliManager();
+        DataCliManager manager = new DataCliManager();
         JCommander.newBuilder()
         .addObject(manager)
         .build()

@@ -16,7 +16,7 @@ public class NNClassifierTest {
     @Test
     public void testBasic() throws Exception {
 
-        List<Param> params = CliManager.prepare(TestHelper.splitParams(AppTest.BASIC_NN_PARAMS));
+        List<Param> params = IDSCliManager.prepare(TestHelper.splitParams(AppTest.BASIC_NN_PARAMS));
         LinearNNClassifier classifier = new LinearNNClassifier(params);
 
         Instances trainingData = TestHelper.loadTraining();
