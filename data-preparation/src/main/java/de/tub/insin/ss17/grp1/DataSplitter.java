@@ -4,9 +4,6 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
-
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 
@@ -16,8 +13,6 @@ public class DataSplitter {
     // TODO add option to split by other type than percentage of number of lines
 
     private Integer percentageTrain;
-
-    private static final Logger log = LoggerFactory.getLogger(DataSplitter.class);
 
     public DataSplitter(Integer percentageTrain) {
         assert percentageTrain < 100;
