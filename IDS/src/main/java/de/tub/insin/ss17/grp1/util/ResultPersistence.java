@@ -33,4 +33,8 @@ public class ResultPersistence {
         }
     }
 
+    public File getFileForSaving(String filename) {
+        File file = new File(this.resultFolder, filename);
+        return file;
+    }
 }

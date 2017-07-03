@@ -56,6 +56,8 @@ public class Evaluater {
         evaluation.evaluateModel(classifier, testData);
 
         resultPersistence.saveSummary(this.generateTextResult());
+        Visualizer visualizer = new Visualizer(resultPersistence);
+        visualizer.plot(this.tps(), this.fps(), this.fns(), this.tns());
         log.debug("finished: evaluate");
     }
 
@@ -80,4 +82,27 @@ public class Evaluater {
         return result.toString();
     }
 
+    private int tps() {
+        double tps = this.evaluation.numTruePositives(this.classIndexs.NORMAL);
+        assert(Math.round(tps) == tps);
+        return Math.toIntExact(Math.round(tps));
+    }
+
+    private int fps() {
+        double fps = this.evaluation.numFalsePositives(this.classIndexs.NORMAL);
+        assert(Math.round(fps) == fps);
+        return Math.toIntExact(Math.round(fps));
+    }
+
+    private int fns() {
+        double fns = this.evaluation.numFalseNegatives(this.classIndexs.NORMAL);
+        assert(Math.round(fns) == fns);
+        return Math.toIntExact(Math.round(fns));
+    }
+
+    private int tns() {
+        double tns = this.evaluation.numTrueNegatives(this.classIndexs.NORMAL);
+        assert(Math.round(tns) == tns);
+        return Math.toIntExact(Math.round(tns));
+    }
 }
