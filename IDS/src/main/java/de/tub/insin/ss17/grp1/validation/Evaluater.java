@@ -70,38 +70,38 @@ public class Evaluater {
         result.append(System.lineSeparator());
         result.append(evaluation.toSummaryString());
         result.append(System.lineSeparator());
-        result.append("TP: " + evaluation.truePositiveRate(this.classIndexs.NORMAL));
+        result.append("TP: " + evaluation.truePositiveRate(this.classIndexs.BOTNET));
         result.append(System.lineSeparator());
-        result.append("FP: " + evaluation.falsePositiveRate(this.classIndexs.NORMAL));
+        result.append("FP: " + evaluation.falsePositiveRate(this.classIndexs.BOTNET));
         result.append(System.lineSeparator());
-        result.append("TN: " + evaluation.trueNegativeRate(this.classIndexs.NORMAL));
+        result.append("TN: " + evaluation.trueNegativeRate(this.classIndexs.BOTNET));
         result.append(System.lineSeparator());
-        result.append("FN: " + evaluation.falseNegativeRate(this.classIndexs.NORMAL));
+        result.append("FN: " + evaluation.falseNegativeRate(this.classIndexs.BOTNET));
         result.append(System.lineSeparator());
 
         return result.toString();
     }
 
     private int tps() {
-        double tps = this.evaluation.numTruePositives(this.classIndexs.NORMAL);
+        double tps = this.evaluation.numTruePositives(this.classIndexs.BOTNET);
         assert(Math.round(tps) == tps);
         return Math.toIntExact(Math.round(tps));
     }
 
     private int fps() {
-        double fps = this.evaluation.numFalsePositives(this.classIndexs.NORMAL);
+        double fps = this.evaluation.numFalsePositives(this.classIndexs.BOTNET);
         assert(Math.round(fps) == fps);
         return Math.toIntExact(Math.round(fps));
     }
 
     private int fns() {
-        double fns = this.evaluation.numFalseNegatives(this.classIndexs.NORMAL);
+        double fns = this.evaluation.numFalseNegatives(this.classIndexs.BOTNET);
         assert(Math.round(fns) == fns);
         return Math.toIntExact(Math.round(fns));
     }
 
     private int tns() {
-        double tns = this.evaluation.numTrueNegatives(this.classIndexs.NORMAL);
+        double tns = this.evaluation.numTrueNegatives(this.classIndexs.BOTNET);
         assert(Math.round(tns) == tns);
         return Math.toIntExact(Math.round(tns));
     }
