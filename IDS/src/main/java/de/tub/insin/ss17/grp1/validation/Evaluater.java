@@ -57,7 +57,7 @@ public class Evaluater {
 
         resultPersistence.saveSummary(this.generateTextResult());
         Visualizer visualizer = new Visualizer(resultPersistence);
-        visualizer.plot(this.tps(), this.fps(), this.fns(), this.tns());
+        visualizer.plotAll(this.tps(), this.fps(), this.fns(), this.tns());
         log.debug("finished: evaluate");
     }
 
