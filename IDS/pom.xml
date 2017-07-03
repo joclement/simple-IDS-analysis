@@ -13,8 +13,8 @@
 
   <dependencies>
     <dependency>
-        <groupId>jfree</groupId>
-        <artifactId>jfreechart</artifactId>
+      <groupId>jfree</groupId>
+      <artifactId>jfreechart</artifactId>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
