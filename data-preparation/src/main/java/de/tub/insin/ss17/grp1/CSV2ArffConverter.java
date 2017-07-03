@@ -27,9 +27,9 @@ public class CSV2ArffConverter {
 
     private final static String NOMINAL_LIST = "5,8";
 
-    private final static String BOTNET = "Botnet";
-    private final static String NORMAL = "Normal";
-    private final static String BACKGROUND = "Background";
+    private final static String BOTNET = DataSharedConstants.BOTNET;
+    private final static String NORMAL = DataSharedConstants.NORMAL;
+    private final static String BACKGROUND = DataSharedConstants.BACKGROUND;
 
     private static final Logger log = LoggerFactory.getLogger(CSV2ArffConverter.class);
 
