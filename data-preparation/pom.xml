@@ -50,6 +50,11 @@
           </archive>
         </configuration>
       </plugin>
+      <!-- TODO use later, now too many errors
+      <plugin>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+      </plugin>
+      -->
     </plugins>
   </build>
 
