@@ -13,6 +13,7 @@
   <modules>
     <module>data-preparation</module>
     <module>IDS</module>
+    <module>doc</module>
   </modules>
 
   <properties>
