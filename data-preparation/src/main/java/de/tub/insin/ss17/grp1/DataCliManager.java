@@ -13,9 +13,8 @@ import com.beust.jcommander.Parameter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.log4j.Level;
 
-public class CliManager {
+public class DataCliManager {
 
     private final String CSV_FILENAME = "netflow.csv";
 
@@ -29,12 +28,12 @@ public class CliManager {
 
     private final String TEST_ARFF_FILENAME = "./test/" + ARFF_FILENAME;
 
-    private static final Logger log = LoggerFactory.getLogger(CliManager.class);
+    private static final Logger log = LoggerFactory.getLogger(DataCliManager.class);
 
-    
-	@Parameter(names = {"--ctu", "-c"},
+
+    @Parameter(names = {"--ctu", "-c"},
                description = "Path to the ctu13 folder")
-	private String ctuFolder = DEFAULT_CTU_DIR;
+    private String ctuFolder = DEFAULT_CTU_DIR;
 
     @Parameter(names = { "--scenarios", "-s" },
                description = "The number for the scenarios in the ctu dataset",
@@ -59,136 +58,109 @@ public class CliManager {
 
     // TODO add better error reporting
     public void run() throws Exception {
-        log.info("---- Start run ----");
-        log.debug("---- start run ----");
-        
-        log.debug("-start if: arffFolder = generateDestFolder-");
+        log.debug("start: run");
         if (this.arffFolder == null) {
             this.arffFolder = generateDestFolder();
         }
-        log.debug("-finished if: arffFolder = generateDestFolder-");
-
         List<File> csvs = getScenarios();
 
-        log.debug("-start if: parseSeperateTestScenario-");
         if (this.separateTestScenario) {
             parseSeparateTestScenario(csvs);
         }
-        log.debug("-finished if: parseSeperateTestScenario-");
-
         File arff = parse(csvs);
-        log.debug("-start if: move to arff folder-");
         if (this.separateTestScenario) {
-            log.debug("-start try: moveToArffFolder-");
             try {
-                log.debug("- move to arff folder -");
                 moveToArffFolder(arff, TRAINING_ARFF_FILENAME);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                log.error("---- error to move to arff folder ----");
+                log.error("failed to moveToArffFolder");
                 e.printStackTrace();
             }
         }
         else {
-            log.debug("-else: split-");
             split(arff);
         }
-        log.debug("-finished if: move to arff folder-");
-        
-        log.info("---- finished run ----");
-        log.debug("---- finished run ----");
+        log.info("Arff files moved to: {}", arffFolder);
+        log.debug("finished: run");
     }
 
     private void split(File arff) {
-        log.info("---- start split arff ----");
-        log.debug("---- start split arff ----");
+        log.debug("DataSplitter");
         DataSplitter dataSplitter = new DataSplitter(percentageTrain);
+        log.debug("List splitted");
         List<File> splitted = null;
         try {
-            log.debug("---- try split data ----");
             splitted = dataSplitter.split(arff);
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            log.error("---- error to splitt data ----");
+            log.error("ERROR: failed to split data");
             e.printStackTrace();
-            log.error("---- quit program ----");
+            log.error("exit system");
             System.exit(-1);
         }
+        log.debug("moveToArffFolder");
         try {
-            log.debug("---- try move to arff folder ----");
             moveToArffFolder(splitted.get(0), TRAINING_ARFF_FILENAME);
             moveToArffFolder(splitted.get(1), TEST_ARFF_FILENAME);
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            
-            log.error("---- error to move to arff folder ----");
+
+            log.error("ERROR: failed to move to Arff-Folder");
             e.printStackTrace();
-            log.error("---- quit program ----");
+            log.error("exit system");
             System.exit(-1);
         }
-        log.info("---- finished split arff ----");
-        log.debug("---- finished split arff ----");
     }
 
     private File parse(List<File> csvs) throws Exception {
-        log.info("---- start parse data ----");
-        log.debug("---- start parse data ----");
+        log.debug("CSV2ArffConverter");
         File arff = null;
         try {
-            log.debug("---- try to parse data ----");
             arff = CSV2ArffConverter.parse(csvs);
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            
-            log.error("---- error to parse data ----");
+
+            log.error("ERROR: failed to parse data");
             e.printStackTrace();
-            log.error("---- quit program ----");
             System.exit(-1);
         }
-        log.info("---- finished parse data with: {}", arff);
-        log.debug("---- finished parse data with: {}", arff);
+        log.debug("resulting data: {}", arff);
         return arff;
     }
 
     private void parseSeparateTestScenario(List<File> csvs) throws Exception {
-        log.info("---- start separate test scenario ----");
-        log.debug("---- start seperate test scenario ----");
+        log.debug("parseSeparateTestScenario");
         try {
-            log.debug("---- try to extract test scenario ----");
             File arff = this.parse(extractTestScenario(csvs));
             this.moveToArffFolder(arff, TEST_ARFF_FILENAME);
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            log.error("---- ERROR extracting test scenario ----");
+            log.error("ERROR: failed extracting test scenario");
             e.printStackTrace();
         }
-        log.info("---- finished seperate test scenario ----");
-        log.debug("---- finished seperate test scenario ----");
     }
 
     public List<File> getScenarios() {
-        log.info("---- start get scenarios ----");
-        log.debug("---- start get scnearios ----");
+        log.debug("start: getScenarios");
+        log.debug("CTUManager");
         CTUManager ctuManager = new CTUManager(ctuFolder, CSV_FILENAME);
         List<File> csvs = null;
+        log.debug("List<File> {}",csvs);
         try {
-            log.debug("---- try finding scenarios ----");
             csvs = ctuManager.find(this.scenarios);
         } catch (FileNotFoundException e) {
-            
-            log.error("---- ERROR file not found ----");
+
+            log.error("ERROR: file not found");
             e.printStackTrace();
-            log.error("---- exit program ----");
+            log.error("quit system");
             System.exit(-1);
         }
-        log.info("---- finished get scenarios ----");
-        log.debug("---- finished get scenarios ----");
+        log.debug("List<File> {}",csvs);
         return csvs;
     }
 
     private File generateDestFolder() {
-        log.info("---- start create destination folder ----");
-        log.debug("---- start create destination folder ----");
+        log.debug("start: generateDestFolder");
         StringBuilder name = new StringBuilder();
         name.append("scenarios=");
         Iterator<Integer> it = this.scenarios.iterator();
@@ -208,21 +180,16 @@ public class CliManager {
         name.append("separateTestScenario=");
         name.append(this.separateTestScenario);
 
-        log.info("---- finished create destination folder ----");
-        log.debug("---- finished create destination folder ----");
+        log.debug("finished: generateDestFolder");
         return new File(DEFAULT_DEST_PARENT_DIR, name.toString());
     }
 
     private void moveToArffFolder(File arff, String arffFilename) throws IOException {
-        log.info("---- start move to arff folder ----");
-        log.debug("---- start move to arff folder ----");
         File testArff = new File(this.arffFolder, arffFilename);
         assert arff.exists();
         assert !testArff.exists();
         testArff.getParentFile().mkdirs();
         Files.move(arff.toPath(), testArff.toPath(), StandardCopyOption.ATOMIC_MOVE);
-        log.info("---- finished move to arff folder ----");
-        log.debug("---- finished move to arff folder ----");
     }
 
     private List<File> extractTestScenario(List<File> csvs) {
@@ -230,6 +197,7 @@ public class CliManager {
         List<File> testCsvList = new LinkedList<File>();
         testCsvList.add(testCsv);
 
+        log.debug("extractedTestScenario: {}", testCsvList);
         return testCsvList;
     }
 }

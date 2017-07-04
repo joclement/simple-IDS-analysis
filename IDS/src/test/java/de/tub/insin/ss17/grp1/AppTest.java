@@ -26,7 +26,7 @@ public class AppTest
         String[] argv = {"-c", classifierName,
                          "-f", TestHelper.ARFF_FOLDER,
                          "-p", BASIC_NN_PARAMS};
-        App.main(argv);
+        IDSApp.main(argv);
     }
 
     // TODO add checks
@@ -36,7 +36,7 @@ public class AppTest
                          "-c", classifierName,
                          "-f", TestHelper.ARFF_FOLDER,
                          "-p", BASIC_NN_PARAMS};
-        App.main(argv);
+        IDSApp.main(argv);
     }
 
     // TODO add checks
@@ -47,7 +47,7 @@ public class AppTest
                          "-c", classifierName,
                          "-f", TestHelper.ARFF_FOLDER,
                          "-p", BASIC_NN_PARAMS};
-        App.main(argv);
+        IDSApp.main(argv);
     }
 
     // TODO add test for invalid args

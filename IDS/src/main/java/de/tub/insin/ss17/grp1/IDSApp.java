@@ -6,20 +6,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class App
+public class IDSApp
 {
 
-    private final static Logger log = LoggerFactory.getLogger(App.class);
+    private final static Logger log = LoggerFactory.getLogger(IDSApp.class);
 
     public static void main(String[] argv)
     {
-        log.info("--- START ---");
-        CliManager cliManager = new CliManager();
+        log.debug("--- START ---");
+        IDSCliManager cliManager = new IDSCliManager();
         JCommander.newBuilder()
             .addObject(cliManager)
             .build()
             .parse(argv);
         cliManager.run();
-        log.info("--- FINISHED ---");
+        log.debug("--- FINISHED ---");
     }
 }
