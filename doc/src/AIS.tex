@@ -1,0 +1,18 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[ngerman]{babel} 
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+
+\begin{document}
+\title{Maschine Learning Methode Artificial Immune System}
+\section{Was ist AIS}
+Das Artificial Immune System, kurz AIS, ist eine Klasse von regelbasierenden Maschine Learning Systemen. Das AIS wurde durch das menschliche/biologische Immunsystem inspiriert. Die Funktionsweise des AIS lässt sich am besten mit den Begriffen der negativen Selektion und positiven Selektion erläutern.
+\subsection{Negative Selektion}
+Bei der Verwendung der negativen Selektion wird zuerst ein sog. "self" set definiert. Dabei handelt es sich beispielsweise um Firmeneigene Rechner, vertrauenswürdige Netzwerke, etc. Während der Initialisierung des Algorithmus wird eine große Anzahl an zufälligen Vektoren, sog. "Detectors" generiert. Diese Detectoren werden daraufhin mithilfe eines Mathing-Algorithmus mit dem self set verglichen. Jeder passende Detector wird eliminiert und es werden alle Detectoren die nicht passen in einem "final set" gespeichert. Nun wird der gesamte Netzwerk Traffic gemonitort und mit allen Detectoren des Final sets verglichen. Sollte innerhalb des Traffics ein Detecotr passen, wird ein Alarm geschaltet. 
+\subsection{Positive Selektion}
+Bei der positiven Selektion wird anfangs davon ausgegangen, dass das AIS "leer" ist. Der "target user" wird hierbei als antigen codiert und alle anderen Nutzer als Antikörper. Nun wird dem AIS zuerst das Antigen und dann folgend die Antikörper nacheinander hinzugefügt. Die Antikörper erhalten hierbei einen bestimmten Konzentrationswert.  Dieser Wert verringert sich im Laufe der Zeit("death rate").Folglich werden Antikörper mit einer geringen Konzentration werden aus dem System entfernt. Jedoch können Antikörper auch an Konzentration gewinnen, nämlich wenn sie mit dem Antigen übereinstimmen. Je höher die Übereinstimmung, desto größer die Konzentrationszunahme.("Stimulation/Klonen"). Sobald sich genug Antikörper im System befinden wird eine Schleife gestartet, bei welcher sich der Konzentrationswert aller Antikörper erhöht oder verringert, solange bis mindestens ein Antikörper eliminiert wird. Daraufhin wird ein neuer Antikörper hinzugefügt und der Prozess startet von vorne. Der Prozess wird solange wiederholt, bis keine Antikörper mehr eliminert werden. Das System ist somit stabilisiert.
+\subsection{Kombination}
+Am besten funktionieren AIS mit einer Kombination aus negativer und positiver Selektion. So wird erst die negative Selektion ausgeführt, wobei dann das daraus resultierende Final set bei der positiven Selektion als Antigen genutzt wird. 
+\end{document} 
