@@ -19,9 +19,9 @@ import de.tub.insin.ss17.grp1.util.ResultPersistence;
 import de.tub.insin.ss17.grp1.validation.Evaluater;
 import weka.classifiers.Classifier;
 
-public class CliManager {
+public class IDSCliManager {
 
-    private final static Logger log = LoggerFactory.getLogger(CliManager.class);
+    private final static Logger log = LoggerFactory.getLogger(IDSCliManager.class);
 
     private final static String TRAIN = "train";
     private final static String TEST = "test";

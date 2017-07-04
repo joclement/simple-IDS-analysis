@@ -47,4 +47,9 @@ public class ClassIndexs implements Serializable {
         }
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        throw new UnsupportedOperationException("Hashcode for this class not implemented");
+    }
 }
