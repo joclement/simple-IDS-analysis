@@ -50,7 +50,7 @@ public class CSV2ArffConverter {
         }
         line = line.substring(0, 21) + line.substring(25);
         FileOutputStream fileOut = new FileOutputStream(temp,true);
-        if(line.contains("0x")) {
+        while(line.contains("0x")) {
             int hexaIndex = line.lastIndexOf("0x");
             String hexa = line.substring(hexaIndex, hexaIndex + 6 );
             line = line.replace(hexa, String.valueOf((Util.hex2decimal(hexa))));
