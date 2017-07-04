@@ -68,7 +68,7 @@ public class CSV2ArffConverter {
             line = deleteLabelExcess(line, traffic, index);
 
             // Date format only accepts 3 digits after the seconds and not 6
-            line = line.substring(0, 21) + line.substring(25);
+            line = line.substring(0, 23) + line.substring(26);
 
             line = hexaPortsToDecimal(line);
 
