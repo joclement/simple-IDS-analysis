@@ -26,40 +26,41 @@ import org.slf4j.LoggerFactory;
 
 public class CSV2ArffConverter {
 
+    private static final Logger log = LoggerFactory.getLogger(CSV2ArffConverter.class);
+
     private final static String NUMERIC_LIST = "5,8";
+
     private final static boolean REMOVE_BACKGROUND = false;
+
     private final static String BOTNET = DataSharedConstants.BOTNET;
     private final static String NORMAL = DataSharedConstants.NORMAL;
     private final static String BACKGROUND = DataSharedConstants.BACKGROUND;
 
+    private static final void deleteExcess(int index, String line, String traffic,
+            File csv, int lineNum, int totLines, File temp) throws IOException {
 
-    private static final Logger log = LoggerFactory.getLogger(CSV2ArffConverter.class);
-    
-
-    private static final void deleteExcess(int index, String line,String traffic,File csv, int lineNum
-            ,int totLines, File temp) throws IOException{ 
         String toDelete = "";
         line = line.replace("flow=", "");
         line = line.replace("From-", "");
         line = line.replace("To-", "");
         index += line.lastIndexOf(traffic);
-        while(index != line.length()){
+        while(index != line.length()) {
             toDelete += line.charAt(index);
             index++;
         }
         line = line.substring(0, 21) + line.substring(25);
         FileOutputStream fileOut = new FileOutputStream(temp,true);
-        if(line.contains("0x")){
-        	int hexaIndex = line.lastIndexOf("0x");
-        	String hexa = line.substring(hexaIndex, hexaIndex + 6 );
-        	line = line.replace(hexa, String.valueOf((Util.hex2decimal(hexa))));
+        if(line.contains("0x")) {
+            int hexaIndex = line.lastIndexOf("0x");
+            String hexa = line.substring(hexaIndex, hexaIndex + 6 );
+            line = line.replace(hexa, String.valueOf((Util.hex2decimal(hexa))));
         }
-        if(traffic == BACKGROUND && REMOVE_BACKGROUND){
-        	fileOut.write("".getBytes());
+        if(traffic == BACKGROUND && REMOVE_BACKGROUND) {
+            fileOut.write("".getBytes());
         }
-        else{
-        	line = line.replace(toDelete, "");
-        	fileOut.write(line.getBytes(),0,line.length());
+        else {
+            line = line.replace(toDelete, "");
+            fileOut.write(line.getBytes(),0,line.length());
             if(lineNum < totLines-1){
                 fileOut.write("\n".getBytes(),0,"\n".length());
             }
@@ -67,16 +68,16 @@ public class CSV2ArffConverter {
         fileOut.close();
     }
 
-    private static final void parseLabel(File csv) throws FileNotFoundException, IOException{
+    private static final void parseLabel(File csv) throws FileNotFoundException, IOException {
         Scanner scanner = new Scanner(csv);
         File temp = File.createTempFile("temp",".csv");
         //now read the file line by line...
         int totLines = 0;
         int lineNum = 0;
         LineNumberReader lnr = new LineNumberReader(new FileReader(csv));
-        while (lnr.readLine() != null){
+        while (lnr.readLine() != null) {
             totLines++;
-            }
+        }
         for(int j =0; j<=totLines-1;j++){
 
             String line = scanner.nextLine();
@@ -88,7 +89,7 @@ public class CSV2ArffConverter {
                 deleteExcess(6,line,NORMAL,csv,lineNum,totLines,temp);
             }
             else if(line.contains(BACKGROUND)) {
-            	deleteExcess(10,line,BACKGROUND,csv,lineNum,totLines,temp);
+                deleteExcess(10,line,BACKGROUND,csv,lineNum,totLines,temp);
             }
             else{
                 FileOutputStream fileOut = new FileOutputStream(temp,true);
@@ -125,7 +126,7 @@ public class CSV2ArffConverter {
                 raf.setLength(writePosition);
                 raf.close();
             }
-           flag = true;
+            flag = true;
         }
     }
 
@@ -138,13 +139,13 @@ public class CSV2ArffConverter {
     }
 
     private static void appendCSVs(final List<File> csvs, final File combination)
-                 throws IOException {
+        throws IOException {
         for (File csv : csvs) {
-             try (Reader source = new LineNumberReader(new FileReader(csv));
-            Writer destination = new BufferedWriter(new FileWriter(combination, true)); ) {
-            log.debug("transfer {},{}", source, destination);
-            transfer(source, destination);
-             }
+            try (Reader source = new LineNumberReader(new FileReader(csv));
+                    Writer destination = new BufferedWriter(new FileWriter(combination, true)); ) {
+                log.debug("transfer {},{}", source, destination);
+                transfer(source, destination);
+                    }
         }
     }
 
@@ -170,11 +171,11 @@ public class CSV2ArffConverter {
         Instance next = loader.getNextInstance(loader.getStructure());
         while(next != null){
             Instances temp = new Instances(loader.getStructure(), 0);
-        	int i = 0;
+            int i = 0;
             while(next != null && i<25000){
-            	temp.add(next);
-            	next = loader.getNextInstance(loader.getStructure());
-            	i++;
+                temp.add(next);
+                next = loader.getNextInstance(loader.getStructure());
+                i++;
             }
             splitData.add(temp);
         }
