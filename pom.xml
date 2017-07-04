@@ -74,6 +74,7 @@
             <trimStackTrace>false</trimStackTrace>
           </configuration>
         </plugin>
+      <!-- TODO does not working together with eclipse, aks others how to fix
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.6.1</version>
@@ -84,6 +85,7 @@
             <failOnWarning>true</failOnWarning>
           </configuration>
         </plugin>
+        -->
         <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
           <configuration>
