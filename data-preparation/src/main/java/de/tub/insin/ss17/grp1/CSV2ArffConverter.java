@@ -182,7 +182,7 @@ public class CSV2ArffConverter {
         loader.setDateAttributes("1");
         loader.setBufferSize(4800000);
         loader.setSource(mergedSrcFile);
-        List<Instances> splitData = new ArrayList<>();
+        ArrayList<Instances> splitData = new ArrayList<>();
         Instance next = loader.getNextInstance(loader.getStructure());
         while(next != null){
             Instances temp = new Instances(loader.getStructure(), 0);
@@ -194,6 +194,7 @@ public class CSV2ArffConverter {
             }
             splitData.add(temp);
         }
+        splitData.trimToSize();
         Instances fullData = new Instances(splitData.get(0),0);
         for(Instances i : splitData){
             fullData.addAll(i);
@@ -204,7 +205,7 @@ public class CSV2ArffConverter {
 
     public static File parse(List<File> csvs) throws Exception {
         log.debug("start: File parse");
-        List<File> copyList = new ArrayList<File>();
+        List<File> copyList = new ArrayList<File>(csvs.size());
         for(File csv : csvs){
             File copy = File.createTempFile("copy",".csv");
             copyList.add(copy);
