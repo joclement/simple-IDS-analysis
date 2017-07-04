@@ -1,28 +1,28 @@
 package de.tub.insin.ss17.grp1;
 
-import weka.core.Instance;
-import weka.core.Instances;
-import weka.core.converters.CSVLoader;
-
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.LineNumberReader;
 import java.io.RandomAccessFile;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileNotFoundException;
-import java.io.LineNumberReader;
-import java.util.Scanner;
-import java.io.FileWriter;
-import java.io.BufferedWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import weka.core.Instance;
+import weka.core.Instances;
+import weka.core.converters.CSVLoader;
 
 public class CSV2ArffConverter {
 
@@ -36,9 +36,7 @@ public class CSV2ArffConverter {
     private final static String NORMAL = DataSharedConstants.NORMAL;
     private final static String BACKGROUND = DataSharedConstants.BACKGROUND;
 
-    private static final void deleteExcess(int index, String line, String traffic,
-            File csv, int lineNum, int totLines, File temp) throws IOException {
-
+    private static final String deleteLabelExcess(String line, String traffic, int index) {
         String toDelete = "";
         line = line.replace("flow=", "");
         line = line.replace("From-", "");
@@ -48,24 +46,39 @@ public class CSV2ArffConverter {
             toDelete += line.charAt(index);
             index++;
         }
-        line = line.substring(0, 21) + line.substring(25);
-        FileOutputStream fileOut = new FileOutputStream(temp,true);
+        line = line.replace(toDelete, "");
+        return line;
+    }
+
+    private static final String hexaPortsToDecimal(String line) {
         while(line.contains("0x")) {
             int hexaIndex = line.lastIndexOf("0x");
             String hexa = line.substring(hexaIndex, hexaIndex + 6 );
             line = line.replace(hexa, String.valueOf((Util.hex2decimal(hexa))));
         }
-        if(traffic == BACKGROUND && REMOVE_BACKGROUND) {
-            fileOut.write("".getBytes());
-        }
-        else {
-            line = line.replace(toDelete, "");
+        return line;
+    }
+
+    private static final void deleteExcess(int index, String line, String traffic,
+            File csv, int lineNum, int totLines, File temp) throws IOException {
+
+        if(!(traffic == BACKGROUND && REMOVE_BACKGROUND)) {
+            FileOutputStream fileOut = new FileOutputStream(temp,true);
+
+            line = deleteLabelExcess(line, traffic, index);
+
+            // Date format only accepts 3 digits after the seconds and not 6
+            line = line.substring(0, 21) + line.substring(25);
+
+            line = hexaPortsToDecimal(line);
+
             fileOut.write(line.getBytes(),0,line.length());
+
             if(lineNum < totLines-1){
                 fileOut.write("\n".getBytes(),0,"\n".length());
             }
+            fileOut.close();
         }
-        fileOut.close();
     }
 
     private static final void parseLabel(File csv) throws FileNotFoundException, IOException {
@@ -102,6 +115,7 @@ public class CSV2ArffConverter {
         lnr.close();
         scanner.close();
         Files.copy(temp.toPath(), csv.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        temp.delete();
     }
 
     private static final void removeCsvHeader(List<File> csvsCopy) throws IOException {
@@ -155,6 +169,7 @@ public class CSV2ArffConverter {
 
         log.debug("appendCSVs");
         appendCSVs(csvs, combination);
+        combination.deleteOnExit();
 
         return combination;
     }
@@ -203,7 +218,9 @@ public class CSV2ArffConverter {
         parseLabel(combinedCsv);
         log.debug("convert");
         File combinedArff = convert(combinedCsv);
-
+        for(File copy : copyList){
+            copy.delete();
+        }
         copyList.clear();
         log.debug("finished: File parse");
         return combinedArff;
