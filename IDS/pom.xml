@@ -58,9 +58,11 @@
           </archive>
         </configuration>
       </plugin>
+      <!-- TODO does not working together with eclipse, aks others how to fix
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
+      -->
       <!-- TODO use later, now too many errors
       <plugin>
         <artifactId>maven-checkstyle-plugin</artifactId>
