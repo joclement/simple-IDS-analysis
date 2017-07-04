@@ -1,0 +1,31 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[ngerman]{babel} 
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+
+
+\title{Maschine Learning Methode Support Vektor Machines}
+\begin{document}
+
+\section{Was sind Support Vektor Machines}
+Eine Support Vektor Machine, kurz SVM, dient als Klassifikator und Regressor. Dabei unterteilt sie eine Menge von Objekten so in Klassen, dass um die Klassengrenzen herum ein möglichst breiter Bereich frei von Objekten bleibt. 
+\section{Funktionsweise}
+Grundlage für die Konztruktion einer SVM ist eine Menge von Trainingsobjekten, für die jeweils bekannt ist, welcher Klasse sie zugehören. Jedes Objekt wird durch einen Vektor in einem Vektorraum repräsentiert. Die SVM konztruiert nun eine Hyperebene in diesen Raum. Die Hyperebene fungiert hiebei als Trennfläche um die Trainingsobjekte in zwei Klassen zu teilen. Neue Objekte werden in den Raum eingfügt und dann entsprechend klassifiziert.
+\section{Vorteile}
+\begin{center}
+\begin{enumerate}
+\item Eine Klassifikation ist durch Anwendung der SVM sehr schnell möglich, denn die benötigten Parameter basieren nur auf (wenigen) Support Vektoren und nicht auf dem kompletten Trainingsdatensatz
+\item Zudem besitzt die SMV eine hohe Generalisierungsfähigkeit und kann gut auf reale Probleme angewendet werden.
+\item Das Arbeiten in hohen Dimensionen wird ebenfalls möglich
+\end{enumerate}
+\end{center}
+\section{Nachteile}
+\begin{enumerate}
+\item Für neu hinzukommende verschiedene Eingabedaten ist jedes mal ein neues Training erforderlich. Es besteht keine Möglichkeit, die bereits vorhanden Ergebnisse zu ergänzen.\item Der Umgang mit nicht linear separierbaren Problemen kann sich als kompliziert herausstellen, denn die Überführung der Daten in einen höheredimensionalen Raum setzt die Kenntnis der Größe der benötigten Dimensionen voraus.
+\item Zudem stellt sich in diesem Fall die Frage nach der Wahl des Kernels, der empirisch gesucht werden muss.
+\end{enumerate}
+\section{Entscheidungsgrund gegen SVM}
+Wir haben uns bei diesem Projekt gegen die Verwendung von Support Vektor Machines entschieden. Grund dafür ist, dass bei dem CTU13 Datensatz keine expliziten Trainings- und Testsets existieren. Somit wäre für neu hinzukommende Eingabedaten jedes mal ein neues Training erforderlich. Wodurch der dahinter liegende Aufwand und erforderliche Rechenleistung/-zeit zu hoch wäre. 
+\end{document}
