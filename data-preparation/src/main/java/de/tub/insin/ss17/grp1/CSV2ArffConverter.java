@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 public class CSV2ArffConverter {
 
     private final static String NUMERIC_LIST = "5,8";
-    private final static boolean REMOVE_BACKGROUND = true;
+    private final static boolean REMOVE_BACKGROUND = false;
     private final static String BOTNET = DataSharedConstants.BOTNET;
     private final static String NORMAL = DataSharedConstants.NORMAL;
     private final static String BACKGROUND = DataSharedConstants.BACKGROUND;
