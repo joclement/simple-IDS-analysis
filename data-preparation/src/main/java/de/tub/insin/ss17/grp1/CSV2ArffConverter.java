@@ -30,8 +30,6 @@ public class CSV2ArffConverter {
 
     private final static String NUMERIC_LIST = "5,8";
 
-    private final static boolean REMOVE_BACKGROUND = false;
-
     private final static String BOTNET = DataSharedConstants.BOTNET;
     private final static String NORMAL = DataSharedConstants.NORMAL;
     private final static String BACKGROUND = DataSharedConstants.BACKGROUND;
@@ -60,9 +58,9 @@ public class CSV2ArffConverter {
     }
 
     private static final void deleteExcess(int index, String line, String traffic,
-            File csv, int lineNum, int totLines, File temp) throws IOException {
+            File csv, int lineNum, int totLines, File temp, boolean rB) throws IOException {
 
-        if(!(traffic == BACKGROUND && REMOVE_BACKGROUND)) {
+        if(!(traffic == BACKGROUND && rB)) {
             FileOutputStream fileOut = new FileOutputStream(temp,true);
 
             line = deleteLabelExcess(line, traffic, index);
@@ -81,7 +79,7 @@ public class CSV2ArffConverter {
         }
     }
 
-    private static final void parseLabel(File csv) throws FileNotFoundException, IOException {
+    private static final void parseLabel(File csv, boolean rB) throws FileNotFoundException, IOException {
         Scanner scanner = new Scanner(csv);
         File temp = File.createTempFile("temp",".csv");
         //now read the file line by line...
@@ -96,19 +94,15 @@ public class CSV2ArffConverter {
             if (j == 0) {
                 log.debug("0%");
             }
-
             else if (j == totLines / 4) {
                 log.debug("25%");
             }
-
             else if (j == totLines / 2) {
                 log.debug("50%");
             }
-
             else if (j == totLines * 3 / 4) {
                 log.debug("75%");
             }
-
             else if (j == totLines - 1) {
                 log.debug("100%");
             }
@@ -116,13 +110,13 @@ public class CSV2ArffConverter {
             String line = scanner.nextLine();
 
             if(line.contains(BOTNET)) {
-                deleteExcess(6,line,BOTNET,csv,lineNum, totLines,temp);
+                deleteExcess(6,line,BOTNET,csv,lineNum, totLines,temp, rB);
             }
             else if(line.contains(NORMAL)) {
-                deleteExcess(6,line,NORMAL,csv,lineNum,totLines,temp);
+                deleteExcess(6,line,NORMAL,csv,lineNum,totLines,temp, rB);
             }
             else if(line.contains(BACKGROUND)) {
-                deleteExcess(10,line,BACKGROUND,csv,lineNum,totLines,temp);
+                deleteExcess(10,line,BACKGROUND,csv,lineNum,totLines,temp, rB);
             }
             else{
                 FileOutputStream fileOut = new FileOutputStream(temp,true);
@@ -203,17 +197,23 @@ public class CSV2ArffConverter {
         loader.setBufferSize(4800000);
         loader.setSource(mergedSrcFile);
         ArrayList<Instances> splitData = new ArrayList<>();
-        Instance next = loader.getNextInstance(loader.getStructure());
+        log.debug("before everything");
+        Instances structure = loader.getStructure();
+        log.debug("after getStructure");
+        Instance next = loader.getNextInstance(structure);
+        log.debug("after first getStructure");
         while(next != null){
-            Instances temp = new Instances(loader.getStructure(), 0);
+            Instances temp = new Instances(structure, 0);
             int i = 0;
+            log.debug("inside first while");
             while(next != null && i<25000){
                 temp.add(next);
-                next = loader.getNextInstance(loader.getStructure());
+                next = loader.getNextInstance(structure);
                 i++;
             }
             splitData.add(temp);
         }
+        log.debug("after  first while");
         splitData.trimToSize();
         Instances fullData = new Instances(splitData.get(0),0);
         for(Instances i : splitData){
@@ -223,7 +223,16 @@ public class CSV2ArffConverter {
         return arffTmp;
     }
 
-    public static File parse(List<File> csvs) throws Exception {
+    public static File parse(List<File> csvs, boolean removeBackground) throws Exception {
+        File combinedCsv = prepare(csvs, removeBackground);
+        System.gc();
+        log.debug("convert");
+        File combinedArff = convert(combinedCsv);
+        log.debug("finished: File parse");
+        return combinedArff;
+    }
+
+    private static File prepare(List<File> csvs, boolean rB) throws IOException, FileNotFoundException {
         log.debug("start: File parse");
         List<File> copyList = new ArrayList<File>(csvs.size());
         for(File csv : csvs){
@@ -235,15 +244,12 @@ public class CSV2ArffConverter {
         removeCsvHeader(copyList);
         log.debug("combine");
         File combinedCsv = combine(copyList);
-        log.debug("parseLabel");
-        parseLabel(combinedCsv);
-        log.debug("convert");
-        File combinedArff = convert(combinedCsv);
         for(File copy : copyList){
             copy.delete();
         }
         copyList.clear();
-        log.debug("finished: File parse");
-        return combinedArff;
+        log.debug("parseLabel");
+        parseLabel(combinedCsv, rB);
+        return combinedCsv;
     }
 }

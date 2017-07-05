@@ -56,6 +56,10 @@ public class DataCliManager {
                description = "Path to the destination folder")
     private File arffFolder = null;
 
+    @Parameter(names = { "--removeBackground", "-r" },
+               description = "If true, remove all Background Instances")
+    private boolean removeBackground = false;
+
     // TODO add better error reporting
     public void run() throws Exception {
         log.debug("start: run");
@@ -116,7 +120,7 @@ public class DataCliManager {
         log.debug("CSV2ArffConverter");
         File arff = null;
         try {
-            arff = CSV2ArffConverter.parse(csvs);
+            arff = CSV2ArffConverter.parse(csvs, this.removeBackground);
         } catch (IOException e) {
             // TODO Auto-generated catch block
 
