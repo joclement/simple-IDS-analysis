@@ -92,6 +92,9 @@ public class CSV2ArffConverter {
             totLines++;
         }
         for(int j =0; j<=totLines-1;j++){
+            if(j==0 || j == totLines/2 || j == totLines || j == totLines/4 || j == totLines*3/4){
+                log.debug("here: "+j);
+            }
 
             String line = scanner.nextLine();
 
