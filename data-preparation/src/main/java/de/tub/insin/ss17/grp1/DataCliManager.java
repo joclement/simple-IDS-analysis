@@ -14,6 +14,7 @@ import com.beust.jcommander.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 public class DataCliManager {
 
     private final String CSV_FILENAME = "netflow.csv";
@@ -63,14 +64,17 @@ public class DataCliManager {
     // TODO add better error reporting
     public void run() throws Exception {
         log.debug("start: run");
+
         if (this.arffFolder == null) {
             this.arffFolder = generateDestFolder();
         }
+
         List<File> csvs = getScenarios();
 
         if (this.separateTestScenario) {
             parseSeparateTestScenario(csvs);
         }
+
         File arff = parse(csvs);
         if (this.separateTestScenario) {
             try {
@@ -84,6 +88,7 @@ public class DataCliManager {
         else {
             split(arff);
         }
+
         log.info("Arff files moved to: {}", arffFolder);
         log.debug("finished: run");
     }
@@ -91,7 +96,6 @@ public class DataCliManager {
     private void split(File arff) {
         log.debug("DataSplitter");
         DataSplitter dataSplitter = new DataSplitter(percentageTrain);
-        log.debug("List splitted");
         List<File> splitted = null;
         try {
             splitted = dataSplitter.split(arff);

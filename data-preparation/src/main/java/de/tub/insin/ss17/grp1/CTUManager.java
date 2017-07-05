@@ -10,11 +10,11 @@ import org.slf4j.Logger;
 
 public class CTUManager {
 
+    private static final Logger log = LoggerFactory.getLogger(CTUManager.class);
+
     private final File datasetDir;
 
     private final String filename;
-
-    private static final Logger log = LoggerFactory.getLogger(CTUManager.class);
 
     public CTUManager(String datasetDir, String filename){
         this.datasetDir = new File(datasetDir);
@@ -22,7 +22,7 @@ public class CTUManager {
     }
 
     public List<File> find(List<Integer> scenarios) throws FileNotFoundException {
-        
+
         List<File> files = new LinkedList<File>();
         for(Integer scenario : scenarios){
             files.add(find(scenario));
