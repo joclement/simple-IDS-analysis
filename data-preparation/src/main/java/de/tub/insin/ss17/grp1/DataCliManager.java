@@ -88,7 +88,7 @@ public class DataCliManager {
     }
 
     private void split(File arff) {
-        log.debug("DataSplitter");
+        log.debug("split into training and test");
         DataSplitter dataSplitter = new DataSplitter(percentageTrain);
         List<File> splitted = null;
         try {
@@ -96,26 +96,26 @@ public class DataCliManager {
         } catch (Exception e) {
             shutdown("failed to split data into training and test instances");
         }
-        log.debug("moveToArffFolder");
 
+        log.debug("move training arff file to destination");
         moveToArffFolder(splitted.get(0), TRAINING_ARFF_FILENAME);
+        log.debug("move test arff file to destination");
         moveToArffFolder(splitted.get(1), TEST_ARFF_FILENAME);
     }
 
     private File parse(List<File> csvs) throws Exception {
-        log.debug("CSV2ArffConverter");
+        log.debug("convert from csv to arff");
         File arff = null;
         try {
             arff = CSV2ArffConverter.parse(csvs, this.removeBackground);
         } catch (IOException e) {
             shutdown("failed to convert data from csv to arff");
         }
-        log.debug("resulting data: {}", arff);
         return arff;
     }
 
     private void parseSeparateTestScenario(List<File> csvs) throws Exception {
-        log.debug("parseSeparateTestScenario");
+        log.debug("convert seperate test scenario");
         File arff = null;
         try {
             arff = this.parse(extractTestScenario(csvs));
@@ -126,22 +126,19 @@ public class DataCliManager {
     }
 
     public List<File> getScenarios() {
-        log.debug("start: getScenarios");
-        log.debug("CTUManager");
+        log.debug("get scenarios");
         CTUManager ctuManager = new CTUManager(ctuFolder, CSV_FILENAME);
         List<File> csvs = null;
-        log.debug("List<File> {}",csvs);
         try {
             csvs = ctuManager.find(this.scenarios);
         } catch (IOException e) {
             shutdown(e.getMessage());
         }
-        log.debug("List<File> {}",csvs);
+        log.debug("list of scenarios {}", csvs);
         return csvs;
     }
 
     private File generateDestFolder() {
-        log.debug("start: generateDestFolder");
         StringBuilder name = new StringBuilder();
         name.append("scenarios=");
         Iterator<Integer> it = this.scenarios.iterator();
@@ -161,7 +158,6 @@ public class DataCliManager {
         name.append("separateTestScenario=");
         name.append(this.separateTestScenario);
 
-        log.debug("finished: generateDestFolder");
         return new File(DEFAULT_DEST_PARENT_DIR, name.toString());
     }
 
@@ -184,7 +180,7 @@ public class DataCliManager {
         List<File> testCsvList = new LinkedList<File>();
         testCsvList.add(testCsv);
 
-        log.debug("extractedTestScenario: {}", testCsvList);
+        log.debug("extracted test scenario: {}", testCsv);
         return testCsvList;
     }
 
