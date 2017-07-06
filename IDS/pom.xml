@@ -68,6 +68,12 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
       -->
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <sourcepath>${project.basedir}/src/main/;${project.basedir}/../data-preparation/src/main/</sourcepath>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
