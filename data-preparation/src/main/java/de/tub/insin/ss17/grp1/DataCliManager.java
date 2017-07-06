@@ -118,7 +118,10 @@ public class DataCliManager {
         log.debug("convert seperate test scenario");
         File arff = null;
         try {
-            arff = this.parse(extractTestScenario(csvs));
+            File testScenario = extractTestScenario(csvs);
+            List<File> testScenarioList = new LinkedList<>();
+            testScenarioList.add(testScenario);
+            arff = this.parse(testScenarioList);
         } catch (IOException e) {
             shutdown("failed to extract test scenario");
         }
@@ -175,13 +178,11 @@ public class DataCliManager {
         }
     }
 
-    private List<File> extractTestScenario(List<File> csvs) {
+    private File extractTestScenario(List<File> csvs) {
         File testCsv = csvs.remove(csvs.size() - 1);
-        List<File> testCsvList = new LinkedList<File>();
-        testCsvList.add(testCsv);
 
         log.debug("extracted test scenario: {}", testCsv);
-        return testCsvList;
+        return testCsv;
     }
 
     @SuppressWarnings("unused")
