@@ -1,16 +1,12 @@
 package de.tub.insin.ss17.grp1;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 
 public class CTUManager {
-
-    private static final Logger log = LoggerFactory.getLogger(CTUManager.class);
 
     private final File datasetDir;
 
@@ -21,7 +17,7 @@ public class CTUManager {
         this.filename = filename;
     }
 
-    public List<File> find(List<Integer> scenarios) throws FileNotFoundException {
+    public List<File> find(List<Integer> scenarios) throws IOException {
 
         List<File> files = new LinkedList<File>();
         for(Integer scenario : scenarios){
@@ -31,14 +27,12 @@ public class CTUManager {
         return files;
     }
 
-    private File find(Integer scenario) throws FileNotFoundException{
+    private File find(Integer scenario) throws IOException {
         String pathInDataset = scenario.toString() + File.separator + this.filename;
         File file = new File(datasetDir, pathInDataset);
-        if(!file.exists()){
-            log.error("ERROR: file not found");
-            throw new FileNotFoundException();
+        if(!file.canRead()){
+            throw new IOException("can not read scenario file, path: " + file.toPath());
         }
-        log.debug("File: {}", file);
         return file;
     }
 

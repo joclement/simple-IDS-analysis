@@ -15,8 +15,9 @@ public class DataSplitter {
     private Integer percentageTrain;
 
     public DataSplitter(Integer percentageTrain) {
-        assert percentageTrain < 100;
-        assert percentageTrain > 0;
+        if (percentageTrain > 100 || percentageTrain < 0) {
+            throw new IllegalArgumentException("the parameter percentageTrain has to be between 0 and 100");
+        }
         this.percentageTrain = percentageTrain;
     }
 
