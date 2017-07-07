@@ -1,0 +1,63 @@
+To Start the data preparation 
+Mandatory:
+1. enter: java -jar data-preparation-1.0-SNAPSHOT-jar -with-dependencies.jar 
+2. add the scenario you want to prepare (multiple are possible): -s|--scenarios 6
+	--> must be integer
+3. add the CTU13 dataset-directory : -c|--ctu ../src/main/resources/TestCTU13/
+
+
+Example:
+Preparation/ Combination of scenarios 6,11,12:
+
+java -jar data-preparation-1.0-SNAPSHOT-jar-with-dependencies.jar -s 6,11,12 --ctu ../src/main/resources/TestCTU13/
+
+If Message "Arff files moved to: " is shown, means the data-preparation was successful
+
+In the destination folder should now be a directory named:
+scenarios=6,11,12_percentageTrain=80_separateTestScenario=false
+
+Optional:
+
+1. add the destination folder, in which the results are saved: -d|--destFolder 
+	-> Default value: ../IDS/src/main/resources/
+2. add percentage of the data for the training set: -p|--percentageTrain 
+	-> Default value: 80
+3. add number of folds for cross-validation: -f|--numOfFolds 
+	-> Default value: 5
+4. add the last number from the option -s as the test scenario: -t|--separateTestScenario 
+	-> Default value: false
+5. add -r true to remove all Background Instances: -r|--removeBackground 
+	-> Default value: false
+
+Example:
+	Parameter:
+	Preparation/ Combination of scenarios: 6,11,12
+	Destination Folder: Default
+	Percentage of data for training set: 50
+	Number of folds for cross-validation: 6
+	Separate Test Scenario: true
+	Remove Background: Default
+	
+	Command line:
+	java -jar data-preparation-1.0-SNAPSHOT-jar-with-dependencies.jar -s 6,11,12 --ctu ../src/main/resources/TestCTU13/ -p 50 -f 6 --separateTestScenario
+	
+	java -jar data-preparation-1.0-SNAPSHOT-jar-with-dependencies.jar 
+	-s 6,11,12 
+	--ctu ../src/main/resources/TestCTU13/ 
+	-p 50 
+	-f 6 
+	--separateTestScenario
+	
+	
+	In the destination folder should now be a directory named:
+	scenarios=6,11,12_percentageTrain=50_separateTestScenario=true
+	
+	
+
+WARNING:
+
+Some combinations of scenarios may cause an "Out of Memory Error"
+--> This my happen because of the file sizes of datasets
+
+Currently working Datasets:
+4,5,6,7,11,12
