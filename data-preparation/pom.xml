@@ -50,7 +50,7 @@
           </archive>
         </configuration>
       </plugin>
-      <!-- TODO does not working together with eclipse, aks others how to fix
+      <!-- TODO does not working together with eclipse, ask others how to fix
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
@@ -60,6 +60,9 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
       -->
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
     </plugins>
   </build>
 

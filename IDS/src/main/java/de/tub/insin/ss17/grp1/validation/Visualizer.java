@@ -74,8 +74,8 @@ public class Visualizer {
     public void plotCounts(int tps, int fps, int fns, int tns) {
         CategoryDataset dataset = generateCounts(tps, fps, fns, tns);
         JFreeChart barChart = ChartFactory.createBarChart("Some Plot", "", "Count",
-           dataset,PlotOrientation.VERTICAL,
-           true, true, false);
+                dataset,PlotOrientation.VERTICAL,
+                true, true, false);
 
         File file = this.resultPersistence.getFileForSaving("TpsFpsFnsTnsCounts.jpeg");
         try {
@@ -89,8 +89,8 @@ public class Visualizer {
     public void plotRatios(int tps, int fps, int fns, int tns) {
         CategoryDataset dataset = generateRatios(tps, fps, fns, tns);
         JFreeChart barChart = ChartFactory.createBarChart("Some Plot", "", "Ratios",
-           dataset,PlotOrientation.VERTICAL,
-           true, true, false);
+                dataset,PlotOrientation.VERTICAL,
+                true, true, false);
 
         File file = this.resultPersistence.getFileForSaving("TpsFpsFnsTnsRatios.jpeg");
         try {
