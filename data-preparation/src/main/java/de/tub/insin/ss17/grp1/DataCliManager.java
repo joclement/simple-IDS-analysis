@@ -1,7 +1,6 @@
 package de.tub.insin.ss17.grp1;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -13,6 +12,8 @@ import com.beust.jcommander.Parameter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+// TODO should we add printStackTrace on debug level?
 
 public class DataCliManager {
 
@@ -63,108 +64,84 @@ public class DataCliManager {
     // TODO add better error reporting
     public void run() throws Exception {
         log.debug("start: run");
+
         if (this.arffFolder == null) {
             this.arffFolder = generateDestFolder();
         }
+
         List<File> csvs = getScenarios();
 
         if (this.separateTestScenario) {
             parseSeparateTestScenario(csvs);
         }
+
         File arff = parse(csvs);
         if (this.separateTestScenario) {
-            try {
-                moveToArffFolder(arff, TRAINING_ARFF_FILENAME);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                log.error("failed to moveToArffFolder");
-                e.printStackTrace();
-            }
+            moveToArffFolder(arff, TRAINING_ARFF_FILENAME);
         }
         else {
             split(arff);
         }
+
         log.info("Arff files moved to: {}", arffFolder);
         log.debug("finished: run");
     }
 
     private void split(File arff) {
-        log.debug("DataSplitter");
+        log.debug("split into training and test");
         DataSplitter dataSplitter = new DataSplitter(percentageTrain);
-        log.debug("List splitted");
         List<File> splitted = null;
         try {
             splitted = dataSplitter.split(arff);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            log.error("ERROR: failed to split data");
-            e.printStackTrace();
-            log.error("exit system");
-            System.exit(-1);
+            shutdown("failed to split data into training and test instances");
         }
-        log.debug("moveToArffFolder");
-        try {
-            moveToArffFolder(splitted.get(0), TRAINING_ARFF_FILENAME);
-            moveToArffFolder(splitted.get(1), TEST_ARFF_FILENAME);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
 
-            log.error("ERROR: failed to move to Arff-Folder");
-            e.printStackTrace();
-            log.error("exit system");
-            System.exit(-1);
-        }
+        log.debug("move training arff file to destination");
+        moveToArffFolder(splitted.get(0), TRAINING_ARFF_FILENAME);
+        log.debug("move test arff file to destination");
+        moveToArffFolder(splitted.get(1), TEST_ARFF_FILENAME);
     }
 
     private File parse(List<File> csvs) throws Exception {
-        log.debug("CSV2ArffConverter");
+        log.debug("convert from csv to arff");
         File arff = null;
         try {
             arff = CSV2ArffConverter.parse(csvs, this.removeBackground);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-
-            log.error("ERROR: failed to parse data");
-            e.printStackTrace();
-            System.exit(-1);
+            shutdown("failed to convert data from csv to arff");
         }
-        log.debug("resulting data: {}", arff);
         return arff;
     }
 
     private void parseSeparateTestScenario(List<File> csvs) throws Exception {
-        log.debug("parseSeparateTestScenario");
+        log.debug("convert seperate test scenario");
+        File arff = null;
         try {
-            File arff = this.parse(extractTestScenario(csvs));
-            this.moveToArffFolder(arff, TEST_ARFF_FILENAME);
+            File testScenario = extractTestScenario(csvs);
+            List<File> testScenarioList = new LinkedList<>();
+            testScenarioList.add(testScenario);
+            arff = this.parse(testScenarioList);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            log.error("ERROR: failed extracting test scenario");
-            e.printStackTrace();
+            shutdown("failed to extract test scenario");
         }
+        this.moveToArffFolder(arff, TEST_ARFF_FILENAME);
     }
 
     public List<File> getScenarios() {
-        log.debug("start: getScenarios");
-        log.debug("CTUManager");
+        log.debug("get scenarios");
         CTUManager ctuManager = new CTUManager(ctuFolder, CSV_FILENAME);
         List<File> csvs = null;
-        log.debug("List<File> {}",csvs);
         try {
             csvs = ctuManager.find(this.scenarios);
-        } catch (FileNotFoundException e) {
-
-            log.error("ERROR: file not found");
-            e.printStackTrace();
-            log.error("quit system");
-            System.exit(-1);
+        } catch (IOException e) {
+            shutdown(e.getMessage());
         }
-        log.debug("List<File> {}",csvs);
+        log.debug("list of scenarios {}", csvs);
         return csvs;
     }
 
     private File generateDestFolder() {
-        log.debug("start: generateDestFolder");
         StringBuilder name = new StringBuilder();
         name.append("scenarios=");
         Iterator<Integer> it = this.scenarios.iterator();
@@ -184,24 +161,40 @@ public class DataCliManager {
         name.append("separateTestScenario=");
         name.append(this.separateTestScenario);
 
-        log.debug("finished: generateDestFolder");
         return new File(DEFAULT_DEST_PARENT_DIR, name.toString());
     }
 
-    private void moveToArffFolder(File arff, String arffFilename) throws IOException {
-        File testArff = new File(this.arffFolder, arffFilename);
-        assert arff.exists();
-        assert !testArff.exists();
-        testArff.getParentFile().mkdirs();
-        Files.move(arff.toPath(), testArff.toPath(), StandardCopyOption.ATOMIC_MOVE);
+    private void moveToArffFolder(File arff, String arffFilename) {
+        File destinationArff = new File(this.arffFolder, arffFilename);
+        destinationArff.getParentFile().mkdirs();
+        try {
+            Files.move(arff.toPath(), destinationArff.toPath(), StandardCopyOption.ATOMIC_MOVE);
+        } catch (IOException e) {
+            String description =
+                    "Failed to move resulting training arff to destination folder, "
+                    + "from: " + arff.toPath()
+                    + " , to: " + destinationArff.toPath();
+            shutdown(description);
+        }
     }
 
-    private List<File> extractTestScenario(List<File> csvs) {
+    private File extractTestScenario(List<File> csvs) {
         File testCsv = csvs.remove(csvs.size() - 1);
-        List<File> testCsvList = new LinkedList<File>();
-        testCsvList.add(testCsv);
 
-        log.debug("extractedTestScenario: {}", testCsvList);
-        return testCsvList;
+        log.debug("extracted test scenario: {}", testCsv);
+        return testCsv;
+    }
+
+    @SuppressWarnings("unused")
+    private static void shutdown() {
+        shutdown("");
+    }
+
+    private static void shutdown(String description) {
+        if (!description.isEmpty()) {
+            log.error(description);
+        }
+        log.error("Shutdown programm");
+        System.exit(1);
     }
 }

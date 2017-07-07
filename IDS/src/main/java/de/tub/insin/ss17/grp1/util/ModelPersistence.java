@@ -32,7 +32,7 @@ public class ModelPersistence {
 
     public static void save(Classifier classifier, File file) throws IOException {
 
-        // TODO I think some rework for the try, catch, throw IOException is necessary here for 
+        // TODO I think some rework for the try, catch, throw IOException is necessary here for
         // good closing of the stream
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
         oos.writeObject(classifier);
