@@ -53,6 +53,10 @@ public class CSV2ArffConverter {
             int hexaIndex = line.lastIndexOf("0x");
             String hexa = line.substring(hexaIndex, hexaIndex + 6 );
             line = line.replace(hexa, String.valueOf((Util.hex2decimal(hexa))));
+            //Some hexa ports were larger than 65536
+            if(line.charAt(hexaIndex+7) != ','){
+                line = "";
+            }
         }
         return line;
     }
