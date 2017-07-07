@@ -21,7 +21,7 @@ public class Util {
         saveAsArff(data, arffTmp);
         return arffTmp;
     }
-    
+
     public static int hex2decimal(String s) {
     	s = s.substring(2);
         String digits = "0123456789ABCDEF";

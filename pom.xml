@@ -74,7 +74,7 @@
             <trimStackTrace>false</trimStackTrace>
           </configuration>
         </plugin>
-      <!-- TODO does not working together with eclipse, aks others how to fix
+        <!-- TODO does not working together with eclipse, ask others how to fix
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.6.1</version>
@@ -133,6 +133,13 @@
         <plugin>
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>2.9</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.10.4</version>
+          <configuration>
+            <show>public</show>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
