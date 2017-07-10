@@ -6,6 +6,7 @@ import weka.core.Instances;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,6 +90,29 @@ public class Evaluater {
         result.append("FN Ratio: " + metrics.falseNegativeRate());
         result.append(System.lineSeparator());
 
+        result.append(this.printConfusionMatrix(this.evaluation.confusionMatrix()));
+
         return result.toString();
+    }
+
+    private String printConfusionMatrix(double[][] confusionMatrix) {
+        StringBuilder confDesc = new StringBuilder();
+        confDesc.append(System.lineSeparator());
+        confDesc.append("Confusion Matrix: ");
+        confDesc.append(System.lineSeparator());
+        confDesc.append("Row, Column for " + IDSSharedConstants.BACKGROUND + " is: "
+                + this.classIndexs.BACKGROUND);
+        confDesc.append(System.lineSeparator());
+        confDesc.append("Row, Column for " + IDSSharedConstants.NORMAL + " is: "
+                + this.classIndexs.NORMAL);
+        confDesc.append(System.lineSeparator());
+        confDesc.append("Row, Column for " + IDSSharedConstants.BOTNET + " is: "
+                + this.classIndexs.BOTNET);
+        confDesc.append(System.lineSeparator());
+        for (int i = 0; i < confusionMatrix.length; i++) {
+            confDesc.append(Arrays.toString(confusionMatrix[i]));
+            confDesc.append(System.lineSeparator());
+        }
+        return confDesc.toString();
     }
 }
