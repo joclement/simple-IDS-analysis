@@ -185,11 +185,6 @@ public class DataCliManager {
         return testCsv;
     }
 
-    @SuppressWarnings("unused")
-    private static void shutdown() {
-        shutdown("");
-    }
-
     private static void shutdown(String description) {
         if (!description.isEmpty()) {
             log.error(description);
