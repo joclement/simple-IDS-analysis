@@ -8,6 +8,10 @@ class ClassifierHelper {
         assert predictions.length == 3;
 
         double base = predictions[classIndexs.NORMAL] + predictions[classIndexs.BOTNET];
+        if (base == 0.0) {
+            assert(predictions[classIndexs.BACKGROUND] == 1.0);
+            return;
+        }
         predictions[classIndexs.BACKGROUND] = 0;
 
         predictions[classIndexs.NORMAL] /= base;
