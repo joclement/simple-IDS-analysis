@@ -55,13 +55,15 @@ public class Evaluater {
 
         evaluation.evaluateModel(classifier, testData);
 
-        resultPersistence.saveSummary(this.generateTextResult());
+        Metrics metrics = new Metrics(evaluation.confusionMatrix(), this.classIndexs);
+
+        resultPersistence.saveSummary(this.generateTextResult(metrics));
         Visualizer visualizer = new Visualizer(resultPersistence);
-        visualizer.plotAll(this.tps(), this.fps(), this.fns(), this.tns());
+        visualizer.plotAll(metrics);
         log.debug("finished: evaluate");
     }
 
-    private String generateTextResult() {
+    private String generateTextResult(Metrics metrics) {
         StringBuilder result = new StringBuilder();
 
         // TODO add info about classifier, which is evaluated
@@ -70,47 +72,23 @@ public class Evaluater {
         result.append(System.lineSeparator());
         result.append(evaluation.toSummaryString());
         result.append(System.lineSeparator());
-        result.append("TP Count: " + evaluation.numTruePositives(this.classIndexs.BOTNET));
+        result.append("TP Count: " + metrics.tps());
         result.append(System.lineSeparator());
-        result.append("FP Count: " + evaluation.numFalsePositives(this.classIndexs.BOTNET));
+        result.append("FP Count: " + metrics.fps());
         result.append(System.lineSeparator());
-        result.append("TN Count: " + evaluation.numTrueNegatives(this.classIndexs.BOTNET));
+        result.append("TN Count: " + metrics.tns());
         result.append(System.lineSeparator());
-        result.append("FN Count: " + evaluation.numFalseNegatives(this.classIndexs.BOTNET));
+        result.append("FN Count: " + metrics.fns());
         result.append(System.lineSeparator());
-        result.append("TP Ratio: " + evaluation.truePositiveRate(this.classIndexs.BOTNET));
+        result.append("TP Ratio: " + metrics.truePositiveRate());
         result.append(System.lineSeparator());
-        result.append("FP Ratio: " + evaluation.falsePositiveRate(this.classIndexs.BOTNET));
+        result.append("FP Ratio: " + metrics.falsePositiveRate());
         result.append(System.lineSeparator());
-        result.append("TN Ratio: " + evaluation.trueNegativeRate(this.classIndexs.BOTNET));
+        result.append("TN Ratio: " + metrics.trueNegativeRate());
         result.append(System.lineSeparator());
-        result.append("FN Ratio: " + evaluation.falseNegativeRate(this.classIndexs.BOTNET));
+        result.append("FN Ratio: " + metrics.falseNegativeRate());
         result.append(System.lineSeparator());
 
         return result.toString();
-    }
-
-    private int tps() {
-        double tps = this.evaluation.numTruePositives(this.classIndexs.BOTNET);
-        assert(Math.round(tps) == tps);
-        return Math.toIntExact(Math.round(tps));
-    }
-
-    private int fps() {
-        double fps = this.evaluation.numFalsePositives(this.classIndexs.BOTNET);
-        assert(Math.round(fps) == fps);
-        return Math.toIntExact(Math.round(fps));
-    }
-
-    private int fns() {
-        double fns = this.evaluation.numFalseNegatives(this.classIndexs.BOTNET);
-        assert(Math.round(fns) == fns);
-        return Math.toIntExact(Math.round(fns));
-    }
-
-    private int tns() {
-        double tns = this.evaluation.numTrueNegatives(this.classIndexs.BOTNET);
-        assert(Math.round(tns) == tns);
-        return Math.toIntExact(Math.round(tns));
     }
 }

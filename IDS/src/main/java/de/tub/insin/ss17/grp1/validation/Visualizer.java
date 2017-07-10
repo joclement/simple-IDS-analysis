@@ -32,42 +32,35 @@ public class Visualizer {
         this.resultPersistence = resultPersistence;
     }
 
-    private DefaultCategoryDataset generateCounts(int tps, int fps, int fns, int tns) {
+    private DefaultCategoryDataset generateCounts(Metrics metrics) {
         final DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
 
         final String rowKey = "1 Scenario";
 
-        dataset.addValue(tps, rowKey, TP);
-        dataset.addValue(fps, rowKey, FP);
-        dataset.addValue(fns, rowKey, FN);
-        dataset.addValue(tns, rowKey, TN);
+        dataset.addValue(metrics.tps(), rowKey, TP);
+        dataset.addValue(metrics.fps(), rowKey, FP);
+        dataset.addValue(metrics.fns(), rowKey, FN);
+        dataset.addValue(metrics.tns(), rowKey, TN);
 
         return dataset;
     }
 
-    private DefaultCategoryDataset generateRatios(int tps, int fps, int fns, int tns) {
+    private DefaultCategoryDataset generateRatios(Metrics metrics) {
         final DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
 
         final String rowKey = "1 Scenario";
 
-        double recall = tps / (double) (fns + tps);
-        System.out.println("Recall: " + recall);
-        double falsePositiveRate = fps / (double) (fps + tns);
-        double falseNegativeRate = fns / (double) (fns + tps);
-        double specificity = tns / (double) (fps + tns);
-        double accuracy = (tps + tns) / (double) (tps + tns + fps + fns);
-
-        dataset.addValue(recall, rowKey, "Recall");
-        dataset.addValue(falsePositiveRate, rowKey, "False Positive Rate");
-        dataset.addValue(falseNegativeRate, rowKey, "False Negative Rate");
-        dataset.addValue(specificity, rowKey, "Specificity");
-        dataset.addValue(accuracy, rowKey, "Accuracy");
+        dataset.addValue(metrics.recall(), rowKey, "Recall");
+        dataset.addValue(metrics.falsePositiveRate(), rowKey, "False Positive Rate");
+        dataset.addValue(metrics.falseNegativeRate(), rowKey, "False Negative Rate");
+        dataset.addValue(metrics.specificity(), rowKey, "Specificity");
+        dataset.addValue(metrics.accuracy(), rowKey, "Accuracy");
 
         return dataset;
     }
 
-    public void plotCounts(int tps, int fps, int fns, int tns) {
-        CategoryDataset dataset = generateCounts(tps, fps, fns, tns);
+    public void plotCounts(Metrics metrics) {
+        CategoryDataset dataset = generateCounts(metrics);
         JFreeChart barChart = ChartFactory.createBarChart("Some Plot", "", "Count",
                 dataset,PlotOrientation.VERTICAL,
                 true, true, false);
@@ -81,8 +74,8 @@ public class Visualizer {
         }
     }
 
-    public void plotRatios(int tps, int fps, int fns, int tns) {
-        CategoryDataset dataset = generateRatios(tps, fps, fns, tns);
+    public void plotRatios(Metrics metrics) {
+        CategoryDataset dataset = generateRatios(metrics);
         JFreeChart barChart = ChartFactory.createBarChart("Some Plot", "", "Ratios",
                 dataset,PlotOrientation.VERTICAL,
                 true, true, false);
@@ -96,9 +89,9 @@ public class Visualizer {
         }
     }
 
-    public void plotAll(int tps, int fps, int fns, int tns) {
-        plotCounts(tps, fps, fns, tns);
-        plotRatios(tps, fps, fns, tns);
+    public void plotAll(Metrics metrics) {
+        plotCounts(metrics);
+        plotRatios(metrics);
     }
 
 }
