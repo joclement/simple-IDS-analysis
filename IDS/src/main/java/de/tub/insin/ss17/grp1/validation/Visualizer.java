@@ -21,11 +21,6 @@ public class Visualizer {
     private static final int IMG_WIDTH = 640;
     private static final int IMG_HEIGHT = 480;
 
-    private final String TP = "TP";
-    private final String FP = "FP";
-    private final String FN = "FN";
-    private final String TN = "TN";
-
     private final ResultPersistence resultPersistence;
 
     public Visualizer(ResultPersistence resultPersistence) {
@@ -37,10 +32,10 @@ public class Visualizer {
 
         final String rowKey = "1 Scenario";
 
-        dataset.addValue(metrics.tps(), rowKey, TP);
-        dataset.addValue(metrics.fps(), rowKey, FP);
-        dataset.addValue(metrics.fns(), rowKey, FN);
-        dataset.addValue(metrics.tns(), rowKey, TN);
+        dataset.addValue(metrics.tps(), rowKey, "TPs");
+        dataset.addValue(metrics.fps(), rowKey, "FPs");
+        dataset.addValue(metrics.fns(), rowKey, "FNs");
+        dataset.addValue(metrics.tns(), rowKey, "TNs");
 
         return dataset;
     }
