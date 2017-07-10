@@ -38,10 +38,8 @@ public class Trainer {
                 this.classifier = new LinearNNClassifier(params);
                 break;
             default:
-                log.error("ERROR: this classifier doesn't exist");
-                System.err.println("this classifier doesn't exist!");
-                log.error("quit system");
-                System.exit(-1);
+                log.error("there is no classifier with the name: {}", classifierIdentifier);
+                System.exit(1);
         }
     }
 
