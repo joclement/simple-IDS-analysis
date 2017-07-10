@@ -50,11 +50,6 @@ public class Visualizer {
 
         final String rowKey = "1 Scenario";
 
-        System.out.println("tps: " + tps);
-        System.out.println("fps: " + fps);
-        System.out.println("fns: " + fns);
-        System.out.println("tns: " + tns);
-
         double recall = tps / (double) (fns + tps);
         System.out.println("Recall: " + recall);
         double falsePositiveRate = fps / (double) (fps + tns);
