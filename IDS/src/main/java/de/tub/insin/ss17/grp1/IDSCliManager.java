@@ -43,7 +43,7 @@ public class IDSCliManager {
     private List<String> mlParams = new LinkedList<String>();
 
 
-    // TODO specify options for classifiers somewehere, in annotation it is not really possible
+    // TODO specify options for classifiers somewhere, in annotation it is not really possible
     @SuppressWarnings("unused")
     private static final String classifierNameDescription = Trainer.getClassifierNamesDescription();
     @Parameter(names = {"--classifierName", "-c"},
