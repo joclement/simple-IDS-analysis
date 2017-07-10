@@ -60,20 +60,12 @@ public class IDSCliManager {
             try {
                 trainer.train(arffLoader.loadTraining());
             } catch (Exception e) {
-                // TODO Auto-generated catch block
-                log.error("ERROR: failed to train");
-                e.printStackTrace();
-                log.error("quit program");
-                System.exit(-1);
+                shutdown("Failed to train classifier.");
             }
             try {
                 trainer.save(new File(this.dataFolder));
             } catch (Exception e) {
-                // TODO Auto-generated catch block
-                log.error("ERROR: failed to save");
-                e.printStackTrace();
-                log.error("quit program");
-                System.exit(-1);
+                shutdown("Failed to save.");
             }
             log.info("--- finished " + TRAIN + " ---");
         }
@@ -87,33 +79,25 @@ public class IDSCliManager {
             try {
                 classifier = ModelPersistence.load(classifierFile);
             } catch (FileNotFoundException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-                log.error("quit program");
-                System.exit(-1);
+                shutdown("Implementation mistake, please contact the developers.");
             } catch (ClassNotFoundException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-                log.error("quit program");
-                System.exit(-1);
+                shutdown("Implementation mistake, please contact the developers.");
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-                log.error("quit program");
-                System.exit(-1);
+                shutdown("IO fault: " + e1.getMessage());
             }
             ResultPersistence resultPersistence = new ResultPersistence(
                 this.dataFolder, classifierFile.getName());
 
+            Evaluater evaluater = null;
             try {
-                Evaluater evaluater = new Evaluater(classifier, arffLoader.loadTraining());
+                evaluater = new Evaluater(classifier, arffLoader.loadTraining());
+            } catch (Exception e2) {
+               shutdown("Failed to load training data for evaluation");
+            }
+            try {
                 evaluater.evaluate(arffLoader.loadTest(), resultPersistence);
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                log.error("ERROR: failed to evaluate");
-                e.printStackTrace();
-                log.error("Quit program");
-                System.exit(-1);
+            } catch (Exception e1) {
+               shutdown("Failed to do evaluation");
             }
             log.info("--- finished " + TEST + " ---");
         }
@@ -136,4 +120,13 @@ public class IDSCliManager {
 
         return params;
     }
+
+    private static void shutdown(String description) {
+        if (!description.isEmpty()) {
+            log.error(description);
+        }
+        log.error("Shutdown programm");
+        System.exit(1);
+    }
+
 }
