@@ -61,6 +61,9 @@ public class DataCliManager {
                description = "If true, remove all Background Instances")
     private boolean removeBackground = false;
 
+    @Parameter(names = {"--help", "-h"}, help = true)
+    private boolean help;
+
     // TODO add better error reporting
     public void run() throws Exception {
         log.debug("start: run");

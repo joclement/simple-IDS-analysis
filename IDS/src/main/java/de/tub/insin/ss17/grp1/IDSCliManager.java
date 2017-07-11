@@ -52,6 +52,9 @@ public class IDSCliManager {
                required = true)
     private String classifierName;
 
+    @Parameter(names = {"--help", "-h"}, help = true)
+    private boolean help;
+
     public void run() {
         ArffLoader arffLoader = new ArffLoader(this.dataFolder);
 
