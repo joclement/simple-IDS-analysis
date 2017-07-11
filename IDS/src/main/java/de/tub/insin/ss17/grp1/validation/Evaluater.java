@@ -6,6 +6,7 @@ import weka.core.Instances;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Iterator;
 import org.slf4j.Logger;
@@ -55,17 +56,21 @@ public class Evaluater {
         int sizeWithBackground = testData.size();
         this.removeBackground(testData);
 
+        long startTime = System.nanoTime();
         evaluation.evaluateModel(classifier, testData);
+        long duration = System.nanoTime() - startTime;
 
         Metrics metrics = new Metrics(evaluation.confusionMatrix(), this.classIndexs);
 
-        resultPersistence.saveSummary(this.generateTextResult(metrics, sizeWithBackground));
+        resultPersistence.saveSummary(this.generateTextResult(metrics, sizeWithBackground, duration));
         Visualizer visualizer = new Visualizer(resultPersistence);
         visualizer.plotAll(metrics);
         log.debug("finished: evaluate");
     }
 
-    private String generateTextResult(Metrics metrics, int sizeWithBackground) {
+    private String generateTextResult(Metrics metrics,
+                                      int sizeWithBackground,
+                                      long duration) {
         StringBuilder result = new StringBuilder();
 
         // TODO add info about classifier, which is evaluated
@@ -94,6 +99,13 @@ public class Evaluater {
         result.append(System.lineSeparator());
 
         result.append(this.printConfusionMatrix(this.evaluation.confusionMatrix()));
+        result.append(System.lineSeparator());
+        result.append(System.lineSeparator());
+
+        final double seconds = ((double)duration / 1000000000);
+        result.append("Time duration of the weka test set evaluation of this classifier: ");
+        result.append(System.lineSeparator());
+        result.append(new DecimalFormat("#.##########").format(seconds) + " Seconds");
 
         return result.toString();
     }
