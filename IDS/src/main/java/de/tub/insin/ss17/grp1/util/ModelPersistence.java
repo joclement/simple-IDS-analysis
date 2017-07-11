@@ -21,13 +21,14 @@ public class ModelPersistence {
 
     private static final String MODEL_FILE_EXTENSION = ".model";
 
-    public static void save(Classifier classifier,
+    public static File save(Classifier classifier,
                             File arffFolder,
                             String classifierDescription) throws IOException {
         String modelPath = MODEL_FOLDER_PATH + classifierDescription + MODEL_FILE_EXTENSION;
         File model = new File(arffFolder, modelPath);
         model.getParentFile().mkdirs();
         save(classifier, model);
+        return model;
     }
 
     public static void save(Classifier classifier, File file) throws IOException {
