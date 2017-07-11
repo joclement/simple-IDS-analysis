@@ -17,7 +17,7 @@ public class Trainer {
 
     private static final Logger log = LoggerFactory.getLogger(Trainer.class);
 
-    private static final String LINEAR_NEAREST_NEIGHBOUR_SEARCH = "lnns";
+    public static final String LINEAR_NEAREST_NEIGHBOUR_SEARCH = "lnns";
 
     public static final String CLASSIFIER_NAMES_DESCRIPTION =
             LINEAR_NEAREST_NEIGHBOUR_SEARCH;

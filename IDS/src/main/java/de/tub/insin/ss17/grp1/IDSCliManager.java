@@ -50,7 +50,7 @@ public class IDSCliManager {
     @Parameter(names = {"--classifierName", "-c"},
                description = "Name of the classifier, options: " + classifierNameDescription,
                required = true)
-    private String classifierName;
+    private String classifierName = Trainer.LINEAR_NEAREST_NEIGHBOUR_SEARCH;
 
     @Parameter(names = {"--help", "-h"}, help = true)
     private boolean help;
