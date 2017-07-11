@@ -29,7 +29,7 @@ public class IDSCliManager {
 
     // TODO check for correct value
     @Parameter(names = {"--only", "-o"},
-               description = "to specify to do just train, test. options: train, test")
+               description = "to specify to do just train, test. options: " + TRAIN + ", " + TEST)
     private String only = null;
 
     @Parameter(names = {"--arffFolder", "-f"},
@@ -45,10 +45,9 @@ public class IDSCliManager {
 
 
     // TODO specify options for classifiers somewhere, in annotation it is not really possible
-    @SuppressWarnings("unused")
-    private static final String classifierNameDescription = Trainer.getClassifierNamesDescription();
+    private final static String classifierNameDescription = Trainer.CLASSIFIER_NAMES_DESCRIPTION;
     @Parameter(names = {"--classifierName", "-c"},
-               description = "Name of the classifier, options: TODO",
+               description = "Name of the classifier, options: " + classifierNameDescription,
                required = true)
     private String classifierName;
 
