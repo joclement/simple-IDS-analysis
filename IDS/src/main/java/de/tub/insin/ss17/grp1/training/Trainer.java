@@ -19,12 +19,8 @@ public class Trainer {
 
     private static final String LINEAR_NEAREST_NEIGHBOUR_SEARCH = "lnns";
 
-    private static final String[] CLASSIFIER_NAMES;
-
-    static {
-        CLASSIFIER_NAMES = new String[1];
-        CLASSIFIER_NAMES[0] = LINEAR_NEAREST_NEIGHBOUR_SEARCH;
-    }
+    public static final String CLASSIFIER_NAMES_DESCRIPTION =
+            LINEAR_NEAREST_NEIGHBOUR_SEARCH;
 
     private MlAlgo classifier;
 
@@ -52,18 +48,5 @@ public class Trainer {
     public File save(File folder) throws IOException {
         Classifier classifier = this.classifier.getClassifier();
         return ModelPersistence.save(classifier, folder, this.classifier.getFilename());
-    }
-
-    public static String[] getClassifierNames() {
-        return CLASSIFIER_NAMES;
-    }
-
-    public static String getClassifierNamesDescription() {
-        StringBuilder classifierNames = new StringBuilder(CLASSIFIER_NAMES[0]);
-
-        for (int i = 1; i < CLASSIFIER_NAMES.length; i++) {
-            classifierNames.append(", " + CLASSIFIER_NAMES[i]);
-        }
-        return classifierNames.toString();
     }
 }
