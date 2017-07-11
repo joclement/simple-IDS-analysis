@@ -52,23 +52,26 @@ public class Evaluater {
 
     public void evaluate(Instances testData, ResultPersistence resultPersistence) throws Exception {
         log.debug("start: evaluate");
+        int sizeWithBackground = testData.size();
         this.removeBackground(testData);
 
         evaluation.evaluateModel(classifier, testData);
 
         Metrics metrics = new Metrics(evaluation.confusionMatrix(), this.classIndexs);
 
-        resultPersistence.saveSummary(this.generateTextResult(metrics));
+        resultPersistence.saveSummary(this.generateTextResult(metrics, sizeWithBackground));
         Visualizer visualizer = new Visualizer(resultPersistence);
         visualizer.plotAll(metrics);
         log.debug("finished: evaluate");
     }
 
-    private String generateTextResult(Metrics metrics) {
+    private String generateTextResult(Metrics metrics, int sizeWithBackground) {
         StringBuilder result = new StringBuilder();
 
         // TODO add info about classifier, which is evaluated
 
+        result.append("Test Set size with background: " + sizeWithBackground);
+        result.append(System.lineSeparator());
         result.append("Results: " + System.lineSeparator());
         result.append(System.lineSeparator());
         result.append(evaluation.toSummaryString());
