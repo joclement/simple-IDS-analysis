@@ -54,6 +54,8 @@ public class IDSCliManager {
     public void run() {
         ArffLoader arffLoader = new ArffLoader(this.dataFolder);
 
+        File classifierFile = null;
+
         if (only != TEST) {
             log.info("--- start " + TRAIN + " ---");
             Trainer trainer = new Trainer(this.classifierName, prepare(this.mlParams));
@@ -63,7 +65,7 @@ public class IDSCliManager {
                 shutdown("Failed to train classifier.");
             }
             try {
-                trainer.save(new File(this.dataFolder));
+                classifierFile = trainer.save(new File(this.dataFolder));
             } catch (Exception e) {
                 shutdown("Failed to save.");
             }
@@ -74,7 +76,9 @@ public class IDSCliManager {
             log.info("--- start " + TEST + " ---");
             List<File> classifierFiles = ModelPersistence.loadAllFiles(new File(this.dataFolder));
 
-            File classifierFile = this.decide(classifierFiles);
+            if (classifierFile == null) {
+                classifierFile = this.decide(classifierFiles);
+            }
             Classifier classifier = null;
             try {
                 classifier = ModelPersistence.load(classifierFile);
