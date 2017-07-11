@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,6 +76,11 @@ public class IDSCliManager {
         if (only != TRAIN) {
             log.info("--- start " + TEST + " ---");
             List<File> classifierFiles = ModelPersistence.loadAllFiles(new File(this.dataFolder));
+            if (classifierFiles.size() == 0) {
+                shutdown("There are no classifiers to test."
+                        + " You need to train classifiers before you can test one.");
+            }
+
 
             if (classifierFile == null) {
                 classifierFile = this.decide(classifierFiles);
@@ -108,8 +114,25 @@ public class IDSCliManager {
     }
 
     private File decide(List<File> classifiers) {
-        // TODO let it work correctly
-        return classifiers.get(0);
+        // TODO untested
+        assert(classifiers.size() > 0);
+
+        if (classifiers.size() == 1) {
+            return classifiers.get(0);
+        }
+
+        System.out.println("Which classifier do you want to test?");
+        System.out.println("These are the available classifiers:");
+        for (int i = 0; i < classifiers.size(); i++) {
+            File classifier = classifiers.get(i);
+            System.out.println((i+1) + ". " + classifier.getName());
+        }
+        System.out.println("Please type the corresponding number: ");
+        Scanner in = new Scanner(System.in);
+        int num = in.nextInt();
+        in.close();
+        // TODO add good failure report for wrong integer input
+        return classifiers.get(num);
     }
 
     public static List<Param> prepare(List<String> encodedParams) {
