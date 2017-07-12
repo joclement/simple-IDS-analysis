@@ -109,6 +109,8 @@ public class IDSCliManager {
             try {
                 evaluater.evaluate(arffLoader.loadTest(), resultPersistence);
             } catch (Exception e1) {
+                log.error(e1.getLocalizedMessage());
+                log.debug(SharedUtil.stackTraceToString(e1));
                shutdown("Failed to do evaluation");
             }
             log.info("--- finished " + TEST + " ---");
