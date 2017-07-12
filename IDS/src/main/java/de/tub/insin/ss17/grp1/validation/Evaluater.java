@@ -89,11 +89,11 @@ public class Evaluater {
         result.append(System.lineSeparator());
         result.append("FN Count: " + metrics.fns());
         result.append(System.lineSeparator());
-        result.append("TP Ratio: " + metrics.truePositiveRate());
+        result.append("TP Ratio, Recall: " + metrics.truePositiveRate());
         result.append(System.lineSeparator());
         result.append("FP Ratio: " + metrics.falsePositiveRate());
         result.append(System.lineSeparator());
-        result.append("TN Ratio: " + metrics.trueNegativeRate());
+        result.append("TN Ratio, Specificity: " + metrics.trueNegativeRate());
         result.append(System.lineSeparator());
         result.append("FN Ratio: " + metrics.falseNegativeRate());
         result.append(System.lineSeparator());
