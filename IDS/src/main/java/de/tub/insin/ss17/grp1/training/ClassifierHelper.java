@@ -12,7 +12,10 @@ class ClassifierHelper {
             assert(predictions[classIndexs.BACKGROUND] == 1.0);
             return;
         }
-        predictions[classIndexs.BACKGROUND] = 0;
+
+        if(classIndexs.hasBackground()) {
+            predictions[classIndexs.BACKGROUND] = 0;
+        }
 
         predictions[classIndexs.NORMAL] /= base;
         predictions[classIndexs.BOTNET] /= base;
