@@ -1,4 +1,4 @@
-package de.tub.insin.ss17.grp1;
+package de.tub.insin.ss17.grp1.shared;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

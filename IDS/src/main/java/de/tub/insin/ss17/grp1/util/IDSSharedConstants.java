@@ -1,6 +1,6 @@
 package de.tub.insin.ss17.grp1.util;
 
-import de.tub.insin.ss17.grp1.DataSharedConstants;
+import de.tub.insin.ss17.grp1.shared.DataSharedConstants;
 
 public class IDSSharedConstants {
 

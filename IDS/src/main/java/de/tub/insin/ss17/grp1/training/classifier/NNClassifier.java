@@ -1,10 +1,11 @@
-package de.tub.insin.ss17.grp1.training;
+package de.tub.insin.ss17.grp1.training.classifier;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import de.tub.insin.ss17.grp1.training.MlAlgo;
 import de.tub.insin.ss17.grp1.util.ClassIndexs;
 import de.tub.insin.ss17.grp1.util.Param;
 import weka.classifiers.Classifier;
