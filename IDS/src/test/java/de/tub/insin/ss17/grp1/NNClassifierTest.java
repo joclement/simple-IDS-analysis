@@ -4,24 +4,43 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import de.tub.insin.ss17.grp1.training.BallTreeNNClassifier;
 import de.tub.insin.ss17.grp1.training.LinearNNClassifier;
+import de.tub.insin.ss17.grp1.training.NNClassifier;
 import de.tub.insin.ss17.grp1.util.Param;
 import weka.classifiers.Evaluation;
 import weka.core.Instances;
 
 public class NNClassifierTest {
 
+    List<Param> params;
+    NNClassifier classifier;
+    Instances trainingData;
+    Instances testData;
+
+    @Before
+    public void beforeEachTest() {
+        this.trainingData = TestHelper.loadTraining();
+        this.testData = TestHelper.loadTest();
+        params = IDSCliManager.prepare(TestHelper.splitParams(AppTest.BASIC_NN_PARAMS));
+    }
+
     @Test
-    public void testBasic() throws Exception {
+    public void testLinearNNClassifier() throws Exception {
+        classifier = new LinearNNClassifier(params);
+        classifier.train(trainingData);
 
-        List<Param> params = IDSCliManager.prepare(TestHelper.splitParams(AppTest.BASIC_NN_PARAMS));
-        LinearNNClassifier classifier = new LinearNNClassifier(params);
+        Evaluation eval = new Evaluation(trainingData);
+        eval.evaluateModel(classifier.getClassifier(), testData);
+        assertTrue(eval.correct() >= 25);
+    }
 
-        Instances trainingData = TestHelper.loadTraining();
-        Instances testData = TestHelper.loadTest();
-
+    @Test
+    public void testBallTreeNNClassifier() throws Exception {
+        classifier = new BallTreeNNClassifier(params);
         classifier.train(trainingData);
 
         Evaluation eval = new Evaluation(trainingData);
