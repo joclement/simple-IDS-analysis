@@ -39,12 +39,12 @@ public class AppTest {
     }
 
     @Before
-    public void beforeEachTest() {
+    private void beforeEachTest() {
         FileUtils.deleteQuietly(new File(destFolder));
     }
 
     @After
-    public void afterEachTest() {
+    private void afterEachTest() {
 
     }
 
