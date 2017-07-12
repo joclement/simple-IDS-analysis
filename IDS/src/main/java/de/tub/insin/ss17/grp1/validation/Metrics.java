@@ -70,4 +70,9 @@ public class Metrics {
                  (double) (this.tps() + this.tns() + this.fps() + this.fns());
         return accuracy;
     }
+
+    public double precision() {
+        double precision = this.tps() / (double) (this.fps() + this.tps());
+        return precision;
+    }
 }
