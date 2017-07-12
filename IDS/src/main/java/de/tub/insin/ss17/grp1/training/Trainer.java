@@ -18,9 +18,11 @@ public class Trainer {
     private static final Logger log = LoggerFactory.getLogger(Trainer.class);
 
     public static final String LINEAR_NEAREST_NEIGHBOUR_SEARCH = "lnns";
+    public static final String BALL_TREE_NN = "ballTreeNN";
 
     public static final String CLASSIFIER_NAMES_DESCRIPTION =
-            LINEAR_NEAREST_NEIGHBOUR_SEARCH;
+            LINEAR_NEAREST_NEIGHBOUR_SEARCH + ", " +
+            BALL_TREE_NN;
 
     private MlAlgo classifier;
 
@@ -32,6 +34,9 @@ public class Trainer {
         switch (classifierIdentifier) {
             case LINEAR_NEAREST_NEIGHBOUR_SEARCH:
                 this.classifier = new LinearNNClassifier(params);
+                break;
+            case BALL_TREE_NN:
+                this.classifier = new BallTreeNNClassifier(params);
                 break;
             default:
                 log.error("there is no classifier with the name: {}", classifierIdentifier);
