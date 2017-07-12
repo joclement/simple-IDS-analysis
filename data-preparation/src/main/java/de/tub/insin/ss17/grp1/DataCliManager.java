@@ -19,7 +19,7 @@ public class DataCliManager {
 
     private final String CSV_FILENAME = "netflow.csv";
 
-    private final String DEFAULT_DEST_PARENT_DIR = "../IDS/src/main/resources/";
+    private final String DEFAULT_DEST_PARENT_DIR = "./";
 
     private final String DEFAULT_CTU_DIR = "./src/main/resources/CTU13/";
 
@@ -45,21 +45,22 @@ public class DataCliManager {
                description = "Percentage of the data for the training set")
     private Integer percentageTrain = 80;
 
-    @Parameter(names = { "--numOfFolds", "-f" },
-               description = "number of folds for cross-validation")
-    private Integer numOfFolds = 5;
-
     @Parameter(names = { "--separateTestScenario", "-t" },
                description = "Use the last number from the option --scenarios as the test scenario")
     private boolean separateTestScenario = false;
 
     @Parameter(names = { "--destFolder", "-d" },
-               description = "Path to the destination folder")
+               description = "Path to the destination folder,"
+                           + " by default the result folder will be placed in the current folder"
+                           + " with a name describing its contents.")
     private File arffFolder = null;
 
     @Parameter(names = { "--removeBackground", "-r" },
                description = "If true, remove all Background Instances")
     private boolean removeBackground = false;
+
+    @Parameter(names = {"--help", "-h"}, help = true)
+    private boolean help;
 
     // TODO add better error reporting
     public void run() throws Exception {
@@ -183,11 +184,6 @@ public class DataCliManager {
 
         log.debug("extracted test scenario: {}", testCsv);
         return testCsv;
-    }
-
-    @SuppressWarnings("unused")
-    private static void shutdown() {
-        shutdown("");
     }
 
     private static void shutdown(String description) {

@@ -1,10 +1,11 @@
-package de.tub.insin.ss17.grp1.training;
+package de.tub.insin.ss17.grp1.training.classifier;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import de.tub.insin.ss17.grp1.training.MlAlgo;
 import de.tub.insin.ss17.grp1.util.ClassIndexs;
 import de.tub.insin.ss17.grp1.util.Param;
 import weka.classifiers.Classifier;
@@ -14,8 +15,6 @@ import weka.core.SelectedTag;
 
 
 abstract public class NNClassifier implements MlAlgo {
-
-    private double dist;
 
     private Map<String, Consumer<String>> paramDict;
 
@@ -29,7 +28,6 @@ abstract public class NNClassifier implements MlAlgo {
 
     private void setParams(List<Param> params) {
         this.paramDict.put("k", this::setK);
-        this.paramDict.put("dist", this::setDist);
         this.paramDict.put("distweight", this::setDistanceWeighting);
 
         for (Param param : params) {
@@ -43,11 +41,6 @@ abstract public class NNClassifier implements MlAlgo {
         int k = Integer.valueOf(kParam);
         assert k > 0;
         this.nnClassifier.setKNN(k);
-    }
-
-    private void setDist(String dist) {
-        this.dist = Double.valueOf(dist);
-        assert this.dist > 0;
     }
 
     private void setDistanceWeighting(String distanceWeighting) {
