@@ -54,21 +54,47 @@ Optional Parameters:
     Default value: false
 
 ### Perform intrusion detection
+To Start the intrusion detection 
 
-#### Example command
-Just an example before we describe all the parameters.
+1. Move to the folder IDS/target 
+2. enter: java -jar IDS-1.0-SNAPSHOT-jar -with-dependencies.jar 
+3. add the arffFolder you created before: 
+-f|--arffFolder 
+4. add the parameters you want to use: 
+-p|--parameters
+5. add the classifier you want to use: 
+-c|--classifierName
 
-```
-java -jar de.tub.insin.grp1.
-```
+Parameter Description: 
+-f|--arffFolder: Describes the folder that contains the prepared data.
+-p|--parameters: Describes the parameters the classifier requires. 
+The parameters are k and distweight. k describes the amount of the nearest neighbours while distweight describes how the distance between the neighbours is weighed. The options for distweight are none, inverse and similarity. k should be a positive integer
+-c|--classifierName: Name of the classifier you want to use. Implemented classifiers and their names used in the commandline are the following:
+	LinearNearestNeighbourClassifier: lnns (Default)
+	BallTreeNearestNeighbourClassifier: ballTreeNN
 
-#### Parameter Description
-There are a couple of parameters you can/must use. In the java source code they
-are specified in the class ```IDSCliManager.java```.
+Example:
+Using the IDS on the Data prepared in the example of the Data Preparation:
 
-#### More examples
+java -jar IDS-1.0-SNAPSHOT-jar-with-dependencies.jar -f ..IDS/src/main/resource/scenarios=4,5,6,7,11,12_percentageTrain=80_seperateTestScenario=false -p k=2,distweight=inverse –c lnns
 
-# TODO Someone Write this part
+##TODO (default ggf. Anpassen)
+You have to use the absolute path name of your destination folder of the Data Preparation. The destination folder is per default the folder you are currently using. If you saved your arff folder there, you need to use the absolute path. 
+
+Using this command you start the IDS using the prepared data “scenarios=4,5,6,7,11,12_percentageTrain=80_seperateTestScenario=false”, the classifier LinearNearestNeighbour with the parameters k=2 and distweight=inverse.
+
+If the message " INFO IDSCliManager: 116 - --- finished test ---" is shown, it means the intrusion detection was successful.
+
+In the destination folder (in this example "scenarios=4,5,6,7,11,12_percentageTrain=80_seperateTestScenario=false") there now should be a folder "model" which contains the training model and a folder "results" which contains a report and a plotted overview.
+
+Optional:
+-h|--help: can be used to show possible options.
+-o|--only: can be used to specify the usage of the IDS. The options of usage are train and test.  
+
+
+
+
+
 
 ## Contributors
 * Joris Clement
