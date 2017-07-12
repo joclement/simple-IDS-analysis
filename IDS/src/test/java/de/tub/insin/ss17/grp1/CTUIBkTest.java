@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.tub.insin.ss17.grp1.training.CTUIBk;
+import de.tub.insin.ss17.grp1.training.classifier.CTUIBk;
 import de.tub.insin.ss17.grp1.util.ClassIndexs;
 import de.tub.insin.ss17.grp1.util.IDSSharedConstants;
 import weka.core.Instances;

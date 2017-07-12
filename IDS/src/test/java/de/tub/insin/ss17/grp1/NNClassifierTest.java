@@ -7,9 +7,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.tub.insin.ss17.grp1.training.BallTreeNNClassifier;
-import de.tub.insin.ss17.grp1.training.LinearNNClassifier;
-import de.tub.insin.ss17.grp1.training.NNClassifier;
+import de.tub.insin.ss17.grp1.training.classifier.BallTreeNNClassifier;
+import de.tub.insin.ss17.grp1.training.classifier.LinearNNClassifier;
+import de.tub.insin.ss17.grp1.training.classifier.NNClassifier;
 import de.tub.insin.ss17.grp1.util.Param;
 import weka.classifiers.Evaluation;
 import weka.core.Instances;

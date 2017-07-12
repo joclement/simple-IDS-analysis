@@ -7,6 +7,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.tub.insin.ss17.grp1.training.classifier.BallTreeNNClassifier;
+import de.tub.insin.ss17.grp1.training.classifier.LinearNNClassifier;
 import de.tub.insin.ss17.grp1.util.ModelPersistence;
 import de.tub.insin.ss17.grp1.util.Param;
 import weka.classifiers.Classifier;
