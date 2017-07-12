@@ -21,10 +21,17 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.tub.insin.ss17.grp1.shared.DataSharedConstants;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.CSVLoader;
+
+/**
+ * Converts .csv into .arff.
+ *
+ * @author Joris Clement
+ * @author Philip Wilson
+ *
+ */
 
 public class CSV2ArffConverter {
 
@@ -287,6 +294,14 @@ public class CSV2ArffConverter {
         return arffTmp;
     }
 
+    /**
+     * JUnit tests for data-preparation.
+     *
+     * @param csvs List of scenarios to be converted
+     * @param removeBackground If true will not include Background
+     * Traffic into ARFF.
+     *
+     */
     public static File parse(List<File> csvs, boolean removeBackground) throws Exception {
         File combinedCsv = prepare(csvs, removeBackground);
         System.gc();
