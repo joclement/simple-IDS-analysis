@@ -31,7 +31,27 @@ They are described in the following.
 
 ### Convert data from CTU-13 to Arff
 
-# TODO Someone Write this part
+To run the data-preparation 
+1. enter java -jar data-preparation-1.0-SNAPSHOT-jar-with-dependencies.jar
+2. add the scenario you want to prepare (multiple are possible): 
+    -s | --scenarios 4,5,6,7,11,12
+3. add the CTU13 dataset-directory:
+    -c | --ctu ../src/main/resources/TestCTU13/
+
+Example:
+java -jar data-preparation-1.0-SNAPSHOT-jar-with-dependencies.jar -s 6,11,12 -c ../src/main/resources/TestCTU13
+
+If the message "ARff files moved to: " is shown, the data-preparation was successful. There should be a folder named "scenarios=6,11,12_percentageTrain=80_seperateTestScenario=false" in the directory data-preparation/IDS/src/main/resources .
+
+Optional Parameters:
+1. add the destination folder, in which the sults are saved: -d | --destFolder
+    Default value: ../IDS/src/main/resources/
+2. set percentage of the data for the training set: -p | --percentageTrain
+    Default value: 80
+3. set the last number from option -s as the test scenario: -t | --seperateTestScenario
+    Default value: false
+4. set -r true to remove all Background Instances: -r | --removeBackground
+    Default value: false
 
 ### Perform intrusion detection
 
