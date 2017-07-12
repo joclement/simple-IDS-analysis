@@ -48,8 +48,7 @@ public class IDSCliManager {
     // TODO specify options for classifiers somewhere, in annotation it is not really possible
     private final static String classifierNameDescription = Trainer.CLASSIFIER_NAMES_DESCRIPTION;
     @Parameter(names = {"--classifierName", "-c"},
-               description = "Name of the classifier, options: " + classifierNameDescription,
-               required = true)
+               description = "Name of the classifier, options: " + classifierNameDescription)
     private String classifierName = Trainer.LINEAR_NEAREST_NEIGHBOUR_SEARCH;
 
     @Parameter(names = {"--help", "-h"}, help = true)
