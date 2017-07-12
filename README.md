@@ -34,14 +34,14 @@ They are described in the following.
 To run the data-preparation 
 1. enter java -jar data-preparation-1.0-SNAPSHOT-jar-with-dependencies.jar
 2. add the scenario you want to prepare (multiple are possible): 
-    -s | --scenarios 4,5,6,7,11,12
+    -s | --scenarios 
 3. add the CTU13 dataset-directory:
     -c | --ctu ../src/main/resources/TestCTU13/
 
 Example:
-java -jar data-preparation-1.0-SNAPSHOT-jar-with-dependencies.jar -s 6,11,12 -c ../src/main/resources/TestCTU13
+java -jar data-preparation-1.0-SNAPSHOT-jar-with-dependencies.jar -s 4,5,6,7,11,12 -c ../src/main/resources/TestCTU13
 
-If the message "ARff files moved to: " is shown, the data-preparation was successful. There should be a folder named "scenarios=6,11,12_percentageTrain=80_seperateTestScenario=false" in the directory data-preparation/IDS/src/main/resources .
+If the message "ARff files moved to: " is shown, the data-preparation was successful. There should be a folder named "scenarios=4,5,6,7,11,12_percentageTrain=80_seperateTestScenario=false" in the directory data-preparation/IDS/src/main/resources .
 
 Optional Parameters:
 1. add the destination folder, in which the sults are saved: -d | --destFolder
