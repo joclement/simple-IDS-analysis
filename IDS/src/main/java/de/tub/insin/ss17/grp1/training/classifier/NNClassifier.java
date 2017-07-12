@@ -85,6 +85,9 @@ abstract public class NNClassifier implements MlAlgo {
         filename.append("_n=");
         filename.append(this.nnClassifier.getNumTraining());
 
+        filename.append("_distweight=");
+        filename.append(this.nnClassifier.getDistanceWeighting().getSelectedTag().getReadable());
+
         return filename.toString();
     }
 
