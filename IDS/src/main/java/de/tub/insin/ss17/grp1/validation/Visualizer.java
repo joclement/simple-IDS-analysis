@@ -50,6 +50,7 @@ public class Visualizer {
         dataset.addValue(metrics.falseNegativeRate(), rowKey, "False Negative Rate");
         dataset.addValue(metrics.specificity(), rowKey, "Specificity");
         dataset.addValue(metrics.accuracy(), rowKey, "Accuracy");
+        dataset.addValue(metrics.precision(), rowKey, "Precision");
 
         return dataset;
     }
