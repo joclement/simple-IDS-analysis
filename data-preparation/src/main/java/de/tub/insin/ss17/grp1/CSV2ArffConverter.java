@@ -14,6 +14,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -33,6 +34,26 @@ public class CSV2ArffConverter {
     private final static String BOTNET = DataSharedConstants.BOTNET;
     private final static String NORMAL = DataSharedConstants.NORMAL;
     private final static String BACKGROUND = DataSharedConstants.BACKGROUND;
+
+    private static String findIp(String line, int attrIndex) throws IOException{
+        int commas = 0;
+        int start = 0;
+        int counter = 0;
+        boolean beginningIsFound = false;
+        while(commas < attrIndex){
+            if(commas == attrIndex - 1 && !beginningIsFound) {
+                start = counter;
+                beginningIsFound = true;
+            }
+            if(line.charAt(counter) == ','){
+                commas++;
+            }
+
+
+            counter++;
+        }
+        return line.substring(start, counter - 1);
+    }
 
     private static final String deleteLabelExcess(String line, String traffic, int index) {
         String toDelete = "";
@@ -64,7 +85,7 @@ public class CSV2ArffConverter {
     }
 
     private static final void deleteExcess(int index, String line, String traffic,
-            File csv, int lineNum, int totLines, File temp, boolean rB) throws IOException {
+            int lineNum, int totLines, File temp, boolean rB) throws IOException {
 
         if(!(traffic == BACKGROUND && rB)) {
             FileOutputStream fileOut = new FileOutputStream(temp,true);
@@ -90,12 +111,28 @@ public class CSV2ArffConverter {
         File temp = File.createTempFile("temp",".csv");
         //now read the file line by line...
         int totLines = 0;
-        int lineNum = 0;
         LineNumberReader lnr = new LineNumberReader(new FileReader(csv));
+
+        FileOutputStream fileOut = new FileOutputStream(temp,true);
+        String first = lnr.readLine();
+        fileOut.write(first.getBytes(),0,first.length());
+        fileOut.write("\n".getBytes(),0,"\n".length());
+        fileOut.close();
+
         while (lnr.readLine() != null) {
             totLines++;
         }
-        for(int j =0; j<=totLines-1;j++){
+        List<String> IPList = new LinkedList<String>();
+
+        int id = 0;
+
+        scanner.nextLine();
+        for(int what = 0; what < totLines*0/512;what++) {
+            scanner.nextLine();
+        }
+        //totLines = totLines*1/1024;
+        assert IPList.isEmpty();
+        for(int j = 0; j < totLines; j++){
 
             if (j == 0) {
                 log.debug("0%");
@@ -113,25 +150,44 @@ public class CSV2ArffConverter {
                 log.debug("100%");
             }
 
+
             String line = scanner.nextLine();
 
+            if(!rB || !line.contains(BACKGROUND)) {
+                String valueSrc = findIp(line, 4);
+                String valueDest = findIp(line, 7);
+
+                if(IPList.contains(valueSrc)){
+                    line = line.replaceFirst(valueSrc, String.valueOf(IPList.indexOf(valueSrc)));
+                }
+                else {
+                    IPList.add(valueSrc);
+                    id++;
+                    line = line.replaceFirst(valueSrc, String.valueOf(id));
+                }
+
+                if(IPList.contains(valueDest)){
+                    line = line.replaceFirst(valueDest, String.valueOf(IPList.indexOf(valueDest)));
+                }
+                else {
+                    IPList.add(valueDest);
+                    id++;
+                    line = line.replaceFirst(valueDest,String.valueOf(id));
+                }
+            }
+
+
             if(line.contains(BOTNET)) {
-                deleteExcess(6,line,BOTNET,csv,lineNum, totLines,temp, rB);
+                deleteExcess(6,line,BOTNET,j, totLines,temp, rB);
             }
             else if(line.contains(NORMAL)) {
-                deleteExcess(6,line,NORMAL,csv,lineNum,totLines,temp, rB);
+                deleteExcess(6,line,NORMAL,j,totLines,temp, rB);
             }
             else if(line.contains(BACKGROUND)) {
-                deleteExcess(10,line,BACKGROUND,csv,lineNum,totLines,temp, rB);
+                deleteExcess(10,line,BACKGROUND,j,totLines,temp, rB);
             }
-            else{
-                FileOutputStream fileOut = new FileOutputStream(temp,true);
-                fileOut.write(line.getBytes(),0,line.length());
-                fileOut.write("\n".getBytes(),0,"\n".length());
-                fileOut.close();
-            }
-            lineNum++;
         }
+        IPList.clear();
         lnr.close();
         scanner.close();
         Files.copy(temp.toPath(), csv.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -208,6 +264,7 @@ public class CSV2ArffConverter {
         log.debug("after getStructure");
         Instance next = loader.getNextInstance(structure);
         log.debug("after first getStructure");
+
         while(next != null){
             Instances temp = new Instances(structure, 0);
             int i = 0;
@@ -234,6 +291,7 @@ public class CSV2ArffConverter {
         System.gc();
         log.debug("convert");
         File combinedArff = convert(combinedCsv);
+        combinedCsv.delete();
         log.debug("finished: File parse");
         return combinedArff;
     }
