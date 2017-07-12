@@ -45,10 +45,6 @@ public class DataCliManager {
                description = "Percentage of the data for the training set")
     private Integer percentageTrain = 80;
 
-    @Parameter(names = { "--numOfFolds", "-f" },
-               description = "number of folds for cross-validation")
-    private Integer numOfFolds = 5;
-
     @Parameter(names = { "--separateTestScenario", "-t" },
                description = "Use the last number from the option --scenarios as the test scenario")
     private boolean separateTestScenario = false;
