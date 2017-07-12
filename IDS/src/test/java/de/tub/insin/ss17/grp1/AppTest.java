@@ -11,7 +11,7 @@ import org.junit.Test;
 public class AppTest
 {
 
-    protected final static String BASIC_NN_PARAMS = "k=5,dist=20.0,distweight=none";
+    protected final static String BASIC_NN_PARAMS = "k=5,distweight=none";
 
     protected final static String classifierName = "lnns";
 
