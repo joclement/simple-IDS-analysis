@@ -64,17 +64,26 @@ public class CSV2ArffConverter {
         return line.substring(start, counter - 1);
     }
 
-    private static final String deleteLabelExcess(String line, String traffic, int index) {
+    private static final String deleteLabelExcess(String line, String traffic) {
         String toDelete = "";
         line = line.replace("flow=", "");
         line = line.replace("From-", "");
         line = line.replace("To-", "");
-        index += line.lastIndexOf(traffic);
+        int index = line.lastIndexOf(traffic);
         while(index != line.length()) {
             toDelete += line.charAt(index);
             index++;
         }
-        line = line.replace(toDelete, "");
+        if(traffic == BOTNET) {
+            line = line.replace(toDelete, "A");
+        }
+        else if(traffic == NORMAL) {
+            line = line.replace(toDelete, "N");
+        }
+        else if(traffic == BACKGROUND) {
+            line = line.replace(toDelete, "B");
+        }
+
         return line;
     }
 
@@ -93,13 +102,13 @@ public class CSV2ArffConverter {
         return line;
     }
 
-    private static final void deleteExcess(int index, String line, String traffic,
+    private static final void deleteExcess(String line, String traffic,
             int lineNum, int totLines, File temp, boolean rB) throws IOException {
 
         if(!(traffic == BACKGROUND && rB)) {
             FileOutputStream fileOut = new FileOutputStream(temp,true);
 
-            line = deleteLabelExcess(line, traffic, index);
+            line = deleteLabelExcess(line, traffic);
 
             // Date format only accepts 3 digits after the seconds and not 6
             line = line.substring(0, 23) + line.substring(26);
@@ -159,7 +168,6 @@ public class CSV2ArffConverter {
                 log.debug("100%");
             }
 
-
             String line = scanner.nextLine();
 
             if(!rB || !line.contains(BACKGROUND)) {
@@ -187,13 +195,13 @@ public class CSV2ArffConverter {
 
 
             if(line.contains(BOTNET)) {
-                deleteExcess(6,line,BOTNET,j, totLines,temp, rB);
+                deleteExcess(line,BOTNET,j, totLines,temp, rB);
             }
             else if(line.contains(NORMAL)) {
-                deleteExcess(6,line,NORMAL,j,totLines,temp, rB);
+                deleteExcess(line,NORMAL,j,totLines,temp, rB);
             }
             else if(line.contains(BACKGROUND)) {
-                deleteExcess(10,line,BACKGROUND,j,totLines,temp, rB);
+                deleteExcess(line,BACKGROUND,j,totLines,temp, rB);
             }
         }
         IPList.clear();
