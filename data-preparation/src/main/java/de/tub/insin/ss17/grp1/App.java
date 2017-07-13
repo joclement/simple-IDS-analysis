@@ -25,6 +25,5 @@ public class App {
         } else {
             cliManager.run();
         }
-        cliManager.run();
     }
 }
