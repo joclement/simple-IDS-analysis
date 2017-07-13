@@ -131,6 +131,7 @@ public class DataCliManager {
 
     public List<File> getScenarios() {
         log.debug("get scenarios");
+
         CTUManager ctuManager = new CTUManager(ctuFolder, CSV_FILENAME);
         List<File> csvs = null;
         try {
