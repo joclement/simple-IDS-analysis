@@ -26,8 +26,6 @@ public class AppTest {
 
     private final static int ARFF_ATTRIBUTE_COUNT = 15;
 
-    private final static int trainingPercentage = 80;
-
     static {
         destFolder = "../IDS/src/main/resources/test/";
         ctuFolder = "src/main/resources/TestCTU13/";
@@ -88,9 +86,11 @@ public class AppTest {
 
     @Test
     public void testTrainingPercentage() throws Exception {
+        final int trainingPercentage = 70;
         String[] argv = {"-s", scenarios,
                          "-d", destFolder,
-                         "--ctu", ctuFolder};
+                         "--ctu", ctuFolder,
+                         "-p", "" + trainingPercentage};
 
         int totLength = TestHelper.totalLengthCsvs(argv);
         App.main(argv);
