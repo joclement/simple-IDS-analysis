@@ -14,7 +14,6 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -140,7 +139,7 @@ public class CSV2ArffConverter {
         while (lnr.readLine() != null) {
             totLines++;
         }
-        List<String> IPList = new LinkedList<String>();
+        AVLTree<String> tree = new AVLTree<String>();
 
         int id = 0;
 
@@ -149,7 +148,6 @@ public class CSV2ArffConverter {
             scanner.nextLine();
         }
         //totLines = totLines*1/1024;
-        assert IPList.isEmpty();
         for(int j = 0; j < totLines; j++){
 
             if (j == 0) {
@@ -173,22 +171,23 @@ public class CSV2ArffConverter {
             if(!rB || !line.contains(BACKGROUND)) {
                 String valueSrc = findIp(line, 4);
                 String valueDest = findIp(line, 7);
-
-                if(IPList.contains(valueSrc)){
-                    line = line.replaceFirst(valueSrc, String.valueOf(IPList.indexOf(valueSrc)));
+                int position = tree.idOf(valueSrc);
+                if(position != 0){
+                    line = line.replaceFirst(valueSrc, String.valueOf(position));
                 }
                 else {
-                    IPList.add(valueSrc);
                     id++;
+                    tree.insert(valueSrc, id);
                     line = line.replaceFirst(valueSrc, String.valueOf(id));
                 }
 
-                if(IPList.contains(valueDest)){
-                    line = line.replaceFirst(valueDest, String.valueOf(IPList.indexOf(valueDest)));
+                position = tree.idOf(valueDest);
+                if(position != 0){
+                    line = line.replaceFirst(valueDest, String.valueOf(position));
                 }
                 else {
-                    IPList.add(valueDest);
                     id++;
+                    tree.insert(valueDest, id);
                     line = line.replaceFirst(valueDest,String.valueOf(id));
                 }
             }
@@ -204,7 +203,7 @@ public class CSV2ArffConverter {
                 deleteExcess(line,BACKGROUND,j,totLines,temp, rB);
             }
         }
-        IPList.clear();
+        tree.root = null;
         lnr.close();
         scanner.close();
         Files.copy(temp.toPath(), csv.toPath(), StandardCopyOption.REPLACE_EXISTING);
