@@ -8,7 +8,6 @@ import java.io.File;
 
 import org.apache.commons.io.FileUtils;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -40,11 +39,6 @@ public class AppTest {
         FileUtils.deleteQuietly(new File(destFolder));
     }
 
-    @After
-    public void afterEachTest() {
-
-    }
-
     // TODO add checking for this test
     @Test
     public void testSplittedScenarios() throws Exception {
@@ -72,19 +66,19 @@ public class AppTest {
 
         // TODO improve checks on arff data
         try {
-            Instances trainInstance = new DataSource(trainingArff.getAbsolutePath()).getDataSet();
-            assertEquals(ARFF_ATTRIBUTE_COUNT, trainInstance.numAttributes());
+            Instances trainInstances = new DataSource(trainingArff.getAbsolutePath()).getDataSet();
+            assertEquals(ARFF_ATTRIBUTE_COUNT, trainInstances.numAttributes());
 
-            Instances testInstance = new DataSource(testArff.getAbsolutePath()).getDataSet();
-            assertEquals(ARFF_ATTRIBUTE_COUNT, testInstance.numAttributes());
+            Instances testInstances = new DataSource(testArff.getAbsolutePath()).getDataSet();
+            assertEquals(ARFF_ATTRIBUTE_COUNT, testInstances.numAttributes());
             
-            assertFalse("Data has missing values",trainInstance.contains(",,"));
-            assertFalse("Data has missing values",testInstance.contains(",,"));
+            assertFalse("Data has missing values", trainInstances.contains(",,"));
+            assertFalse("Data has missing values", testInstances.contains(",,"));
             
             assertFalse("portSrc and portDest start with \"0x\"",
-            		trainInstance.contains(",0x"));
+                    trainInstances.contains(",0x"));
             assertFalse("portSrc and portDest start with \"0x\"",
-            		testInstance.contains(",0x"));
+                    testInstances.contains(",0x"));
             
         } catch (Exception e) {
             e.printStackTrace();
