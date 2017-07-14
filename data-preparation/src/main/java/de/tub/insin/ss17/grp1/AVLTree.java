@@ -5,18 +5,18 @@ package de.tub.insin.ss17.grp1;
  *
  * @author Philip Wilson
  */
-class AVLTree<T extends Comparable<? super T>> {
+class AVLTree {
   /**
    *Class that represents each individual component of the tree
    *
    * @author Philip Wilson
    */
-  protected static class AvlNode<T> {
+  protected static class AvlNode {
 
     protected String data;
     protected int id;
-    protected AvlNode<T> left;
-    protected AvlNode<T> right;
+    protected AvlNode left;
+    protected AvlNode right;
     protected int height;
 
     /**
@@ -37,7 +37,7 @@ class AVLTree<T extends Comparable<? super T>> {
      * @param lt      Left child
      * @param rt      Right child
      */
-    public AvlNode (String value, int id, AvlNode<T> lt, AvlNode<T> rt){
+    public AvlNode (String value, int id, AvlNode lt, AvlNode rt){
       this.data = value;
       this.id = id;
       this.left = lt;
@@ -45,7 +45,7 @@ class AVLTree<T extends Comparable<? super T>> {
     }
   }
 
-  public AvlNode<T> root;
+  public AvlNode root;
 
 
   /**
@@ -63,7 +63,7 @@ class AVLTree<T extends Comparable<? super T>> {
    * @param t Node
    * @return Height of the given node.
    */
-  public int height (AvlNode<T> t){
+  public int height (AvlNode t){
     return t == null ? -1 : t.height;
   }
 
@@ -107,9 +107,9 @@ class AVLTree<T extends Comparable<? super T>> {
    * @return New root of the tree
    * @throws Exception
    */
-  protected AvlNode<T> insert (String x, int id, AvlNode<T> t) throws Exception{
+  protected AvlNode insert (String x, int id, AvlNode t) throws Exception{
     if (t == null)
-      t = new AvlNode<T> (x, id);
+      t = new AvlNode (x, id);
     else if (x.compareTo (t.data) < 0){
       t.left = this.insert (x, id, t.left);
 
@@ -149,8 +149,8 @@ class AVLTree<T extends Comparable<? super T>> {
    * @param k2 Root of tree we are rotating
    * @return New root
    */
-  protected AvlNode<T> rotateWithLeftChild (AvlNode<T> k2){
-    AvlNode<T> k1 = k2.left;
+  protected AvlNode rotateWithLeftChild (AvlNode k2){
+    AvlNode k1 = k2.left;
 
     k2.left = k1.right;
     k1.right = k2;
@@ -170,7 +170,7 @@ class AVLTree<T extends Comparable<? super T>> {
    * @param k3 Root of tree we are rotating
    * @return New root
    */
-  protected AvlNode<T> doubleWithLeftChild (AvlNode<T> k3){
+  protected AvlNode doubleWithLeftChild (AvlNode k3){
     k3.left = this.rotateWithRightChild (k3.left);
     return this.rotateWithLeftChild (k3);
   }
@@ -183,8 +183,8 @@ class AVLTree<T extends Comparable<? super T>> {
    * @param k1 Root of tree we are rotating.
    * @return New root
    */
-  protected AvlNode<T> rotateWithRightChild (AvlNode<T> k1){
-    AvlNode<T> k2 = k1.right;
+  protected AvlNode rotateWithRightChild (AvlNode k1){
+    AvlNode k2 = k1.right;
 
     k1.right = k2.left;
     k2.left = k1;
@@ -204,7 +204,7 @@ class AVLTree<T extends Comparable<? super T>> {
    * @param k1 Root of tree we are rotating
    * @return New root
    */
-  protected AvlNode<T> doubleWithRightChild (AvlNode<T> k1){
+  protected AvlNode doubleWithRightChild (AvlNode k1){
     k1.right = this.rotateWithLeftChild (k1.right);
     return this.rotateWithRightChild (k1);
   }
@@ -227,7 +227,7 @@ class AVLTree<T extends Comparable<? super T>> {
    * @param t Root of the tree
    * @return True if the element is found, false otherwise
    */
-  protected int idOf(String x, AvlNode<T> t) {
+  protected int idOf(String x, AvlNode t) {
     if (t == null){
       return 0; // The node was not found
 
