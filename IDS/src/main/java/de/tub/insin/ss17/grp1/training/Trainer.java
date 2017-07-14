@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.tub.insin.ss17.grp1.training.classifier.BallTreeNNClassifier;
+import de.tub.insin.ss17.grp1.training.classifier.DecisionTree;
 import de.tub.insin.ss17.grp1.training.classifier.LinearNNClassifier;
 import de.tub.insin.ss17.grp1.util.ModelPersistence;
 import de.tub.insin.ss17.grp1.util.Param;
@@ -21,10 +22,12 @@ public class Trainer {
 
     public static final String LINEAR_NN = "lnns";
     public static final String BALL_TREE_NN = "ballTreeNN";
+    public static final String J48 = "j48";
 
     public static final String CLASSIFIER_NAMES_DESCRIPTION =
             LINEAR_NN    + ", " +
-            BALL_TREE_NN;
+            BALL_TREE_NN + ", " +
+            J48;
 
     private MlAlgo classifier;
 
@@ -39,6 +42,9 @@ public class Trainer {
                 break;
             case BALL_TREE_NN:
                 this.classifier = new BallTreeNNClassifier(params);
+                break;
+            case J48:
+                this.classifier = new DecisionTree();
                 break;
             default:
                 log.error("there is no classifier with the name: {}", classifierIdentifier);
