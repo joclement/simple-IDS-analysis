@@ -139,7 +139,7 @@ public class CSV2ArffConverter {
         while (lnr.readLine() != null) {
             totLines++;
         }
-        AVLTree<String> tree = new AVLTree<String>();
+        AVLTree tree = new AVLTree();
 
         int id = 0;
 
