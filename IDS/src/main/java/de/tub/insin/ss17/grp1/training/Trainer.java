@@ -19,11 +19,11 @@ public class Trainer {
 
     private static final Logger log = LoggerFactory.getLogger(Trainer.class);
 
-    public static final String LINEAR_NEAREST_NEIGHBOUR_SEARCH = "lnns";
+    public static final String LINEAR_NN = "lnns";
     public static final String BALL_TREE_NN = "ballTreeNN";
 
     public static final String CLASSIFIER_NAMES_DESCRIPTION =
-            LINEAR_NEAREST_NEIGHBOUR_SEARCH + ", " +
+            LINEAR_NN    + ", " +
             BALL_TREE_NN;
 
     private MlAlgo classifier;
@@ -34,7 +34,7 @@ public class Trainer {
 
     private void setClassifier(String classifierIdentifier, List<Param> params) {
         switch (classifierIdentifier) {
-            case LINEAR_NEAREST_NEIGHBOUR_SEARCH:
+            case LINEAR_NN:
                 this.classifier = new LinearNNClassifier(params);
                 break;
             case BALL_TREE_NN:
