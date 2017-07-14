@@ -144,11 +144,8 @@ public class CSV2ArffConverter {
         int id = 0;
 
         scanner.nextLine();
-        for(int what = 0; what < totLines*0/512;what++) {
-            scanner.nextLine();
-        }
-        //totLines = totLines*1/1024;
         for(int j = 0; j < totLines; j++){
+
 
             if (j == 0) {
                 log.debug("0%");
@@ -171,6 +168,7 @@ public class CSV2ArffConverter {
             if(!rB || !line.contains(BACKGROUND)) {
                 String valueSrc = findIp(line, 4);
                 String valueDest = findIp(line, 7);
+
                 int position = tree.idOf(valueSrc);
                 if(position != 0){
                     line = line.replaceFirst(valueSrc, String.valueOf(position));
@@ -188,10 +186,9 @@ public class CSV2ArffConverter {
                 else {
                     id++;
                     tree.insert(valueDest, id);
-                    line = line.replaceFirst(valueDest,String.valueOf(id));
+                    line = line.substring(0, 28) + line.substring(30).replaceFirst(valueDest,String.valueOf(id));
                 }
             }
-
 
             if(line.contains(BOTNET)) {
                 deleteExcess(line,BOTNET,j, totLines,temp, rB);
