@@ -41,8 +41,7 @@ public class IDSCliManager {
     // TODO find good way to specify ml parameters, f.x. for NN classifier
     @Parameter(names = {"--parameters", "-p"},
                description = "Parameters for the ml algorithm,"
-                           + " check the documentation or weka for the specific values",
-               required = true)
+                           + " check the documentation or weka for the specific values")
     private List<String> mlParams = new LinkedList<String>();
 
 
