@@ -7,11 +7,11 @@ import java.nio.file.StandardCopyOption;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
 import com.beust.jcommander.Parameter;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+
 
 // TODO should we add printStackTrace on debug level?
 
@@ -25,16 +25,16 @@ public class DataCliManager {
 
     private final String ARFF_FILENAME = "data.arff";
 
-    private final String TRAINING_ARFF_FILENAME = "./training/" + ARFF_FILENAME;
+    private final String TRAINING_ARFF_FILENAME = "./training/" + this.ARFF_FILENAME;
 
-    private final String TEST_ARFF_FILENAME = "./test/" + ARFF_FILENAME;
+    private final String TEST_ARFF_FILENAME = "./test/" + this.ARFF_FILENAME;
 
     private static final Logger log = LoggerFactory.getLogger(DataCliManager.class);
 
 
     @Parameter(names = {"--ctu", "-c"},
                description = "Path to the ctu13 folder")
-    private String ctuFolder = DEFAULT_CTU_DIR;
+    private String ctuFolder = this.DEFAULT_CTU_DIR;
 
     @Parameter(names = { "--scenarios", "-s" },
                description = "The number for the scenarios in the ctu dataset",
@@ -67,30 +67,30 @@ public class DataCliManager {
         log.debug("start: run");
 
         if (this.arffFolder == null) {
-            this.arffFolder = generateDestFolder();
+            this.arffFolder = this.generateDestFolder();
         }
 
-        List<File> csvs = getScenarios();
+        List<File> csvs = this.getScenarios();
 
         if (this.separateTestScenario) {
-            parseSeparateTestScenario(csvs);
+            this.parseSeparateTestScenario(csvs);
         }
 
-        File arff = parse(csvs);
+        File arff = this.parse(csvs);
         if (this.separateTestScenario) {
-            moveToArffFolder(arff, TRAINING_ARFF_FILENAME);
+            this.moveToArffFolder(arff, this.TRAINING_ARFF_FILENAME);
         }
         else {
-            split(arff);
+            this.split(arff);
         }
 
-        log.info("Arff files moved to: {}", arffFolder);
+        log.info("Arff files moved to: {}", this.arffFolder);
         log.debug("finished: run");
     }
 
     private void split(File arff) {
         log.debug("split into training and test");
-        DataSplitter dataSplitter = new DataSplitter(percentageTrain);
+        DataSplitter dataSplitter = new DataSplitter(this.percentageTrain);
         List<File> splitted = null;
         try {
             splitted = dataSplitter.split(arff);
@@ -99,9 +99,9 @@ public class DataCliManager {
         }
 
         log.debug("move training arff file to destination");
-        moveToArffFolder(splitted.get(0), TRAINING_ARFF_FILENAME);
+        this.moveToArffFolder(splitted.get(0), this.TRAINING_ARFF_FILENAME);
         log.debug("move test arff file to destination");
-        moveToArffFolder(splitted.get(1), TEST_ARFF_FILENAME);
+        this.moveToArffFolder(splitted.get(1), this.TEST_ARFF_FILENAME);
     }
 
     private File parse(List<File> csvs) throws Exception {
@@ -110,7 +110,7 @@ public class DataCliManager {
         try {
             arff = CSV2ArffConverter.parse(csvs, this.removeBackground);
         } catch (IOException e) {
-            shutdown("failed to convert data from csv to arff");
+            shutdown("failed to convert data from csv to arff"+ e.getMessage());
         }
         return arff;
     }
@@ -119,20 +119,20 @@ public class DataCliManager {
         log.debug("convert seperate test scenario");
         File arff = null;
         try {
-            File testScenario = extractTestScenario(csvs);
+            File testScenario = this.extractTestScenario(csvs);
             List<File> testScenarioList = new LinkedList<>();
             testScenarioList.add(testScenario);
             arff = this.parse(testScenarioList);
         } catch (IOException e) {
             shutdown("failed to extract test scenario");
         }
-        this.moveToArffFolder(arff, TEST_ARFF_FILENAME);
+        this.moveToArffFolder(arff, this.TEST_ARFF_FILENAME);
     }
 
     public List<File> getScenarios() {
         log.debug("get scenarios");
 
-        CTUManager ctuManager = new CTUManager(ctuFolder, CSV_FILENAME);
+        CTUManager ctuManager = new CTUManager(this.ctuFolder, this.CSV_FILENAME);
         List<File> csvs = null;
         try {
             csvs = ctuManager.find(this.scenarios);
@@ -163,7 +163,7 @@ public class DataCliManager {
         name.append("separateTestScenario=");
         name.append(this.separateTestScenario);
 
-        return new File(DEFAULT_DEST_PARENT_DIR, name.toString());
+        return new File(this.DEFAULT_DEST_PARENT_DIR, name.toString());
     }
 
     private void moveToArffFolder(File arff, String arffFilename) {
