@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import de.tub.insin.ss17.grp1.training.Trainer;
+
 
 /**
  * Unit test for IDS.
@@ -56,4 +58,10 @@ public class AppTest
     public void testWrongInput() {
     }
 
+    @Test
+    public void testJ48() {
+        String[] argv = {"-c", Trainer.J48,
+                         "-f", TestHelper.ARFF_FOLDER};
+        IDSApp.main(argv);
+    }
 }
