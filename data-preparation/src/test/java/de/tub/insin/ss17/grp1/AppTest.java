@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 
@@ -13,8 +12,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import com.beust.jcommander.JCommander;
 
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
@@ -94,24 +91,6 @@ public class AppTest {
             assertTrue("Arff file loading failed",false);
         }
     }
-    
-    private int totalLengthCsvs(String[] argv) throws Exception{
-        DataCliManager manager = new DataCliManager();
-        JCommander.newBuilder()
-        .addObject(manager)
-        .build()
-        .parse(argv);
-        List<File> csvs = manager.getScenarios();
-        
-        int totLength =0;
-        for(File csv:csvs){
-            DataSource source = new DataSource(csv.getPath());
-            source.getDataSet();
-            Instances data = source.getDataSet();
-            totLength+=data.size();
-        }
-        return totLength;
-    }
 
     @Test
     public void testTrainingPercentage() throws Exception {
@@ -119,7 +98,7 @@ public class AppTest {
                          "-d", destFolder,
                          "--ctu", ctuFolder};
 
-        int totLength = totalLengthCsvs(argv);
+        int totLength = TestHelper.totalLengthCsvs(argv);
         App.main(argv);
         int trainingLength = totLength * trainingPercentage/100;
         
