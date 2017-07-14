@@ -39,9 +39,9 @@ public class CSV2ArffConverter {
 
     private final static String NUMERIC_LIST = "5,8";
 
-    private final static String BOTNET = DataSharedConstants.BOTNET;
-    private final static String NORMAL = DataSharedConstants.NORMAL;
-    private final static String BACKGROUND = DataSharedConstants.BACKGROUND;
+    private final static String BOTNET = "Botnet";
+    private final static String NORMAL = "Normal";
+    private final static String BACKGROUND = "Background";
 
     private static String findIp(String line, int attrIndex) throws IOException{
         int commas = 0;
@@ -74,13 +74,13 @@ public class CSV2ArffConverter {
             index++;
         }
         if(traffic == BOTNET) {
-            line = line.replace(toDelete, "A");
+            line = line.replace(toDelete, DataSharedConstants.BOTNET);
         }
         else if(traffic == NORMAL) {
-            line = line.replace(toDelete, "N");
+            line = line.replace(toDelete, DataSharedConstants.NORMAL);
         }
         else if(traffic == BACKGROUND) {
-            line = line.replace(toDelete, "B");
+            line = line.replace(toDelete, DataSharedConstants.BACKGROUND);
         }
 
         return line;

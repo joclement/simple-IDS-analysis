@@ -3,18 +3,18 @@ package de.tub.insin.ss17.grp1.shared;
 public class DataSharedConstants {
 
     /**
-     * Constant for the BOTNET identifier word in CTU13
+     * Constant for the BOTNET in arff
      */
-    public final static String BOTNET = "Botnet";
+    public final static String BOTNET = "A";
 
     /**
-     * Constant for the NORMAL identifier word in CTU13
+     * Constant for the NORMAL in arff
      */
-    public final static String NORMAL = "Normal";
+    public final static String NORMAL = "N";
 
     /**
-     * Constant for the BACKGROUND identifier word in CTU13
+     * Constant for the BACKGROUND in arff
      */
-    public final static String BACKGROUND = "Background";
+    public final static String BACKGROUND = "B";
 
 }
