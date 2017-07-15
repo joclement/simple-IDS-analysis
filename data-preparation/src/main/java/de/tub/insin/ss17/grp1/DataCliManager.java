@@ -110,7 +110,7 @@ public class DataCliManager {
         try {
             arff = CSV2ArffConverter.parse(csvs, this.removeBackground);
         } catch (IOException e) {
-            shutdown("failed to convert data from csv to arff");
+            shutdown("failed to convert data from csv to arff" + e.getMessage());
         }
         return arff;
     }
