@@ -75,14 +75,13 @@ public class DataCliManager {
         List<File> csvs = getScenarios();
 
         if (this.separateTestScenario) {
-            parseSeparateTestScenario(csvs);
+            this.parseSeparateTestScenario(csvs);
         }
 
         File arff = parse(csvs);
         if (this.separateTestScenario) {
             moveToArffFolder(arff, TRAINING_ARFF_FILENAME);
-        }
-        else {
+        } else {
             split(arff);
         }
 

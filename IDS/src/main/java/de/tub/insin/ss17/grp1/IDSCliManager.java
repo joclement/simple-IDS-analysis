@@ -42,7 +42,6 @@ public class IDSCliManager {
     private List<String> mlParams = new LinkedList<String>();
 
 
-    // TODO specify options for classifiers somewhere, in annotation it is not really possible
     private final static String classifierNameDescription = Trainer.CLASSIFIER_NAMES_DESCRIPTION;
     @Parameter(names = {"--classifierName", "-c"},
                description = "Name of the classifier, options: " + classifierNameDescription)
@@ -71,7 +70,6 @@ public class IDSCliManager {
                 throw new RuntimeException("There are no classifiers to test."
                         + " You need to train classifiers before you can test one.");
             }
-
 
             if (classifierFile == null) {
                 classifierFile = this.decide(classifierFiles);
