@@ -2,7 +2,6 @@ package de.tub.insin.ss17.grp1.training.classifier;
 
 import java.util.List;
 
-import de.tub.insin.ss17.grp1.util.Param;
 import weka.core.neighboursearch.BallTree;
 
 /**
@@ -13,7 +12,7 @@ import weka.core.neighboursearch.BallTree;
  */
 public class BallTreeNNClassifier extends NNClassifier {
 
-    public BallTreeNNClassifier(List<Param> params) {
+    public BallTreeNNClassifier(List<String> params) {
         super(params);
         this.setSearchAlgo();
     }

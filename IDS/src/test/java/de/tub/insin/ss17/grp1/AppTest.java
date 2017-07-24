@@ -13,7 +13,7 @@ import de.tub.insin.ss17.grp1.training.Trainer;
 public class AppTest
 {
 
-    protected final static String BASIC_NN_PARAMS = "k=5,distweight=none";
+    protected final static String BASIC_NN_PARAMS = "-K=5";
 
     protected final static String classifierName = "lnns";
 

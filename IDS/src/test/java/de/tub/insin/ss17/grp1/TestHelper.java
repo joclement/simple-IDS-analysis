@@ -80,4 +80,10 @@ public class TestHelper {
     public static void assertArff() {
         assert hasArff(): NO_ARFF_FOLDER_TXT;
     }
+
+    public static List<String> prepareParams(String params) {
+        List<String> preparedParams =
+                IDSCliManager.prepareParams(Arrays.asList(params.split(",")));
+        return preparedParams;
+    }
 }

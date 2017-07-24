@@ -11,7 +11,6 @@ import de.tub.insin.ss17.grp1.training.classifier.BallTreeNNClassifier;
 import de.tub.insin.ss17.grp1.training.classifier.DecisionTree;
 import de.tub.insin.ss17.grp1.training.classifier.LinearNNClassifier;
 import de.tub.insin.ss17.grp1.util.ModelPersistence;
-import de.tub.insin.ss17.grp1.util.Param;
 import weka.classifiers.Classifier;
 import weka.core.Instances;
 
@@ -31,11 +30,11 @@ public class Trainer {
 
     private MlAlgo classifier;
 
-    public Trainer(String classifierIdentifier, List<Param> params) {
+    public Trainer(String classifierIdentifier, List<String> params) {
         this.setClassifier(classifierIdentifier, params);
     }
 
-    private void setClassifier(String classifierIdentifier, List<Param> params) {
+    private void setClassifier(String classifierIdentifier, List<String> params) {
         switch (classifierIdentifier) {
             case LINEAR_NN:
                 this.classifier = new LinearNNClassifier(params);
