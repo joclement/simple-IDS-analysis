@@ -1,6 +1,5 @@
 package de.tub.insin.ss17.grp1.validation;
 
-import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.classifiers.Classifier;
