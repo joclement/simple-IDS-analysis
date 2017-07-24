@@ -46,7 +46,6 @@ public class ModelPersistence {
         }
     }
 
-    // TODO move deserialization here
     public static Classifier load(File classifierFile) {
         Classifier classifier = null;
         try (ObjectInputStream ois =
@@ -67,21 +66,15 @@ public class ModelPersistence {
     }
 
     public static List<Classifier> loadAll(File arffFolder) {
-
         List<File> classifierFiles = loadAllFiles(arffFolder);
-
-        List<Classifier> classifiers = new LinkedList<>();
-
+        List<Classifier> classifiers = new LinkedList<Classifier>();
         for (File classifierFile : classifierFiles) {
             classifiers.add(load(classifierFile));
         }
-
         return classifiers;
     }
 
     public static List<File> loadAllFiles(File arffFolder) {
-
-        File modelFolder = new File(arffFolder, MODEL_FOLDER_PATH);
         FilenameFilter fileExtensionFilter = new FilenameFilter() {
 
             @Override
@@ -89,6 +82,8 @@ public class ModelPersistence {
                 return name.toLowerCase().endsWith(MODEL_FILE_EXTENSION);
             }
         };
+
+        File modelFolder = new File(arffFolder, MODEL_FOLDER_PATH);
         File[] classifierFiles = modelFolder.listFiles(fileExtensionFilter);
         return Arrays.asList(classifierFiles);
     }
