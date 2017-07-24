@@ -17,7 +17,6 @@ public class CTUIBk extends IBk implements HasClassIndexs {
 
     @Override
     public double[] distributionForInstance(Instance instance) throws Exception {
-        assert instance.classAttribute().isNominal();
 
         double[] predictions = super.distributionForInstance(instance);
         ClassifierHelper.removeBackgroundFromPredictions(predictions, classIndexs);

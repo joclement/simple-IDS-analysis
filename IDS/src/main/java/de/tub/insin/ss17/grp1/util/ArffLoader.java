@@ -6,6 +6,7 @@ import java.io.File;
 
 
 // TODO improve this loading operations
+// TODO add check for arff file validity here
 public class ArffLoader {
 
     private static final String ARFF_FILENAME = "data.arff";
