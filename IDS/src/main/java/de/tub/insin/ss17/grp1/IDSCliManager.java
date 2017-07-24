@@ -3,6 +3,7 @@ package de.tub.insin.ss17.grp1;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,7 +17,6 @@ import de.tub.insin.ss17.grp1.shared.SharedUtil;
 import de.tub.insin.ss17.grp1.training.Trainer;
 import de.tub.insin.ss17.grp1.util.ArffLoader;
 import de.tub.insin.ss17.grp1.util.ModelPersistence;
-import de.tub.insin.ss17.grp1.util.Param;
 import de.tub.insin.ss17.grp1.util.ResultPersistence;
 import de.tub.insin.ss17.grp1.validation.Evaluater;
 import weka.classifiers.Classifier;
@@ -61,7 +61,7 @@ public class IDSCliManager {
 
         if (only != TEST) {
             log.info("--- start " + TRAIN + " ---");
-            Trainer trainer = new Trainer(this.classifierName, prepare(this.mlParams));
+            Trainer trainer = new Trainer(this.classifierName, IDSCliManager.prepareParams(this.mlParams));
             try {
                 trainer.train(arffLoader.loadTraining());
             } catch (Exception e) {
@@ -117,6 +117,21 @@ public class IDSCliManager {
         }
     }
 
+    public static List<String> prepareParams(List<String> paramsWithEqualSign) {
+        List<String> params = new LinkedList<>();
+
+        for (String param : paramsWithEqualSign) {
+            List<String> idAndMaybeValue = Arrays.asList(param.split("="));
+            if (idAndMaybeValue.size() > 2 || idAndMaybeValue.size() == 0) {
+                throw new IllegalArgumentException("Parameter specification is invalid.");
+            }
+            for (String paramPart : idAndMaybeValue) {
+                params.add(paramPart);
+            }
+        }
+        return params;
+    }
+
     private File decide(List<File> classifiers) {
         // TODO untested
         assert(classifiers.size() > 0);
@@ -137,21 +152,6 @@ public class IDSCliManager {
         in.close();
         // TODO add good failure report for wrong integer input
         return classifiers.get(num);
-    }
-
-    public static List<Param> prepare(List<String> encodedParams) {
-        List<Param> params = new LinkedList<Param>();
-
-        for (String encodedParam : encodedParams) {
-            String[] nameAndValue = encodedParam.split("=");
-            if (nameAndValue.length != 2) {
-                throw new IllegalArgumentException("Parameter specification is invalid.");
-            }
-            Param param = new Param(nameAndValue[0], nameAndValue[1]);
-            params.add(param);
-        }
-
-        return params;
     }
 
     private static void shutdown(String description) {

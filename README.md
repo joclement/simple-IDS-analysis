@@ -74,6 +74,7 @@ There should be a folder named "scenarios=4,5,6,7,11,12_percentageTrain=80_seper
 
 
 
+# TODO rework this part
 ### Perform intrusion detection
 
 
@@ -99,10 +100,10 @@ There should be a folder named "scenarios=4,5,6,7,11,12_percentageTrain=80_seper
   * LinearNearestNeighbourClassifier: _lnns_ (Default)
   * BallTreeNearestNeighbourClassifier: ballTreeNN
 * `-p|--parameters`: Describes the parameters the classifier requires.
-  * paremeters for lnns
-    * k, k describes the amount of the nearest neighbours. k must be positive.
-    * distweight, distweight describes how the distance between the neighbours is weighed.
-      The options for distweight are _none_, _inverse_ and _similarity_.
+  * paremeters for lnns and balltree, check weka for reference
+    * -k, k describes the amount of the nearest neighbours. k must be positive.
+    * -I, to set inverse distweight
+    * ..., for more options check weka
 * `-o|--only`: can be used to specify the usage of the IDS. The options of usage are train and test.
 
 
@@ -112,10 +113,10 @@ Print help message:
 java -jar data-preparation-1.0-SNAPSHOT-jar-with-dependencies.jar -h
 ```
 
-Using the following command you start the IDS using the prepared data `scenarios=4,5,6,7,11,12\_percentageTrain=80\_seperateTestScenario=false`, the classifier LinearNearestNeighbour with the parameters k=2 and distweight=inverse.
+Using the following command you start the IDS using the prepared data `scenarios=4,5,6,7,11,12\_percentageTrain=80\_seperateTestScenario=false`, the classifier LinearNearestNeighbour with the parameters k=2 and inverse dist weighting.
 
 ```
-java -jar IDS-1.0-SNAPSHOT-jar-with-dependencies.jar -f ..IDS/src/main/resource/scenarios=4,5,6,7,11,12_percentageTrain=80_seperateTestScenario=false -p k=2,distweight=inverse -c lnns
+java -jar IDS-1.0-SNAPSHOT-jar-with-dependencies.jar -f ..IDS/src/main/resource/scenarios=4,5,6,7,11,12_percentageTrain=80_seperateTestScenario=false -p -k=2,-I -c lnns
 ```
 
 If a message similar to this " INFO IDSCliManager: 116 - --- finished test ---" is shown,
