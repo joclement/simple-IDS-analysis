@@ -22,6 +22,12 @@ public class AppTest
         TestHelper.assertArff();
     }
 
+    @Test
+    public void testHelp() {
+        String[] argv = {"-h"};
+        IDSApp.main(argv);
+    }
+
     // TODO add checks
     @Test
     public void testBoth() {
