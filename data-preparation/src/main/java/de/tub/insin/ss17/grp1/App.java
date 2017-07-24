@@ -1,9 +1,8 @@
 package de.tub.insin.ss17.grp1;
 
-import java.util.Iterator;
-
 import com.beust.jcommander.JCommander;
-import com.beust.jcommander.ParameterDescription;
+
+import de.tub.insin.ss17.grp1.shared.SharedUtil;
 
 public class App {
     public static void main(String[] argv) throws Exception {
@@ -12,15 +11,7 @@ public class App {
             .addObject(cliManager)
             .build();
         commander.parse(argv);
-        Iterator<ParameterDescription> it = commander.getParameters().iterator();
-        boolean helpNeeded = false;
-        while(it.hasNext()) {
-            ParameterDescription parameter = it.next();
-            if (parameter.isHelp() && parameter.isAssigned()) {
-                helpNeeded = true;
-            }
-        }
-        if (helpNeeded == true) {
+        if (SharedUtil.helpNeeded(commander)) {
             commander.usage();
         } else {
             cliManager.run();
