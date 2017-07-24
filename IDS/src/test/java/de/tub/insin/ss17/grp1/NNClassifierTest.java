@@ -30,6 +30,7 @@ public class NNClassifierTest {
     public void beforeEachTest() {
         this.trainingData = TestHelper.loadTraining();
         this.testData = TestHelper.loadTest();
+        this.classifier = null;
     }
 
     @Test
