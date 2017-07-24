@@ -23,7 +23,7 @@ public class ModelPersistence {
 
     public static File save(Classifier classifier,
                             File arffFolder,
-                            String classifierDescription) throws IOException {
+                            String classifierDescription) {
         String modelPath = MODEL_FOLDER_PATH + classifierDescription + MODEL_FILE_EXTENSION;
         File model = new File(arffFolder, modelPath);
         model.getParentFile().mkdirs();
@@ -31,29 +31,42 @@ public class ModelPersistence {
         return model;
     }
 
-    public static void save(Classifier classifier, File file) throws IOException {
-
-        // TODO I think some rework for the try, catch, throw IOException is necessary here for
-        // good closing of the stream
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
-        oos.writeObject(classifier);
-        oos.flush();
-        oos.close();
+    public static void save(Classifier classifier, File file) {
+        try (ObjectOutputStream oos =
+                new ObjectOutputStream(new FileOutputStream(file))) {
+            oos.writeObject(classifier);
+            oos.flush();
+            oos.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("Failed to find file to store classifier in."
+                                     + "FileNotFoundException: " + e.getLocalizedMessage());
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to save classifier."
+                                     + "IOException: " + e.getLocalizedMessage());
+        }
     }
 
     // TODO move deserialization here
-    public static Classifier load(File classifierFile)
-            throws FileNotFoundException, IOException, ClassNotFoundException {
-
-        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(classifierFile));
-        Classifier classifier = (Classifier) ois.readObject();
-        ois.close();
+    public static Classifier load(File classifierFile) {
+        Classifier classifier = null;
+        try (ObjectInputStream ois =
+                new ObjectInputStream(new FileInputStream(classifierFile))) {
+            classifier = (Classifier) ois.readObject();
+            ois.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("Failed to find file to load classifier from."
+                                     + "FileNotFoundException: " + e.getLocalizedMessage());
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load classifier."
+                                     + "IOException: " + e.getLocalizedMessage());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("ClassNotFound: " + e.getLocalizedMessage());
+        }
 
         return classifier;
     }
 
-    public static List<Classifier> loadAll(File arffFolder)
-            throws FileNotFoundException, ClassNotFoundException, IOException {
+    public static List<Classifier> loadAll(File arffFolder) {
 
         List<File> classifierFiles = loadAllFiles(arffFolder);
 

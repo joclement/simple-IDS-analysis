@@ -27,9 +27,9 @@ abstract public class NNClassifier implements MlAlgo {
     }
 
     @Override
-    public void train(Instances trainingData) throws Exception {
+    public void train(Instances trainingData) {
         this.nnClassifier.setClassIndexs(new ClassIndexs(trainingData));
-        this.nnClassifier.buildClassifier(trainingData);
+        ClassifierHelper.catchedBuildClassifier(this.nnClassifier, trainingData);
     }
 
     @Override

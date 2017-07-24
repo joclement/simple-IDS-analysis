@@ -14,8 +14,8 @@ public class DecisionTree implements MlAlgo {
     }
 
     @Override
-    public void train(Instances trainingData) throws Exception {
-        this.j48.buildClassifier(trainingData);
+    public void train(Instances trainingData) {
+        ClassifierHelper.catchedBuildClassifier(this.j48, trainingData);
     }
 
     @Override
