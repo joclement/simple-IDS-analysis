@@ -11,4 +11,12 @@ public class SharedUtil {
         String stackTrace = sw.toString();
         return stackTrace;
     }
+
+    public static int checkedConvert(double num) {
+        int converted = new Double(num).intValue();
+        if (converted != num){
+            throw new RuntimeException("Number conversion error.");
+        }
+        return converted;
+    }
 }

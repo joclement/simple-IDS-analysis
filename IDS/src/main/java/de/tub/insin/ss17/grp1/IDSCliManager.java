@@ -144,7 +144,9 @@ public class IDSCliManager {
 
         for (String encodedParam : encodedParams) {
             String[] nameAndValue = encodedParam.split("=");
-            assert nameAndValue.length == 2;
+            if (nameAndValue.length != 2) {
+                throw new IllegalArgumentException("Parameter specification is invalid.");
+            }
             Param param = new Param(nameAndValue[0], nameAndValue[1]);
             params.add(param);
         }

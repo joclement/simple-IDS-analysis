@@ -12,6 +12,7 @@ import java.util.Iterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.tub.insin.ss17.grp1.shared.SharedUtil;
 import de.tub.insin.ss17.grp1.util.ClassIndexs;
 import de.tub.insin.ss17.grp1.util.IDSSharedConstants;
 import de.tub.insin.ss17.grp1.util.ResultPersistence;
@@ -30,21 +31,14 @@ public class Evaluater {
         this.classifier = classifier;
         this.evaluation = new Evaluation(trainingData);
 
-        Attribute classAttr = trainingData.classAttribute();
-        assert classAttr.isNominal();
-        assert classAttr.numValues() == IDSSharedConstants.CLASS_COUNT;
         this.classIndexs = new ClassIndexs(trainingData);
     }
 
     public void removeBackground(Instances testData) {
-        assert this.classIndexs.equals(new ClassIndexs(testData));
-
         Iterator<Instance> it = testData.iterator();
         while(it.hasNext()) {
             Instance instance = it.next();
-            int classValue = (int) instance.classValue();
-            assert instance.classValue() == classValue;
-
+            int classValue = SharedUtil.checkedConvert(instance.classValue());
             if (classValue == this.classIndexs.BACKGROUND) {
                 it.remove();
             }

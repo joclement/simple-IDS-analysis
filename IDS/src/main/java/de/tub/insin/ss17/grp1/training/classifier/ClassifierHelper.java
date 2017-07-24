@@ -1,11 +1,16 @@
 package de.tub.insin.ss17.grp1.training.classifier;
 
 import de.tub.insin.ss17.grp1.util.ClassIndexs;
+import de.tub.insin.ss17.grp1.util.IDSSharedConstants;
 
 class ClassifierHelper {
 
     static void removeBackgroundFromPredictions(double[] predictions, ClassIndexs classIndexs) {
-        assert predictions.length == 3;
+        if (predictions.length > IDSSharedConstants.CLASS_COUNT || predictions.length == 1) {
+            throw new IllegalArgumentException("Class Attribute of arff file has wrong format.");
+        } else if (predictions.length == IDSSharedConstants.CLASS_COUNT - 1 && !classIndexs.hasBackground()) {
+            return;
+        }
 
         double base = predictions[classIndexs.NORMAL] + predictions[classIndexs.BOTNET];
         if (base == 0.0) {

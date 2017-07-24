@@ -32,14 +32,15 @@ abstract public class NNClassifier implements MlAlgo {
 
         for (Param param : params) {
             Consumer<String> entry = this.paramDict.get(param.name);
-            assert entry != null;
             entry.accept(param.value);
         }
     }
 
     private void setK(String kParam) {
         int k = Integer.valueOf(kParam);
-        assert k > 0;
+        if(k <= 0) {
+            throw new IllegalArgumentException("Parameter k must be positive");
+        }
         this.nnClassifier.setKNN(k);
     }
 

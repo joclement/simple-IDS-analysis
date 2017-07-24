@@ -22,17 +22,21 @@ public class ClassIndexs implements Serializable {
 
     public ClassIndexs(Instances data) {
         Attribute classAttr = data.classAttribute();
-        assert classAttr.isNominal();
-        assert classAttr.numValues() == IDSSharedConstants.CLASS_COUNT;
+
+        if (classAttr.numValues() != IDSSharedConstants.CLASS_COUNT) {
+            // TODO this can happen with arff files from other groups or our arff file without Background,
+            // so a rework might be needed here.
+            throw new IllegalArgumentException("Arff file format invalid.");
+        };
         this.BACKGROUND = classAttr.indexOfValue(IDSSharedConstants.BACKGROUND);
         this.BOTNET = classAttr.indexOfValue(IDSSharedConstants.BOTNET);
         this.NORMAL = classAttr.indexOfValue(IDSSharedConstants.NORMAL);
 
         log.debug("Background value, -1 means not used in set: {}", this.BACKGROUND);
-        // TODO move or copy to unit test
-        assert this.BACKGROUND >= 0;
-        assert this.NORMAL >= 0;
-        assert this.BOTNET >= 0;
+
+        if (this.BOTNET < 0 || this.NORMAL < 0) {
+            throw new IllegalArgumentException("Arff file: class label specification invalid.");
+        }
     }
 
     public boolean hasBackground() {

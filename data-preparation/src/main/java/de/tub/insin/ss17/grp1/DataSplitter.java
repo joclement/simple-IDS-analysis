@@ -40,7 +40,6 @@ public class DataSplitter {
 
         splittedArffs.add(trainArff);
         splittedArffs.add(testArff);
-        assert splittedArffs.size() == 2;
 
         return splittedArffs;
     }
