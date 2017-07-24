@@ -6,7 +6,7 @@ import weka.core.Instances;
 
 public interface MlAlgo {
 
-    public void train(Instances trainingData) throws Exception;
+    public void train(Instances trainingData);
 
     public String getFilename();
 

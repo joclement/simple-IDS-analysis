@@ -1,8 +1,6 @@
 package de.tub.insin.ss17.grp1;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import com.beust.jcommander.Parameter;
 
-import de.tub.insin.ss17.grp1.shared.SharedUtil;
 import de.tub.insin.ss17.grp1.training.Trainer;
 import de.tub.insin.ss17.grp1.util.ArffLoader;
 import de.tub.insin.ss17.grp1.util.ModelPersistence;
@@ -62,16 +59,8 @@ public class IDSCliManager {
         if (only != TEST) {
             log.info("--- start " + TRAIN + " ---");
             Trainer trainer = new Trainer(this.classifierName, IDSCliManager.prepareParams(this.mlParams));
-            try {
-                trainer.train(arffLoader.loadTraining());
-            } catch (Exception e) {
-                shutdown("Failed to train classifier.");
-            }
-            try {
-                classifierFile = trainer.save(new File(this.dataFolder));
-            } catch (Exception e) {
-                shutdown("Failed to save.");
-            }
+            trainer.train(arffLoader.loadTraining());
+            classifierFile = trainer.save(new File(this.dataFolder));
             log.info("--- finished " + TRAIN + " ---");
         }
 
@@ -79,7 +68,7 @@ public class IDSCliManager {
             log.info("--- start " + TEST + " ---");
             List<File> classifierFiles = ModelPersistence.loadAllFiles(new File(this.dataFolder));
             if (classifierFiles.size() == 0) {
-                shutdown("There are no classifiers to test."
+                throw new RuntimeException("There are no classifiers to test."
                         + " You need to train classifiers before you can test one.");
             }
 
@@ -87,32 +76,12 @@ public class IDSCliManager {
             if (classifierFile == null) {
                 classifierFile = this.decide(classifierFiles);
             }
-            Classifier classifier = null;
-            try {
-                classifier = ModelPersistence.load(classifierFile);
-            } catch (FileNotFoundException e1) {
-                shutdown("Implementation mistake, please contact the developers.");
-            } catch (ClassNotFoundException e1) {
-                shutdown("Implementation mistake, please contact the developers.");
-            } catch (IOException e1) {
-                shutdown("IO fault: " + e1.getMessage());
-            }
+            Classifier classifier = ModelPersistence.load(classifierFile);
             ResultPersistence resultPersistence = new ResultPersistence(
                 this.dataFolder, classifierFile.getName());
 
-            Evaluater evaluater = null;
-            try {
-                evaluater = new Evaluater(classifier, arffLoader.loadTraining());
-            } catch (Exception e2) {
-               shutdown("Failed to load training data for evaluation");
-            }
-            try {
-                evaluater.evaluate(arffLoader.loadTest(), resultPersistence);
-            } catch (Exception e1) {
-                log.error(e1.getLocalizedMessage());
-                log.debug(SharedUtil.stackTraceToString(e1));
-               shutdown("Failed to do evaluation");
-            }
+            Evaluater evaluater = new Evaluater(classifier, arffLoader.loadTraining());
+            evaluater.evaluate(arffLoader.loadTest(), resultPersistence);
             log.info("--- finished " + TEST + " ---");
         }
     }
@@ -153,13 +122,4 @@ public class IDSCliManager {
         // TODO add good failure report for wrong integer input
         return classifiers.get(num);
     }
-
-    private static void shutdown(String description) {
-        if (!description.isEmpty()) {
-            log.error(description);
-        }
-        log.error("Shutdown programm");
-        System.exit(1);
-    }
-
 }

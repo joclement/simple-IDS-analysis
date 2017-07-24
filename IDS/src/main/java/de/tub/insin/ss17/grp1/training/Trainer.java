@@ -1,7 +1,6 @@
 package de.tub.insin.ss17.grp1.training;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -51,13 +50,13 @@ public class Trainer {
         }
     }
 
-    public void train(Instances trainingData) throws Exception {
+    public void train(Instances trainingData) {
         log.debug("start: train");
         this.classifier.train(trainingData);
         log.debug("finished: train");
     }
 
-    public File save(File folder) throws IOException {
+    public File save(File folder) {
         Classifier classifier = this.classifier.getClassifier();
         return ModelPersistence.save(classifier, folder, this.classifier.getFilename());
     }

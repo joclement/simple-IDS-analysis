@@ -11,7 +11,7 @@ public class App {
 
     private final static Logger log = LoggerFactory.getLogger(App.class);
 
-    public static void main(String[] argv) throws Exception {
+    public static void main(String[] argv) {
         log.debug("--- START ---");
         DataCliManager cliManager = new DataCliManager();
         JCommander commander = JCommander.newBuilder()

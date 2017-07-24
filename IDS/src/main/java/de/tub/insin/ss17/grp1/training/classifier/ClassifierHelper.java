@@ -1,7 +1,10 @@
 package de.tub.insin.ss17.grp1.training.classifier;
 
+import de.tub.insin.ss17.grp1.shared.RuntimeWekaException;
 import de.tub.insin.ss17.grp1.util.ClassIndexs;
 import de.tub.insin.ss17.grp1.util.IDSSharedConstants;
+import weka.classifiers.AbstractClassifier;
+import weka.core.Instances;
 
 class ClassifierHelper {
 
@@ -24,5 +27,14 @@ class ClassifierHelper {
 
         predictions[classIndexs.NORMAL] /= base;
         predictions[classIndexs.BOTNET] /= base;
+    }
+
+    static void catchedBuildClassifier(AbstractClassifier classifier, Instances trainingData) {
+        try {
+            classifier.buildClassifier(trainingData);
+        } catch (Exception e) {
+            throw new RuntimeWekaException("Failed to build classifier. "
+                                         + e.getLocalizedMessage());
+        }
     }
 }

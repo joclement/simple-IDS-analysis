@@ -11,6 +11,7 @@ import java.util.Iterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.tub.insin.ss17.grp1.shared.RuntimeWekaException;
 import de.tub.insin.ss17.grp1.shared.SharedUtil;
 import de.tub.insin.ss17.grp1.util.ClassIndexs;
 import de.tub.insin.ss17.grp1.util.IDSSharedConstants;
@@ -26,10 +27,15 @@ public class Evaluater {
 
     private ClassIndexs classIndexs;
 
-    public Evaluater(Classifier classifier, Instances trainingData) throws Exception {
+    public Evaluater(Classifier classifier, Instances trainingData) {
         this.classifier = classifier;
-        this.evaluation = new Evaluation(trainingData);
-
+        try {
+            this.evaluation = new Evaluation(trainingData);
+        } catch (Exception e) {
+            throw new RuntimeWekaException("Failed to start evaluation."
+                                         + "Probably wrong classifier or training data."
+                                         + e.getLocalizedMessage());
+        }
         this.classIndexs = new ClassIndexs(trainingData);
     }
 
@@ -44,13 +50,18 @@ public class Evaluater {
         }
     }
 
-    public void evaluate(Instances testData, ResultPersistence resultPersistence) throws Exception {
+    public void evaluate(Instances testData, ResultPersistence resultPersistence) {
         log.debug("start: evaluate");
         int sizeWithBackground = testData.size();
         this.removeBackground(testData);
 
         long startTime = System.nanoTime();
-        evaluation.evaluateModel(classifier, testData);
+        try {
+            evaluation.evaluateModel(classifier, testData);
+        } catch (Exception e) {
+            throw new RuntimeWekaException("Failed to do evaluation."
+                                         + e.getLocalizedMessage());
+        }
         long duration = System.nanoTime() - startTime;
 
         Metrics metrics = new Metrics(evaluation.confusionMatrix(), this.classIndexs);

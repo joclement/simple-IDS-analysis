@@ -4,6 +4,8 @@ import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 import java.io.File;
 
+import de.tub.insin.ss17.grp1.shared.RuntimeWekaException;
+
 
 // TODO improve this loading operations
 // TODO add check for arff file validity here
@@ -21,19 +23,24 @@ public class ArffLoader {
         this.arffFolder = new File(path);
     }
 
-    public Instances loadTraining() throws Exception {
+    public Instances loadTraining() {
         File trainFile = new File(this.arffFolder, TRAIN_FILEPATH);
         return this.load(trainFile);
     }
 
-    public Instances loadTest() throws Exception {
+    public Instances loadTest() {
         File testFile = new File(this.arffFolder, TEST_FILEPATH);
         return this.load(testFile);
     }
 
-    private Instances load(File file) throws Exception {
-        DataSource source = new DataSource(file.getAbsolutePath());
-        Instances data = source.getDataSet();
+    private Instances load(File file) {
+        Instances data = null;
+        try {
+            DataSource source = new DataSource(file.getAbsolutePath());
+            data = source.getDataSet();
+        } catch (Exception e) {
+            throw new RuntimeWekaException("Failed load arff data.");
+        }
 
         data.setClassIndex(data.numAttributes() - 1);
         return data;
