@@ -37,6 +37,12 @@ public class AppTest {
         FileUtils.deleteQuietly(new File(destFolder));
     }
 
+    @Test
+    public void testHelp() throws Exception {
+        String[] argv = {"-h"};
+        App.main(argv);
+    }
+
     // TODO add checking for this test
     @Test
     public void testSplittedScenarios() throws Exception {
@@ -44,7 +50,6 @@ public class AppTest {
                          "-d", destFolder,
                          "--ctu", ctuFolder};
         App.main(argv);
-        
     }
 
     @Test
