@@ -1,9 +1,8 @@
 package de.tub.insin.ss17.grp1;
 
 import com.beust.jcommander.JCommander;
-import com.beust.jcommander.ParameterDescription;
 
-import java.util.Iterator;
+import de.tub.insin.ss17.grp1.shared.SharedUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,19 +21,12 @@ public class IDSApp
             .addObject(cliManager)
             .build();
         commander.parse(argv);
-        Iterator<ParameterDescription> it = commander.getParameters().iterator();
-        boolean helpNeeded = false;
-        while(it.hasNext()) {
-            ParameterDescription parameter = it.next();
-            if (parameter.isHelp() && parameter.isAssigned()) {
-                helpNeeded = true;
-            }
-        }
-        if (helpNeeded == true) {
+        if (SharedUtil.helpNeeded(commander)) {
             commander.usage();
         } else {
             cliManager.run();
         }
         log.debug("--- FINISHED ---");
     }
+
 }
