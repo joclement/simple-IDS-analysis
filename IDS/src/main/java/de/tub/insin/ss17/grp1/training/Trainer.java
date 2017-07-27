@@ -23,9 +23,9 @@ public class Trainer {
     public static final String J48 = "j48";
 
     public static final String CLASSIFIER_NAMES_DESCRIPTION =
-            LINEAR_NN    + ", " +
-            BALL_TREE_NN + ", " +
-            J48;
+        LINEAR_NN    + ", " +
+        BALL_TREE_NN + ", " +
+        J48;
 
     private MlAlgo classifier;
 
