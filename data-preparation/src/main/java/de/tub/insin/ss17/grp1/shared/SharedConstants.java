@@ -26,7 +26,8 @@ public class SharedConstants {
     public static final int CLASS_COUNT;
 
     static {
-        CLASS_LABELS_CORRECT_ORDER = Collections.unmodifiableList(Arrays.asList(NORMAL, BOTNET, BACKGROUND));
+        CLASS_LABELS_CORRECT_ORDER =
+            Collections.unmodifiableList(Arrays.asList(NORMAL, BOTNET, BACKGROUND));
         CLASS_COUNT = CLASS_LABELS_CORRECT_ORDER.size();
     }
 
