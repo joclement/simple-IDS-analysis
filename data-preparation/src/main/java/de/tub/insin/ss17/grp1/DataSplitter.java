@@ -10,8 +10,6 @@ import weka.core.converters.ConverterUtils.DataSource;
 
 public class DataSplitter {
 
-    // TODO add option to split by other type than percentage of number of lines
-
     private Integer percentageTrain;
 
     public DataSplitter(Integer percentageTrain) {

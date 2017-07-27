@@ -16,7 +16,6 @@ import de.tub.insin.ss17.grp1.shared.SharedUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO should we add printStackTrace on debug level?
 
 public class DataCliManager {
 
@@ -65,7 +64,6 @@ public class DataCliManager {
     @Parameter(names = {"--help", "-h"}, help = true)
     private boolean help;
 
-    // TODO add better error reporting
     public void run() {
         log.debug("start: run");
 
