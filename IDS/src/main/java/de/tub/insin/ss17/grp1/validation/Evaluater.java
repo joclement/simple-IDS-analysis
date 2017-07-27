@@ -77,9 +77,13 @@ public class Evaluater {
                                       long duration) {
         StringBuilder result = new StringBuilder();
 
-        // TODO add info about classifier, which is evaluated
+        result.append("Information about evaluated classifier: " + System.lineSeparator());
+        result.append(this.classifier.toString());
+        result.append(System.lineSeparator());
+        result.append(System.lineSeparator());
 
         result.append("Test Set size with background: " + sizeWithBackground);
+        result.append(System.lineSeparator());
         result.append(System.lineSeparator());
         result.append("Results: " + System.lineSeparator());
         result.append(System.lineSeparator());
