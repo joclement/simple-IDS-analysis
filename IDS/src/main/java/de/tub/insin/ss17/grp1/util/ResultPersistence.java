@@ -21,7 +21,6 @@ public class ResultPersistence {
     private final File resultFolder;
 
     public ResultPersistence(String dataFolder, String name) {
-        // TODO Auto-generated constructor stub
         this.resultFolder = new File(dataFolder, RESULTS_FOLDER + name);
         SharedUtil.checkedMkDirs(this.resultFolder);
     }
