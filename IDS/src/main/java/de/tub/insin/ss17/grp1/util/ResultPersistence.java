@@ -7,6 +7,9 @@ import java.nio.file.Files;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.tub.insin.ss17.grp1.shared.SharedConstants;
+import de.tub.insin.ss17.grp1.shared.SharedUtil;
+
 public class ResultPersistence {
 
     private static final Logger log = LoggerFactory.getLogger(ResultPersistence.class);
@@ -20,13 +23,13 @@ public class ResultPersistence {
     public ResultPersistence(String dataFolder, String name) {
         // TODO Auto-generated constructor stub
         this.resultFolder = new File(dataFolder, RESULTS_FOLDER + name);
-        this.resultFolder.mkdirs();
+        SharedUtil.checkedMkDirs(this.resultFolder);
     }
 
     public void saveSummary(String summary) {
         File file = new File(resultFolder, SUMMARY_FILENAME);
         try {
-            Files.write(file.toPath(), summary.getBytes());
+            Files.write(file.toPath(), summary.getBytes(SharedConstants.ENCODING));
         } catch (IOException e) {
             log.error("Failed to write the result summary to file,"
                     + " path: " + file.getAbsolutePath());

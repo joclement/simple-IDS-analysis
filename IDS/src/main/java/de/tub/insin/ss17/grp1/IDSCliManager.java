@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.beust.jcommander.Parameter;
 
+import de.tub.insin.ss17.grp1.shared.SharedConstants;
 import de.tub.insin.ss17.grp1.training.Trainer;
 import de.tub.insin.ss17.grp1.util.ArffLoader;
 import de.tub.insin.ss17.grp1.util.ModelPersistence;
@@ -114,7 +115,7 @@ public class IDSCliManager {
             System.out.println((i+1) + ". " + classifier.getName());
         }
         System.out.println("Please type the corresponding number: ");
-        Scanner in = new Scanner(System.in);
+        Scanner in = new Scanner(System.in, SharedConstants.ENCODING);
         int num = in.nextInt();
         in.close();
         // TODO add good failure report for wrong integer input
