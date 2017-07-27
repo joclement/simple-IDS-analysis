@@ -20,7 +20,7 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.tub.insin.ss17.grp1.shared.DataSharedConstants;
+import de.tub.insin.ss17.grp1.shared.SharedConstants;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.CSVLoader;
@@ -74,13 +74,13 @@ public class CSV2ArffConverter {
             index++;
         }
         if(traffic == BOTNET) {
-            line = line.replace(toDelete, DataSharedConstants.BOTNET);
+            line = line.replace(toDelete, SharedConstants.BOTNET);
         }
         else if(traffic == NORMAL) {
-            line = line.replace(toDelete, DataSharedConstants.NORMAL);
+            line = line.replace(toDelete, SharedConstants.NORMAL);
         }
         else if(traffic == BACKGROUND) {
-            line = line.replace(toDelete, DataSharedConstants.BACKGROUND);
+            line = line.replace(toDelete, SharedConstants.BACKGROUND);
         }
 
         return line;

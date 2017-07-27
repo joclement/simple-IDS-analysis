@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.tub.insin.ss17.grp1.shared.SharedConstants;
 import weka.core.Attribute;
 import weka.core.Instances;
 
@@ -23,14 +24,14 @@ public class ClassIndexs implements Serializable {
     public ClassIndexs(Instances data) {
         Attribute classAttr = data.classAttribute();
 
-        if (classAttr.numValues() != IDSSharedConstants.CLASS_COUNT) {
+        if (classAttr.numValues() != SharedConstants.CLASS_COUNT) {
             // TODO this can happen with arff files from other groups or our arff file without Background,
             // so a rework might be needed here.
             throw new IllegalArgumentException("Arff file format invalid.");
         };
-        this.BACKGROUND = classAttr.indexOfValue(IDSSharedConstants.BACKGROUND);
-        this.BOTNET = classAttr.indexOfValue(IDSSharedConstants.BOTNET);
-        this.NORMAL = classAttr.indexOfValue(IDSSharedConstants.NORMAL);
+        this.BACKGROUND = classAttr.indexOfValue(SharedConstants.BACKGROUND);
+        this.BOTNET = classAttr.indexOfValue(SharedConstants.BOTNET);
+        this.NORMAL = classAttr.indexOfValue(SharedConstants.NORMAL);
 
         log.debug("Background value, -1 means not used in set: {}", this.BACKGROUND);
 

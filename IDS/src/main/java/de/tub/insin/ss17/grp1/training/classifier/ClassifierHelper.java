@@ -1,17 +1,17 @@
 package de.tub.insin.ss17.grp1.training.classifier;
 
 import de.tub.insin.ss17.grp1.shared.RuntimeWekaException;
+import de.tub.insin.ss17.grp1.shared.SharedConstants;
 import de.tub.insin.ss17.grp1.util.ClassIndexs;
-import de.tub.insin.ss17.grp1.util.IDSSharedConstants;
 import weka.classifiers.AbstractClassifier;
 import weka.core.Instances;
 
 class ClassifierHelper {
 
     static void removeBackgroundFromPredictions(double[] predictions, ClassIndexs classIndexs) {
-        if (predictions.length > IDSSharedConstants.CLASS_COUNT || predictions.length == 1) {
+        if (predictions.length > SharedConstants.CLASS_COUNT || predictions.length == 1) {
             throw new IllegalArgumentException("Class Attribute of arff file has wrong format.");
-        } else if (predictions.length == IDSSharedConstants.CLASS_COUNT - 1 && !classIndexs.hasBackground()) {
+        } else if (predictions.length == SharedConstants.CLASS_COUNT - 1 && !classIndexs.hasBackground()) {
             return;
         }
 
