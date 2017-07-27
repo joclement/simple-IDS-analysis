@@ -36,10 +36,10 @@ public class IDSCliManager {
                required = true)
     private String dataFolder;
 
-    // TODO find good way to specify ml parameters, f.x. for NN classifier
     @Parameter(names = {"--parameters", "-p"},
-               description = "Parameters for the ml algorithm,"
-                           + " check the documentation or weka for the specific values")
+               description = "Parameters for the ml algorithm. "
+                           + "Value depends on chosen classifier(--classifierName). "
+                           + "Check the documentation or weka for the specific values.")
     private List<String> mlParams = new LinkedList<String>();
 
 
