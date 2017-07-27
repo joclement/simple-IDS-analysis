@@ -45,8 +45,7 @@ public class Trainer {
                 this.classifier = new DecisionTree();
                 break;
             default:
-                log.error("there is no classifier with the name: {}", classifierIdentifier);
-                System.exit(1);
+                throw new IllegalArgumentException("there is no classifier with the name: {}" + classifierIdentifier);
         }
     }
 

@@ -1,5 +1,9 @@
 package de.tub.insin.ss17.grp1.shared;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class SharedConstants {
 
     /**
@@ -17,11 +21,14 @@ public class SharedConstants {
      */
     public final static String BACKGROUND = "B";
 
-    public static final String[] CLASS_LABELS_CORRECT_ORDER = {NORMAL, BOTNET, BACKGROUND};
+    public static final List<String> CLASS_LABELS_CORRECT_ORDER;
 
     public static final int CLASS_COUNT;
 
     static {
-        CLASS_COUNT = CLASS_LABELS_CORRECT_ORDER.length;
+        CLASS_LABELS_CORRECT_ORDER = Collections.unmodifiableList(Arrays.asList(NORMAL, BOTNET, BACKGROUND));
+        CLASS_COUNT = CLASS_LABELS_CORRECT_ORDER.size();
     }
+
+    public static final String ENCODING = "UTF-8";
 }

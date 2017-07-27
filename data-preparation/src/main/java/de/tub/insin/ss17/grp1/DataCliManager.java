@@ -11,6 +11,7 @@ import java.util.List;
 import com.beust.jcommander.Parameter;
 
 import de.tub.insin.ss17.grp1.shared.RuntimeWekaException;
+import de.tub.insin.ss17.grp1.shared.SharedUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -169,7 +170,7 @@ public class DataCliManager {
 
     private void moveToArffFolder(File arff, String arffFilename) {
         File destinationArff = new File(this.arffFolder, arffFilename);
-        destinationArff.getParentFile().mkdirs();
+        SharedUtil.checkedMkDirs(destinationArff.getParentFile());
         try {
             Files.move(arff.toPath(), destinationArff.toPath(), StandardCopyOption.ATOMIC_MOVE);
         } catch (IOException e) {

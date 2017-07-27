@@ -1,5 +1,6 @@
 package de.tub.insin.ss17.grp1.shared;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Iterator;
@@ -34,5 +35,18 @@ public class SharedUtil {
             }
         }
         return helpNeeded;
+    }
+
+    public static void checkedMkDirs(File dir) {
+        if (!dir.isDirectory() && !dir.mkdirs()) {
+            throw new RuntimeException("Failed to create folder(including parents) "
+                                       + dir.toPath());
+        }
+    }
+
+    public static void checkedMkDir(File dir) {
+        if (!dir.isDirectory() && !dir.mkdir()) {
+            throw new RuntimeException("Failed to create folder" + dir.toPath());
+        }
     }
 }

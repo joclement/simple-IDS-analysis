@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.tub.insin.ss17.grp1.shared.SharedUtil;
 import weka.classifiers.Classifier;
 
 
@@ -26,7 +27,7 @@ public class ModelPersistence {
                             String classifierDescription) {
         String modelPath = MODEL_FOLDER_PATH + classifierDescription + MODEL_FILE_EXTENSION;
         File model = new File(arffFolder, modelPath);
-        model.getParentFile().mkdirs();
+        SharedUtil.checkedMkDir(model.getParentFile());
         save(classifier, model);
         return model;
     }
@@ -85,6 +86,9 @@ public class ModelPersistence {
 
         File modelFolder = new File(arffFolder, MODEL_FOLDER_PATH);
         File[] classifierFiles = modelFolder.listFiles(fileExtensionFilter);
+        if (classifierFiles == null) {
+            throw new RuntimeException("Model Folder does not exist.");
+        }
         return Arrays.asList(classifierFiles);
     }
 }
