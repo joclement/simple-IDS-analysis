@@ -12,9 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.tub.insin.ss17.grp1.shared.RuntimeWekaException;
+import de.tub.insin.ss17.grp1.shared.SharedConstants;
 import de.tub.insin.ss17.grp1.shared.SharedUtil;
 import de.tub.insin.ss17.grp1.util.ClassIndexs;
-import de.tub.insin.ss17.grp1.util.IDSSharedConstants;
 import de.tub.insin.ss17.grp1.util.ResultPersistence;
 
 public class Evaluater {
@@ -119,13 +119,13 @@ public class Evaluater {
         confDesc.append(System.lineSeparator());
         confDesc.append("Confusion Matrix: ");
         confDesc.append(System.lineSeparator());
-        confDesc.append("Row, Column for " + IDSSharedConstants.BACKGROUND + " is: "
+        confDesc.append("Row, Column for " + SharedConstants.BACKGROUND + "(BACKGROUND) is: "
                 + this.classIndexs.BACKGROUND);
         confDesc.append(System.lineSeparator());
-        confDesc.append("Row, Column for " + IDSSharedConstants.NORMAL + " is: "
+        confDesc.append("Row, Column for " + SharedConstants.NORMAL + "(NORMAL) is: "
                 + this.classIndexs.NORMAL);
         confDesc.append(System.lineSeparator());
-        confDesc.append("Row, Column for " + IDSSharedConstants.BOTNET + " is: "
+        confDesc.append("Row, Column for " + SharedConstants.BOTNET + "(BOTNET) is: "
                 + this.classIndexs.BOTNET);
         confDesc.append(System.lineSeparator());
         for (int i = 0; i < confusionMatrix.length; i++) {

@@ -5,9 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.tub.insin.ss17.grp1.shared.SharedConstants;
 import de.tub.insin.ss17.grp1.training.classifier.CTUIBk;
 import de.tub.insin.ss17.grp1.util.ClassIndexs;
-import de.tub.insin.ss17.grp1.util.IDSSharedConstants;
 import weka.core.Instances;
 
 public class CTUIBkTest {
@@ -37,7 +37,7 @@ public class CTUIBkTest {
             double[][] predictions = this.ibk.distributionsForInstances(trainingData);
 
             for (int i = 0; i < predictions.length; i++) {
-                assertEquals(IDSSharedConstants.CLASS_COUNT, predictions[i].length);
+                assertEquals(SharedConstants.CLASS_COUNT, predictions[i].length);
                 double backgroundProb = predictions[i][this.indexs.BACKGROUND];
                 double botnetProb = predictions[i][this.indexs.BOTNET];
                 double normalProb = predictions[i][this.indexs.NORMAL];
