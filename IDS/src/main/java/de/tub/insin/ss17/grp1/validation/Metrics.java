@@ -8,7 +8,7 @@ public class Metrics {
 
     private ClassIndexs classIndexs;
 
-    public Metrics(double[][] confusionMatrix, ClassIndexs classIndexs) {
+    protected Metrics(double[][] confusionMatrix, ClassIndexs classIndexs) {
         this.confMat = confusionMatrix;
         this.classIndexs = classIndexs;
     }
