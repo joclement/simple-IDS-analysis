@@ -44,7 +44,7 @@ public class IDSCliManager {
 
 
     private final static String classifierNameDescription = Trainer.CLASSIFIER_NAMES_DESCRIPTION;
-    @Parameter(names = {"--classifierName", "-c"},
+    @Parameter(names = {"--classifier", "-c"},
                description = "Name of the classifier, options: " + classifierNameDescription)
     private String classifierName = Trainer.LINEAR_NN;
 
