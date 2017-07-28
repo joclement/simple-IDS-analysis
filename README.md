@@ -87,7 +87,7 @@ There should be a folder named "scenarios=4,5,6,7,11,12_percentageTrain=80_seper
 3. add the arffFolder you created before:
    `-f | --arffFolder`
 4. add the classifier you want to use:
-   `-c | --classifierName`
+   `-c | --classifier`
 5. add the parameters you want to use:
    `-p | --parameters`
 
@@ -95,7 +95,7 @@ There should be a folder named "scenarios=4,5,6,7,11,12_percentageTrain=80_seper
 #### Parameter Description:
 * `-h|--help`: can be used to show possible options.
 * `-f | --arffFolder`: Describes the folder that contains the prepared data.
-* `-c|--classifierName`: Name of the classifier you want to use.
+* `-c|--classifier`: Name of the classifier you want to use.
   Implemented classifiers and their names used in the commandline are the following:
   * LinearNearestNeighbourClassifier: _lnns_ (Default)
   * BallTreeNearestNeighbourClassifier: ballTreeNN
