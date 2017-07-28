@@ -10,7 +10,7 @@ import weka.core.Instances;
 
 abstract public class NNClassifier implements MlAlgo {
 
-    CTUIBk nnClassifier;
+    final CTUIBk nnClassifier;
 
     public NNClassifier(List<String> params) {
         this.nnClassifier = new CTUIBk();
