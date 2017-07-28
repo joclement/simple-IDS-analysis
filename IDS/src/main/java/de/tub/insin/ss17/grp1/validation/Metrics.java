@@ -4,9 +4,9 @@ import de.tub.insin.ss17.grp1.util.ClassIndexs;
 
 public class Metrics {
 
-    private double[][] confMat;
+    private final double[][] confMat;
 
-    private ClassIndexs classIndexs;
+    private final ClassIndexs classIndexs;
 
     protected Metrics(double[][] confusionMatrix, ClassIndexs classIndexs) {
         this.confMat = confusionMatrix;
