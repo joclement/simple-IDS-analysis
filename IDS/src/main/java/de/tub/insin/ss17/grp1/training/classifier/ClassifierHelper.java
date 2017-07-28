@@ -17,7 +17,9 @@ class ClassifierHelper {
 
         double base = predictions[classIndexs.NORMAL] + predictions[classIndexs.BOTNET];
         if (base == 0.0) {
-            assert(predictions[classIndexs.BACKGROUND] == 1.0);
+            if (predictions[classIndexs.BACKGROUND] == 1.0) {
+                throw new RuntimeException("Predictions are wrong.");
+            }
             return;
         }
 
