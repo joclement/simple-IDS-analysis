@@ -9,6 +9,7 @@ import de.tub.insin.ss17.grp1.shared.SharedConstants;
 import weka.core.Attribute;
 import weka.core.Instances;
 
+
 public class ClassIndexs implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,8 +26,11 @@ public class ClassIndexs implements Serializable {
         Attribute classAttr = data.classAttribute();
 
         if (classAttr.numValues() != SharedConstants.CLASS_COUNT) {
-            // TODO this can happen with arff files from other groups or our arff file without Background,
-            // so a rework might be needed here.
+            /*
+             * TODO this can happen with arff files from other groups
+             * or our arff file without Background,
+             * so a rework might be needed here.
+             */
             throw new IllegalArgumentException("Arff file format invalid.");
         };
         this.BACKGROUND = classAttr.indexOfValue(SharedConstants.BACKGROUND);

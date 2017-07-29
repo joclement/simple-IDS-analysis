@@ -4,6 +4,7 @@ import de.tub.insin.ss17.grp1.util.ClassIndexs;
 import weka.classifiers.lazy.IBk;
 import weka.core.Instance;
 
+
 public class CTUIBk extends IBk implements HasClassIndexs {
 
     private static final long serialVersionUID = 1L;

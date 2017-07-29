@@ -6,12 +6,14 @@ import de.tub.insin.ss17.grp1.util.ClassIndexs;
 import weka.classifiers.AbstractClassifier;
 import weka.core.Instances;
 
+
 class ClassifierHelper {
 
     static void removeBackgroundFromPredictions(double[] predictions, ClassIndexs classIndexs) {
         if (predictions.length > SharedConstants.CLASS_COUNT || predictions.length == 1) {
             throw new IllegalArgumentException("Class Attribute of arff file has wrong format.");
-        } else if (predictions.length == SharedConstants.CLASS_COUNT - 1 && !classIndexs.hasBackground()) {
+        } else if (predictions.length == SharedConstants.CLASS_COUNT - 1
+                && !classIndexs.hasBackground()) {
             return;
         }
 
@@ -23,7 +25,7 @@ class ClassifierHelper {
             return;
         }
 
-        if(classIndexs.hasBackground()) {
+        if (classIndexs.hasBackground()) {
             predictions[classIndexs.BACKGROUND] = 0;
         }
 
@@ -36,7 +38,7 @@ class ClassifierHelper {
             classifier.buildClassifier(trainingData);
         } catch (Exception e) {
             throw new RuntimeWekaException("Failed to build classifier. "
-                + e.getLocalizedMessage());
+                    + e.getLocalizedMessage());
         }
     }
 }

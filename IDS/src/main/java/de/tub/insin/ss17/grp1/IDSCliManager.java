@@ -26,6 +26,8 @@ public class IDSCliManager {
     private final static String TRAIN = "train";
     private final static String TEST = "test";
 
+    // @formatter:off
+
     // TODO check for correct value
     @Parameter(names = {"--only", "-o"},
                description = "to specify to do just train, test. options: " + TRAIN + ", " + TEST)
@@ -51,6 +53,8 @@ public class IDSCliManager {
     @Parameter(names = {"--help", "-h"}, help = true)
     private boolean help;
 
+    // @formatter:on
+
     public void run() {
         ArffLoader arffLoader = new ArffLoader(this.dataFolder);
 
@@ -58,7 +62,8 @@ public class IDSCliManager {
 
         if (only != TEST) {
             log.info("--- start " + TRAIN + " ---");
-            Trainer trainer = new Trainer(this.classifierName, IDSCliManager.prepareParams(this.mlParams));
+            Trainer trainer = new Trainer(this.classifierName,
+                                          IDSCliManager.prepareParams(this.mlParams));
             trainer.train(arffLoader.loadTraining());
             classifierFile = trainer.save(new File(this.dataFolder));
             log.info("--- finished " + TRAIN + " ---");
