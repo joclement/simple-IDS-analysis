@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import de.tub.insin.ss17.grp1.util.ResultPersistence;
 
+
 public class Visualizer {
 
     private static final Logger log = LoggerFactory.getLogger(Visualizer.class);
@@ -28,7 +29,7 @@ public class Visualizer {
     }
 
     private DefaultCategoryDataset generateCounts(Metrics metrics) {
-        final DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
+        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
         final String rowKey = "1 Scenario";
 
@@ -41,7 +42,7 @@ public class Visualizer {
     }
 
     private DefaultCategoryDataset generateRatios(Metrics metrics) {
-        final DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
+        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
         final String rowKey = "1 Scenario";
 
@@ -58,7 +59,7 @@ public class Visualizer {
     public void plotCounts(Metrics metrics) {
         CategoryDataset dataset = generateCounts(metrics);
         JFreeChart barChart = ChartFactory.createBarChart("Some Plot", "", "Count",
-                dataset,PlotOrientation.VERTICAL,
+                dataset, PlotOrientation.VERTICAL,
                 true, true, false);
 
         File file = this.resultPersistence.getFileForSaving("TpsFpsFnsTnsCounts.jpeg");
@@ -73,7 +74,7 @@ public class Visualizer {
     public void plotRatios(Metrics metrics) {
         CategoryDataset dataset = generateRatios(metrics);
         JFreeChart barChart = ChartFactory.createBarChart("Some Plot", "", "Ratios",
-                dataset,PlotOrientation.VERTICAL,
+                dataset, PlotOrientation.VERTICAL,
                 true, true, false);
 
         File file = this.resultPersistence.getFileForSaving("TpsFpsFnsTnsRatios.jpeg");

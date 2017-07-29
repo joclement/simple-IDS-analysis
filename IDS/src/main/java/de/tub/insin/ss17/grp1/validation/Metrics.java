@@ -2,6 +2,7 @@ package de.tub.insin.ss17.grp1.validation;
 
 import de.tub.insin.ss17.grp1.util.ClassIndexs;
 
+
 public class Metrics {
 
     private final double[][] confMat;
@@ -15,25 +16,25 @@ public class Metrics {
 
     public int tps() {
         double tps = this.confMat[classIndexs.BOTNET][classIndexs.BOTNET];
-        assert(Math.round(tps) == tps);
+        assert Math.round(tps) == tps;
         return Math.toIntExact(Math.round(tps));
     }
 
     public int fps() {
         double fps = this.confMat[classIndexs.NORMAL][classIndexs.BOTNET];
-        assert(Math.round(fps) == fps);
+        assert Math.round(fps) == fps;
         return Math.toIntExact(Math.round(fps));
     }
 
     public int tns() {
         double tns = this.confMat[classIndexs.NORMAL][classIndexs.NORMAL];
-        assert(Math.round(tns) == tns);
+        assert Math.round(tns) == tns;
         return Math.toIntExact(Math.round(tns));
     }
 
     public int fns() {
         double fns = this.confMat[classIndexs.BOTNET][classIndexs.NORMAL];
-        assert(Math.round(fns) == fns);
+        assert Math.round(fns) == fns;
         return Math.toIntExact(Math.round(fns));
     }
 
@@ -67,7 +68,7 @@ public class Metrics {
 
     public double accuracy() {
         double accuracy = (this.tps() + this.tns()) /
-                 (double) (this.tps() + this.tns() + this.fps() + this.fns());
+                (double) (this.tps() + this.tns() + this.fps() + this.fns());
         return accuracy;
     }
 

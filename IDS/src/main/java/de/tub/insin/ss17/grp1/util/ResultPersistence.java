@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import de.tub.insin.ss17.grp1.shared.SharedConstants;
 import de.tub.insin.ss17.grp1.shared.SharedUtil;
 
+
 public class ResultPersistence {
 
     private static final Logger log = LoggerFactory.getLogger(ResultPersistence.class);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import weka.core.neighboursearch.BallTree;
 
+
 /**
  * Class for the Ball Tree nearest neighbor classifier
  *
