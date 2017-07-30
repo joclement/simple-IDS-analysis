@@ -9,7 +9,6 @@ import java.io.File;
 import org.apache.commons.io.FileUtils;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import weka.core.Instances;
@@ -40,6 +39,12 @@ public class AppTest {
     @Test
     public void testHelp() throws Exception {
         String[] argv = {"-h"};
+        App.main(argv);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testNoArgs() {
+        String[] argv = {};
         App.main(argv);
     }
 
@@ -111,11 +116,4 @@ public class AppTest {
         
     }
 
-    //TODO fix test
-    @Ignore
-    @Test(expected = Exception.class)
-    public void testNoArgs() throws Exception {
-        String[] argv = {};
-        App.main(argv);
-    }
 }
