@@ -122,7 +122,10 @@ public class IDSCliManager {
         Scanner in = new Scanner(System.in, SharedConstants.ENCODING);
         int num = in.nextInt();
         in.close();
-        // TODO add good failure report for wrong integer input
+        if (num < 0 || num > classifiers.size()) {
+            throw new IllegalArgumentException(
+                    "This number `" + num + "` is not availble in the list of classifiers.");
+        }
         return classifiers.get(num);
     }
 }
