@@ -16,26 +16,22 @@ public class Metrics {
 
     public int tps() {
         double tps = this.confMat[classIndexs.BOTNET][classIndexs.BOTNET];
-        assert Math.round(tps) == tps;
-        return Math.toIntExact(Math.round(tps));
+        return this.checkedToInt(tps);
     }
 
     public int fps() {
         double fps = this.confMat[classIndexs.NORMAL][classIndexs.BOTNET];
-        assert Math.round(fps) == fps;
-        return Math.toIntExact(Math.round(fps));
+        return this.checkedToInt(fps);
     }
 
     public int tns() {
         double tns = this.confMat[classIndexs.NORMAL][classIndexs.NORMAL];
-        assert Math.round(tns) == tns;
-        return Math.toIntExact(Math.round(tns));
+        return this.checkedToInt(tns);
     }
 
     public int fns() {
         double fns = this.confMat[classIndexs.BOTNET][classIndexs.NORMAL];
-        assert Math.round(fns) == fns;
-        return Math.toIntExact(Math.round(fns));
+        return this.checkedToInt(fns);
     }
 
     public double falsePositiveRate() {
@@ -75,5 +71,13 @@ public class Metrics {
     public double precision() {
         double precision = this.tps() / (double) (this.fps() + this.tps());
         return precision;
+    }
+
+    private int checkedToInt(double num) {
+        long roundedNum = Math.round(num);
+        if (roundedNum != num) {
+            throw new RuntimeException("Confusion Matrix entry is not an int");
+        }
+        return Math.toIntExact(roundedNum);
     }
 }
