@@ -1,7 +1,6 @@
 package de.tub.insin.ss17.grp1;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import de.tub.insin.ss17.grp1.training.Trainer;
@@ -47,16 +46,6 @@ public class AppTest
         IDSApp.main(argv);
     }
 
-    // TODO add checks
-    @Ignore
-    @Test
-    public void testOnlyTest() {
-        String[] argv = {"-o", "test",
-                         "-c", classifierName,
-                         "-f", TestHelper.ARFF_FOLDER,
-                         "-p", BASIC_NN_PARAMS};
-        IDSApp.main(argv);
-    }
     @Test(expected = RuntimeException.class)
     public void testNoArgs() {
         String[] argv = {};
