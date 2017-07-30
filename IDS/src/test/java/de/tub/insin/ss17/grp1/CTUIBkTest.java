@@ -25,7 +25,6 @@ public class CTUIBkTest {
         try {
             this.ibk.buildClassifier(trainingData);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             assertTrue(false);
         }
@@ -49,7 +48,6 @@ public class CTUIBkTest {
                 assertEquals(1.0, botnetProb + normalProb, 0.01);
             }
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             assertTrue(false);
         }
