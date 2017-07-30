@@ -1,4 +1,4 @@
-package de.tub.insin.ss17.grp1.validation;
+package de.tub.insin.ss17.grp1.evaluation;
 
 import weka.core.Instance;
 import weka.core.Instances;
