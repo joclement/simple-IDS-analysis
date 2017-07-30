@@ -67,10 +67,13 @@ public class TestHelper {
         return null;
     }
 
+    public static File arffFolder() {
+        File arffFolder = new File(ARFF_FOLDER);
+        return arffFolder;
+    }
 
     public static boolean hasArff() {
-        File arffFolder = new File(ARFF_FOLDER);
-        return arffFolder.exists();
+        return arffFolder().exists();
     }
 
     public static void assertArff() {
