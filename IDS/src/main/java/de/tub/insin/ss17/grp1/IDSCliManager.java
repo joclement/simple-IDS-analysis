@@ -28,7 +28,6 @@ public class IDSCliManager {
 
     // @formatter:off
 
-    // TODO check for correct value
     @Parameter(names = {"--only", "-o"},
                description = "to specify to do just train, test. options: " + TRAIN + ", " + TEST)
     private String only = null;
@@ -56,8 +55,9 @@ public class IDSCliManager {
     // @formatter:on
 
     public void run() {
-        ArffLoader arffLoader = new ArffLoader(this.dataFolder);
+        this.validateParams();
 
+        ArffLoader arffLoader = new ArffLoader(this.dataFolder);
         File classifierFile = null;
 
         if (only != TEST) {
@@ -87,6 +87,17 @@ public class IDSCliManager {
             Evaluater evaluater = new Evaluater(classifier, arffLoader.loadTraining());
             evaluater.evaluate(arffLoader.loadTest(), resultPersistence);
             log.info("--- finished " + TEST + " ---");
+        }
+    }
+
+    private void validateParams() {
+        validateParamOnly();
+    }
+
+    private void validateParamOnly() {
+        if (only != null && only != TEST && only != TRAIN) {
+            throw new IllegalArgumentException(
+                    "Value of Parameter --only wrong. It is `" + only + "`.");
         }
     }
 
