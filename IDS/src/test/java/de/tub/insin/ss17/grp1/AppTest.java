@@ -57,11 +57,10 @@ public class AppTest
                          "-p", BASIC_NN_PARAMS};
         IDSApp.main(argv);
     }
-
-    // TODO add test for invalid args
-    @Ignore
-    @Test
-    public void testWrongInput() {
+    @Test(expected = RuntimeException.class)
+    public void testNoArgs() {
+        String[] argv = {};
+        IDSApp.main(argv);
     }
 
     @Test
