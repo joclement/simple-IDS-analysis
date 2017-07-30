@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import de.tub.insin.ss17.grp1.evaluation.Evaluater;
 import de.tub.insin.ss17.grp1.shared.SharedConstants;
-import de.tub.insin.ss17.grp1.validation.Evaluater;
 import weka.core.Instance;
 import weka.core.Instances;
 

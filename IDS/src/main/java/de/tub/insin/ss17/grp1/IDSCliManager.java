@@ -11,12 +11,12 @@ import org.slf4j.LoggerFactory;
 
 import com.beust.jcommander.Parameter;
 
+import de.tub.insin.ss17.grp1.evaluation.Evaluater;
 import de.tub.insin.ss17.grp1.shared.SharedConstants;
 import de.tub.insin.ss17.grp1.training.Trainer;
 import de.tub.insin.ss17.grp1.util.ArffLoader;
 import de.tub.insin.ss17.grp1.util.ModelPersistence;
 import de.tub.insin.ss17.grp1.util.ResultPersistence;
-import de.tub.insin.ss17.grp1.validation.Evaluater;
 import weka.classifiers.Classifier;
 
 public class IDSCliManager {
