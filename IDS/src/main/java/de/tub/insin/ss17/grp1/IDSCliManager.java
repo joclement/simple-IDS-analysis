@@ -107,7 +107,6 @@ public class IDSCliManager {
 
     private File decide(List<File> classifiers) {
         // TODO untested
-        assert(classifiers.size() > 0);
 
         if (classifiers.size() == 1) {
             return classifiers.get(0);
