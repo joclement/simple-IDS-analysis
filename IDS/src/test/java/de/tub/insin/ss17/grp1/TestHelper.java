@@ -31,7 +31,6 @@ public class TestHelper {
         try {
             return loader.loadTraining();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
@@ -43,7 +42,6 @@ public class TestHelper {
         try {
             return loader.loadTest();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
@@ -54,7 +52,6 @@ public class TestHelper {
         try {
             cvr.buildClassifier(loadTraining());
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
@@ -65,7 +62,6 @@ public class TestHelper {
         try {
             cvr.buildClassifier(loadTraining());
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;

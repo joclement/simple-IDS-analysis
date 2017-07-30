@@ -27,7 +27,6 @@ public class EvaluaterTest {
                            SharedConstants.BOTNET.equals(classValue));
             }
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             assertTrue(false);
         }

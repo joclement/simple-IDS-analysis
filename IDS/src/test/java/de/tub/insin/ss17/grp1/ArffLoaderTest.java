@@ -45,7 +45,6 @@ public class ArffLoaderTest {
             assertTrue(trainingData.classIndex() >= 0);
             assertTrue(trainingData.numClasses() >= 0);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             assertTrue(false);
             e.printStackTrace();
         }
