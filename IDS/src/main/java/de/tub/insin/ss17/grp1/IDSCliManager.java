@@ -29,11 +29,11 @@ public class IDSCliManager {
     // @formatter:off
 
     @Parameter(names = {"--only", "-o"},
-               description = "to specify to do just train, test. options: " + TRAIN + ", " + TEST)
+               description = "To specify to do just train or test, options: " + TRAIN + ", " + TEST)
     private String only = null;
 
     @Parameter(names = {"--arffFolder", "-f"},
-               description = "Path to the arff folder",
+               description = "Path to the arff folder.",
                required = true)
     private String dataFolder;
 
