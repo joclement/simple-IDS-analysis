@@ -74,18 +74,6 @@
             <trimStackTrace>false</trimStackTrace>
           </configuration>
         </plugin>
-        <!-- TODO does not working together with eclipse, ask others how to fix
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.6.1</version>
-          <configuration>
-            <compilerArgument>-Xlint:all</compilerArgument>
-            <showDeprecation>true</showDeprecation>
-            <showWarnings>true</showWarnings>
-            <failOnWarning>true</failOnWarning>
-          </configuration>
-        </plugin>
-        -->
         <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
           <configuration>
