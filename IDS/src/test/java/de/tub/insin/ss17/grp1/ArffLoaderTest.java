@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.tub.insin.ss17.grp1.util.ArffLoader;
+import weka.core.Instance;
 import weka.core.Instances;
 
 
@@ -30,6 +31,26 @@ public class ArffLoaderTest {
         } catch (Exception e) {
             assertTrue(false);
             e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testCorrectSeperationIntoTrainingAndTest() {
+        ArffLoader loader = new ArffLoader(TestHelper.ARFF_FOLDER);
+        Instances training = null;
+        Instances test = null;
+        try {
+            training = loader.loadTraining();
+            test = loader.loadTest();
+        } catch (Exception e) {
+            assertTrue(false);
+            e.printStackTrace();
+        }
+
+        for (Instance trainInstance : training) {
+            for (Instance testInstance : test) {
+                assertFalse(trainInstance.equals(testInstance));
+            }
         }
     }
 }
