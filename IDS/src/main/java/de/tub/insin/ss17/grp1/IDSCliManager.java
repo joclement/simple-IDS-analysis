@@ -95,7 +95,7 @@ public class IDSCliManager {
     }
 
     private void validateParamOnly() {
-        if (only != null && only != TEST && only != TRAIN) {
+        if (only != null && !only.equals(TEST) && !only.equals(TRAIN)) {
             throw new IllegalArgumentException(
                     "Value of Parameter --only wrong. It is `" + only + "`.");
         }
