@@ -40,6 +40,8 @@ public class ClassIndexs implements Serializable {
         log.debug("Background value, -1 means not used in set: {}", this.BACKGROUND);
 
         if (this.BOTNET < 0 || this.NORMAL < 0) {
+            log.error("BOTNET label is: {}", this.BOTNET);
+            log.error("NORMAL label is: {}", this.NORMAL);
             throw new IllegalArgumentException("Arff file: class label specification invalid.");
         }
     }
