@@ -6,7 +6,7 @@ import weka.core.neighboursearch.BallTree;
 
 
 /**
- * Class for the Ball Tree nearest neighbor classifier
+ * Wrapper class for the weka Ball Tree nearest neighbor classifier
  *
  * @author Joris Clement
  *

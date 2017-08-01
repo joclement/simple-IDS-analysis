@@ -10,18 +10,39 @@ import weka.core.Attribute;
 import weka.core.Instances;
 
 
+/**
+ * Class to validate, identify and correctly access information based on the class labels
+ * and their order(indexing).
+ *
+ * @author Joris Clement
+ *
+ */
 public class ClassIndexs implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private final static Logger log = LoggerFactory.getLogger(ClassIndexs.class);
 
+    /**
+     * the index of class label NORMAL.
+     */
     public final int NORMAL;
 
+    /**
+     * the index of the class label BACKGROUND.
+     */
     public final int BACKGROUND;
 
+    /**
+     * the index of the class label BOTNET.
+     */
     public final int BOTNET;
 
+    /**
+     * Set up the class indexes from the given arff data.
+     *
+     * @param data
+     */
     public ClassIndexs(Instances data) {
         Attribute classAttr = data.classAttribute();
 

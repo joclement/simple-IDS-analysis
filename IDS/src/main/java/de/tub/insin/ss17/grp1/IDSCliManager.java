@@ -19,6 +19,13 @@ import de.tub.insin.ss17.grp1.util.ModelPersistence;
 import de.tub.insin.ss17.grp1.util.ResultPersistence;
 import weka.classifiers.Classifier;
 
+/**
+ * Main Class for the IDS project.
+ * It manages all the parameters and calls all corresponding functions to do the IDS computation.
+ *
+ * @author Joris Clement
+ *
+ */
 public class IDSCliManager {
 
     private final static Logger log = LoggerFactory.getLogger(IDSCliManager.class);
@@ -54,6 +61,13 @@ public class IDSCliManager {
 
     // @formatter:on
 
+    /**
+     * main method for running the IDS computation.
+     * It does the training and/or testing for an specified classifier with the specified parameters
+     * on specified data.
+     *
+     * It uses all the object private fields, which have to be set by JCommander.
+     */
     public void run() {
         this.validateParams();
 
@@ -101,6 +115,14 @@ public class IDSCliManager {
         }
     }
 
+    /**
+     * Prepares a list of parameters, which should be passed to a classifier.
+     * It splits each element, which contains an equal sign,
+     * into 2 parts. These are added to the resulting list.
+     *
+     * @param paramsWithEqualSign the list with elements, which can contain an equal sign.
+     * @return the list with the elements seperated by the equal sign.
+     */
     public static List<String> prepareParams(List<String> paramsWithEqualSign) {
         List<String> params = new LinkedList<>();
 
