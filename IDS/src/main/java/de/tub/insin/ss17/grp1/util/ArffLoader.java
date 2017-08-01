@@ -19,8 +19,8 @@ public class ArffLoader {
 
     private final File arffFolder;
 
-    public ArffLoader(String path) {
-        this.arffFolder = new File(path);
+    public ArffLoader(String arffFolder) {
+        this.arffFolder = new File(arffFolder);
     }
 
     public Instances loadTraining() {
