@@ -32,7 +32,7 @@ public class ModelPersistence {
         return model;
     }
 
-    public static void save(Classifier classifier, File file) {
+    private static void save(Classifier classifier, File file) {
         try (ObjectOutputStream oos =
                 new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(classifier);
