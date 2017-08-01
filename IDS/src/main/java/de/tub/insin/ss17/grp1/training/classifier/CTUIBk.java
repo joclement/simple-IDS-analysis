@@ -5,13 +5,12 @@ import weka.classifiers.lazy.IBk;
 import weka.core.Instance;
 
 
-public class CTUIBk extends IBk implements HasClassIndexs {
+public class CTUIBk extends IBk {
 
     private static final long serialVersionUID = 1L;
 
     private ClassIndexs classIndexs;
 
-    @Override
     public void setClassIndexs(ClassIndexs classIndexs) {
         this.classIndexs = classIndexs;
     }
