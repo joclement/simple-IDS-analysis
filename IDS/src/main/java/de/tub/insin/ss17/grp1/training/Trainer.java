@@ -46,7 +46,7 @@ public class Trainer {
                 break;
             default:
                 throw new IllegalArgumentException(
-                    "there is no classifier with the name: {}" + classifierIdentifier);
+                    "there is no classifier with the name: " + classifierIdentifier);
         }
     }
 
