@@ -18,7 +18,7 @@ public class Trainer {
 
     private static final Logger log = LoggerFactory.getLogger(Trainer.class);
 
-    public static final String LINEAR_NN = "lnns";
+    public static final String LINEAR_NN = "linearNN";
     public static final String BALL_TREE_NN = "ballTreeNN";
     public static final String J48 = "j48";
 
