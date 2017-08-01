@@ -5,7 +5,12 @@ import weka.classifiers.Classifier;
 import weka.classifiers.trees.J48;
 import weka.core.Instances;
 
-
+/**
+ * Wrapper class for weka j48 decision tree
+ *
+ * @author Joris Clement
+ *
+ */
 public class DecisionTree implements MlAlgo {
 
     private J48 j48;

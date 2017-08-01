@@ -8,6 +8,12 @@ import weka.classifiers.Classifier;
 import weka.core.Instances;
 
 
+/**
+ * Abstract wrapper class for nearest neighbor classifiers.
+ *
+ * @author Joris Clement
+ *
+ */
 abstract public class NNClassifier implements MlAlgo {
 
     final CTUIBk nnClassifier;

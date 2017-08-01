@@ -16,12 +16,26 @@ import de.tub.insin.ss17.grp1.shared.SharedUtil;
 import weka.classifiers.Classifier;
 
 
+/**
+ * Class to manage the persistence(saving, loading) of the classifier models.
+ *
+ * @author Joris Clement
+ *
+ */
 public class ModelPersistence {
 
     private static final String MODEL_FOLDER_PATH = "./model/";
 
     private static final String MODEL_FILE_EXTENSION = ".model";
 
+    /**
+     * save a classifier in a prepared folder in the arff folder using a given name description.
+     *
+     * @param classifier the classifier, which will be saved.
+     * @param arffFolder the arff folder.
+     * @param classifierDescription part of the classifier filename.
+     * @return the saved classifier file.
+     */
     public static File save(Classifier classifier,
                             File arffFolder,
                             String classifierDescription) {
@@ -75,6 +89,12 @@ public class ModelPersistence {
         return classifiers;
     }
 
+    /**
+     * load all saved classifier model files.
+     *
+     * @param arffFolder the arff folder.
+     * @return list of loaded classifier files.
+     */
     public static List<File> loadAllFiles(File arffFolder) {
         FilenameFilter fileExtensionFilter = new FilenameFilter() {
 

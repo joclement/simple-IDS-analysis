@@ -17,6 +17,15 @@ import de.tub.insin.ss17.grp1.shared.SharedUtil;
 import de.tub.insin.ss17.grp1.util.ClassIndexs;
 import de.tub.insin.ss17.grp1.util.ResultPersistence;
 
+/**
+ * Class for the evaluation of a trained classifier model. It measures the performance of the
+ * selected classifier. The evaluation result are stored in files next to the arff data.
+ *
+ * This class uses the test data of the arff folder for the evaluation.
+ *
+ * @author Joris Clement
+ *
+ */
 public class Evaluater {
 
     private final static Logger log = LoggerFactory.getLogger(Evaluater.class);
@@ -27,6 +36,13 @@ public class Evaluater {
 
     private ClassIndexs classIndexs;
 
+    /**
+     * Initializes the evaluation with a trained classifier and the training data.
+     * The training data is just there to check the format.
+     *
+     * @param classifier the trained classifier.
+     * @param trainingData the training data
+     */
     public Evaluater(Classifier classifier, Instances trainingData) {
         this.classifier = classifier;
         try {
@@ -39,6 +55,11 @@ public class Evaluater {
         this.classIndexs = new ClassIndexs(trainingData);
     }
 
+    /**
+     * Removes the instances, which are labeled Background, because they are not tested.
+     *
+     * @param testData the test data containing the background data
+     */
     public void removeBackground(Instances testData) {
         Iterator<Instance> it = testData.iterator();
         while(it.hasNext()) {
@@ -50,6 +71,13 @@ public class Evaluater {
         }
     }
 
+    /**
+     * Performs the evaluation on given test data.
+     * The results of the evaluation are stored in files.
+     *
+     * @param testData the test data
+     * @param resultPersistence the class, which manages the storing of the results
+     */
     public void evaluate(Instances testData, ResultPersistence resultPersistence) {
         log.debug("start: evaluate");
         int sizeWithBackground = testData.size();

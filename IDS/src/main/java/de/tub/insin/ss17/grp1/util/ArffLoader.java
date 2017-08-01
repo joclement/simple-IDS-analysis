@@ -9,6 +9,13 @@ import de.tub.insin.ss17.grp1.shared.RuntimeWekaException;
 
 // TODO improve this loading operations
 // TODO add check for arff file validity here
+/**
+ * Class to load arff data.
+ *
+ * @author Joris Clement
+ * @author Philip Wilson
+ *
+ */
 public class ArffLoader {
 
     private static final String ARFF_FILENAME = "data.arff";

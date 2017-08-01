@@ -14,6 +14,12 @@ import weka.classifiers.Classifier;
 import weka.core.Instances;
 
 
+/**
+ * Class to handle the training of the classifiers.
+ *
+ * @author Joris Clement
+ *
+ */
 public class Trainer {
 
     private static final Logger log = LoggerFactory.getLogger(Trainer.class);
@@ -29,6 +35,13 @@ public class Trainer {
 
     private MlAlgo classifier;
 
+    /**
+     * Construct a trainer with a given identifier for the classifier, which will be trained,
+     * and a list of parameters for that classifier.
+     *
+     * @param classifierIdentifier the classifier identifier
+     * @param params the list of parameter for the classifier
+     */
     public Trainer(String classifierIdentifier, List<String> params) {
         this.setClassifier(classifierIdentifier, params);
     }
