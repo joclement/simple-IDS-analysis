@@ -20,7 +20,7 @@ public class AppTest
 
     protected final static String BASIC_NN_PARAMS = "-K=5";
 
-    protected final static String classifierName = "lnns";
+    protected final static String classifierName = Trainer.LINEAR_NN;
 
     @Before
     public void beforeEachTest() {
