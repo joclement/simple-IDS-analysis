@@ -56,7 +56,7 @@ public class Visualizer {
         return dataset;
     }
 
-    public void plotCounts(Metrics metrics) {
+    private void plotCounts(Metrics metrics) {
         CategoryDataset dataset = generateCounts(metrics);
         JFreeChart barChart = ChartFactory.createBarChart("Some Plot", "", "Count",
                 dataset, PlotOrientation.VERTICAL,
@@ -71,7 +71,7 @@ public class Visualizer {
         }
     }
 
-    public void plotRatios(Metrics metrics) {
+    private void plotRatios(Metrics metrics) {
         CategoryDataset dataset = generateRatios(metrics);
         JFreeChart barChart = ChartFactory.createBarChart("Some Plot", "", "Ratios",
                 dataset, PlotOrientation.VERTICAL,
