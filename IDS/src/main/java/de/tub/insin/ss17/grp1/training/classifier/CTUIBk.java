@@ -17,7 +17,6 @@ public class CTUIBk extends IBk {
 
     @Override
     public double[] distributionForInstance(Instance instance) throws Exception {
-
         double[] predictions = super.distributionForInstance(instance);
         ClassifierHelper.removeBackgroundFromPredictions(predictions, classIndexs);
 
