@@ -32,4 +32,6 @@ public class SharedConstants {
     }
 
     public static final String ENCODING = "UTF-8";
+
+    public static final String HELP_TXT = "Use -h to get help.";
 }
