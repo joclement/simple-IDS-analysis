@@ -125,6 +125,14 @@ In the destination folder (in this example "scenarios=4,5,6,7,11,12_percentageTr
 
 
 
+## JavaDoc
+If you want to generate the javadoc for this project,
+you can do that executing the command `mvn javadoc:javadoc`.
+The resulting files will be in the 2 subprojects(data-preparation, IDS) in their
+folder `target/site/apidocs`.
+
+
+
 ## Contributors
 * Joris Clement
 * Josephine Alice Krause
