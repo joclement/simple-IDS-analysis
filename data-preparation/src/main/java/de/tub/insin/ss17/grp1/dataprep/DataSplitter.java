@@ -1,4 +1,4 @@
-package de.tub.insin.ss17.grp1;
+package de.tub.insin.ss17.grp1.dataprep;
 
 import java.io.File;
 import java.util.LinkedList;
