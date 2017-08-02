@@ -46,7 +46,7 @@ public class ArffLoader {
             DataSource source = new DataSource(file.getAbsolutePath());
             data = source.getDataSet();
         } catch (Exception e) {
-            throw new RuntimeWekaException("Failed load arff data.");
+            throw new RuntimeWekaException("Failed to load arff data.");
         }
 
         data.setClassIndex(data.numAttributes() - 1);
