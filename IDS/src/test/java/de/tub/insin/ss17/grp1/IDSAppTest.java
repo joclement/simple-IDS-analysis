@@ -15,7 +15,7 @@ import de.tub.insin.ss17.grp1.util.ModelPersistence;
 /**
  * Unit test for IDS.
  */
-public class AppTest
+public class IDSAppTest
 {
 
     protected final static String BASIC_NN_PARAMS = "-K=5";
