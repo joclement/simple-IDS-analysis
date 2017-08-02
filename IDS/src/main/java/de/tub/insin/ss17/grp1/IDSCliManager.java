@@ -74,7 +74,7 @@ public class IDSCliManager {
         ArffLoader arffLoader = new ArffLoader(this.dataFolder);
         File classifierFile = null;
 
-        if (only != TEST) {
+        if (!TEST.equals(only)) {
             log.info("--- start " + TRAIN + " ---");
             Trainer trainer = new Trainer(this.classifierName,
                                           IDSCliManager.prepareParams(this.mlParams));
@@ -83,7 +83,7 @@ public class IDSCliManager {
             log.info("--- finished " + TRAIN + " ---");
         }
 
-        if (only != TRAIN) {
+        if (!TRAIN.equals(only)) {
             log.info("--- start " + TEST + " ---");
             List<File> classifierFiles = ModelPersistence.loadAllFiles(new File(this.dataFolder));
             if (classifierFiles.size() == 0) {
