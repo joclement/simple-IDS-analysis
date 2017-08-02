@@ -56,10 +56,30 @@ public class AppTest
         assertEquals(0, TestHelper.countResultFolders());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testNoArgs() {
         String[] argv = {};
         IDSApp.main(argv);
+    }
+
+    @Test
+    public void testWrongArgs() {
+        {
+            String[] argv = {"-o", "wrong",
+                             "-f", TestHelper.ARFF_FOLDER,
+                             "-p", BASIC_NN_PARAMS};
+            IDSApp.main(argv);
+        }
+        {
+            String[] argv = {"-f", TestHelper.ARFF_FOLDER,
+                             "-p", "wrong"};
+            IDSApp.main(argv);
+        }
+        {
+            String[] argv = {"-f", "wrong",
+                             "-p", BASIC_NN_PARAMS};
+            IDSApp.main(argv);
+        }
     }
 
     @Test

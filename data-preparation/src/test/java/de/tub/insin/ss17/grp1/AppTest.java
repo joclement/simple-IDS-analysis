@@ -42,7 +42,7 @@ public class AppTest {
         App.main(argv);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testNoArgs() {
         String[] argv = {};
         App.main(argv);
