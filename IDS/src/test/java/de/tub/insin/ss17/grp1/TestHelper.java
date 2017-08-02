@@ -85,4 +85,15 @@ public class TestHelper {
                 IDSCliManager.prepareParams(Arrays.asList(params.split(",")));
         return preparedParams;
     }
+
+    public static int countResultFolders() {
+        File resultsFolder = new File(TestHelper.arffFolder(), "results");
+
+        if (resultsFolder.exists()) {
+            File[] results = resultsFolder.listFiles();
+            return results.length;
+        } else {
+            return 0;
+        }
+    }
 }
