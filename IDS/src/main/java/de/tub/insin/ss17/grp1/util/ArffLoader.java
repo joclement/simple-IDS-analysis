@@ -24,20 +24,26 @@ public class ArffLoader {
 
     private static final String TEST_FILEPATH = "./test/" + ARFF_FILENAME;
 
-    private final File arffFolder;
+    private final File training;
+    private final File test;
 
-    public ArffLoader(String arffFolder) {
-        this.arffFolder = new File(arffFolder);
+    public ArffLoader(String arffFolderPath) {
+        File arffFolder = new File(arffFolderPath);
+        this.training = new File(arffFolder, TRAIN_FILEPATH);
+        this.test = new File(arffFolder, TEST_FILEPATH);
+
+        if(!this.training.isFile() || !this.test.isFile()) {
+            throw new IllegalArgumentException("Arff folder has wrong format,"
+                                             + "does not contain arff data correctly");
+        }
     }
 
     public Instances loadTraining() {
-        File trainFile = new File(this.arffFolder, TRAIN_FILEPATH);
-        return this.load(trainFile);
+        return this.load(this.training);
     }
 
     public Instances loadTest() {
-        File testFile = new File(this.arffFolder, TEST_FILEPATH);
-        return this.load(testFile);
+        return this.load(this.test);
     }
 
     private Instances load(File file) {
