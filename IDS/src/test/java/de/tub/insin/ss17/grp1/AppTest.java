@@ -41,8 +41,8 @@ public class AppTest
                          "-f", TestHelper.ARFF_FOLDER,
                          "-p", BASIC_NN_PARAMS};
         IDSApp.main(argv);
-        File[] results = new File(TestHelper.arffFolder(), "results").listFiles();
-        assertEquals(1, results.length);
+        assertEquals(1, ModelPersistence.loadAll(TestHelper.arffFolder()).size());
+        assertEquals(1, TestHelper.countResultFolders());
     }
 
     @Test
@@ -53,6 +53,7 @@ public class AppTest
                          "-p", BASIC_NN_PARAMS};
         IDSApp.main(argv);
         assertEquals(1, ModelPersistence.loadAll(TestHelper.arffFolder()).size());
+        assertEquals(0, TestHelper.countResultFolders());
     }
 
     @Test(expected = RuntimeException.class)
@@ -66,5 +67,7 @@ public class AppTest
         String[] argv = {"-c", Trainer.J48,
                          "-f", TestHelper.ARFF_FOLDER};
         IDSApp.main(argv);
+        assertEquals(1, ModelPersistence.loadAll(TestHelper.arffFolder()).size());
+        assertEquals(1, TestHelper.countResultFolders());
     }
 }
