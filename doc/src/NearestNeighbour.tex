@@ -1,0 +1,32 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[ngerman]{babel} 
+\usepackage[onehalfspacing]{setspace}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\title{Nearest Neighbour}
+\begin{document}
+\section{Was ist Nearest Neighbour}
+Das Nearest Neighbour Verfahren, kurz NN, setzt voraus, dass Normale Daten Instanzen in einer engen Nachbarschaft zueinander auftreten,  wohingegegend Anomalien weiter entfernt auftreten. \\
+Dabei benötigt die NN Methode ein Distanzmaß zwischen zwei Datenistanzen. Das Distanzmaß kann durch verschiedene Methoden ermittelt/ bestimmt werden. Da es sich bei hierbei nur um eine kurze Zusammenfassung handeln soll wird darauf nicht weiter eingegangen.
+\section{Methoden}
+\subsection{k Nearest Neighbour}
+Das k-Nearest Neighbour Verfahren ist eines von zwei Nearest Neighbour Techniken. Dabei soll die Klassifikation eines Objektes x bestimmt werden. Dies erfolgt, indem die k nächsten, bereits klassifizierten Objekte, die am wenigsten von x entfernt sind betrachtet. Als Folge davon wird x der Klasse zugewiesen, welche die größte Anzahl an k Nachbarn hat. Bei dem Fall von zwei Klassen kann ein Unentschieden durch ein ungerades k verhindert werden. 
+\subsection{Relative Dichte}
+Bei dem zweiten Nearest Neighbour Verfahren handelt es sich um die  Betrachtung der relativen Nachbarschaftsdichte. Demzufolge werden Instanzen in einer Nachbarschaft mit niedriger Dichte als Anomaly klassifieziert und eine Instanz in einer Nachbarschaft mit hoher Dichte als Normal klassifiziert. 
+\section{Vorteile}
+\begin{center}
+\begin{enumerate}
+\item Die Trainingsphase besteht nur aus der Speicherung der neu eingestuften Instanzen und ist somit schneller als bei anderen Verfahren.
+\item Die Nearest Neighbour Verfahren lässt sich ohne großen Aufwand an andere Datensätze anwenden.
+\end{enumerate}
+\end{center}
+\section{Nachteile}
+\begin{center}
+\begin{enumerate}
+\item Es kann vorkommen, dass Anomalien nicht korrekt klassifiziert werden, wenn sie entweder genug Nachbarn haben, die als Normal klassifiziert sind oder sie in einer Nachbarschaft mit hoher Dichte liegen.
+\item Die Performance von Nearest Neighbour Verfahren hängt von dem gewählten Distanzmaß ab.
+\end{enumerate}
+\end{center}
+\section{Entscheidungsgrund}
+In diesem Projekt haben wir uns für die Verwendung des Nearest Neighbour Verfahrens zum Trainieren des CTU13 Datensatzes entschieden. Gründe dafür waren unter anderem die schnelle Trainingsphase, da aufgrund der Größe des CTU13 Datensatzes längere Trainingsphasen nicht praktikabel sind. Die Nearest Neighbour Verfahren erlauben es sowohl mit der großen Menge an Backgroundtraffic umzugehen als auch dem entsprechende Klassifizierungen umzusetzen. Zusätzlich ermöglichen die Nearest Neighbour Verfahren die anderen Datensätze (KDD, DARPA) ohne zusätzlichen Aufwand einzubinden.\end{document}
