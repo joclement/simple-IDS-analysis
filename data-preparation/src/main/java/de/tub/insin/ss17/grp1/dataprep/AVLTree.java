@@ -1,4 +1,4 @@
-package de.tub.insin.ss17.grp1;
+package de.tub.insin.ss17.grp1.dataprep;
 
 /**
  * Implementation of AVL Tree.

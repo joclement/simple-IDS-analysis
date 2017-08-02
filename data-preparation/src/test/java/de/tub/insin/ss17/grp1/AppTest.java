@@ -11,6 +11,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.tub.insin.ss17.grp1.dataprep.App;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 
