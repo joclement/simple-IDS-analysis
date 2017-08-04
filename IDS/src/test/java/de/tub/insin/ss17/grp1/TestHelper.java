@@ -54,17 +54,17 @@ public class TestHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return cvr;
     }
 
     public static Classifier quickClassifier() {
-        J48 cvr = new J48();
+        J48 j48 = new J48();
         try {
-            cvr.buildClassifier(loadTraining());
+            j48.buildClassifier(loadTraining());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return j48;
     }
 
     public static File arffFolder() {
