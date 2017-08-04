@@ -33,7 +33,7 @@ public class ArffLoader {
         this.test = new File(arffFolder, TEST_FILEPATH);
 
         if(!this.training.isFile() || !this.test.isFile()) {
-            throw new IllegalArgumentException("Arff folder has wrong format,"
+            throw new IllegalArgumentException("Arff folder has wrong format, "
                                              + "does not contain arff data correctly");
         }
     }
