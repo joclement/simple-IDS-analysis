@@ -4,21 +4,29 @@ import de.tub.insin.ss17.grp1.util.ClassIndexs;
 import weka.classifiers.lazy.IBk;
 import weka.core.Instance;
 
-public class CTUIBk extends IBk implements HasClassIndexs {
+
+/**
+ * Special CTU nearest neighbor classifier. Because of the 3 labels in the CTU data-set,
+ * the distribution prediction for an instance needs to be adapted,
+ * because at the end the only 2 labels, which count are NORMAL and BOTNET.
+ * This overrode function `distributionForInstance` removes the background probability,
+ * if it is possible.
+ *
+ * @author Joris Clement
+ *
+ */
+public class CTUIBk extends IBk {
 
     private static final long serialVersionUID = 1L;
 
     private ClassIndexs classIndexs;
 
-    @Override
     public void setClassIndexs(ClassIndexs classIndexs) {
         this.classIndexs = classIndexs;
     }
 
     @Override
     public double[] distributionForInstance(Instance instance) throws Exception {
-        assert instance.classAttribute().isNominal();
-
         double[] predictions = super.distributionForInstance(instance);
         ClassifierHelper.removeBackgroundFromPredictions(predictions, classIndexs);
 

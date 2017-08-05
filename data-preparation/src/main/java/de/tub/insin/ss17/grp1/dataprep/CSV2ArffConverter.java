@@ -1,4 +1,4 @@
-package de.tub.insin.ss17.grp1;
+package de.tub.insin.ss17.grp1.dataprep;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,7 +20,7 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.tub.insin.ss17.grp1.shared.DataSharedConstants;
+import de.tub.insin.ss17.grp1.shared.SharedConstants;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.CSVLoader;
@@ -32,7 +32,6 @@ import weka.core.converters.CSVLoader;
  * @author Philip Wilson
  *
  */
-
 public class CSV2ArffConverter {
 
     private static final Logger log = LoggerFactory.getLogger(CSV2ArffConverter.class);
@@ -74,13 +73,13 @@ public class CSV2ArffConverter {
             index++;
         }
         if(traffic == BOTNET) {
-            line = line.replace(toDelete, DataSharedConstants.BOTNET);
+            line = line.replace(toDelete, SharedConstants.BOTNET);
         }
         else if(traffic == NORMAL) {
-            line = line.replace(toDelete, DataSharedConstants.NORMAL);
+            line = line.replace(toDelete, SharedConstants.NORMAL);
         }
         else if(traffic == BACKGROUND) {
-            line = line.replace(toDelete, DataSharedConstants.BACKGROUND);
+            line = line.replace(toDelete, SharedConstants.BACKGROUND);
         }
 
         return line;
@@ -102,8 +101,9 @@ public class CSV2ArffConverter {
     }
 
     private static final void deleteExcess(String line, String traffic,
-            int lineNum, int totLines, File temp, boolean rB) throws IOException {
-
+                                           int lineNum, int totLines,
+                                           File temp, boolean rB)
+            throws IOException {
         if(!(traffic == BACKGROUND && rB)) {
             FileOutputStream fileOut = new FileOutputStream(temp,true);
 
@@ -123,7 +123,8 @@ public class CSV2ArffConverter {
         }
     }
 
-    private static final void parseLabel(File csv, boolean rB) throws FileNotFoundException, IOException {
+    private static final void parseLabel(File csv, boolean rB)
+            throws FileNotFoundException, IOException {
         Scanner scanner = new Scanner(csv);
         File temp = File.createTempFile("temp",".csv");
         //now read the file line by line...
@@ -186,7 +187,8 @@ public class CSV2ArffConverter {
                 else {
                     id++;
                     tree.insert(valueDest, id);
-                    line = line.substring(0, 28) + line.substring(30).replaceFirst(valueDest,String.valueOf(id));
+                    line = line.substring(0, 28) +
+                           line.substring(30).replaceFirst(valueDest,String.valueOf(id));
                 }
             }
 
@@ -233,7 +235,8 @@ public class CSV2ArffConverter {
         }
     }
 
-    private static final void transfer(final Reader source, final Writer destination) throws IOException  {
+    private static final void transfer(final Reader source, final Writer destination)
+            throws IOException  {
         char[] buffer = new char[1024 * 16];
         int len = 0;
         while ((len = source.read(buffer)) >= 0) {
@@ -317,7 +320,8 @@ public class CSV2ArffConverter {
         return combinedArff;
     }
 
-    private static File prepare(List<File> csvs, boolean rB) throws IOException, FileNotFoundException {
+    private static File prepare(List<File> csvs, boolean rB)
+            throws IOException, FileNotFoundException {
         log.debug("start: File parse");
         List<File> copyList = new ArrayList<File>(csvs.size());
         for(File csv : csvs){

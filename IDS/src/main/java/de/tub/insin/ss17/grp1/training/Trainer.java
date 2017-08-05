@@ -1,7 +1,6 @@
 package de.tub.insin.ss17.grp1.training;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,31 +10,43 @@ import de.tub.insin.ss17.grp1.training.classifier.BallTreeNNClassifier;
 import de.tub.insin.ss17.grp1.training.classifier.DecisionTree;
 import de.tub.insin.ss17.grp1.training.classifier.LinearNNClassifier;
 import de.tub.insin.ss17.grp1.util.ModelPersistence;
-import de.tub.insin.ss17.grp1.util.Param;
 import weka.classifiers.Classifier;
 import weka.core.Instances;
 
 
+/**
+ * Class to handle the training of the classifiers.
+ *
+ * @author Joris Clement
+ *
+ */
 public class Trainer {
 
     private static final Logger log = LoggerFactory.getLogger(Trainer.class);
 
-    public static final String LINEAR_NN = "lnns";
+    public static final String LINEAR_NN = "linearNN";
     public static final String BALL_TREE_NN = "ballTreeNN";
     public static final String J48 = "j48";
 
     public static final String CLASSIFIER_NAMES_DESCRIPTION =
-            LINEAR_NN    + ", " +
+            LINEAR_NN + ", " +
             BALL_TREE_NN + ", " +
             J48;
 
     private MlAlgo classifier;
 
-    public Trainer(String classifierIdentifier, List<Param> params) {
+    /**
+     * Construct a trainer with a given identifier for the classifier, which will be trained,
+     * and a list of parameters for that classifier.
+     *
+     * @param classifierIdentifier the classifier identifier
+     * @param params the list of parameter for the classifier
+     */
+    public Trainer(String classifierIdentifier, List<String> params) {
         this.setClassifier(classifierIdentifier, params);
     }
 
-    private void setClassifier(String classifierIdentifier, List<Param> params) {
+    private void setClassifier(String classifierIdentifier, List<String> params) {
         switch (classifierIdentifier) {
             case LINEAR_NN:
                 this.classifier = new LinearNNClassifier(params);
@@ -47,18 +58,18 @@ public class Trainer {
                 this.classifier = new DecisionTree();
                 break;
             default:
-                log.error("there is no classifier with the name: {}", classifierIdentifier);
-                System.exit(1);
+                throw new IllegalArgumentException(
+                    "there is no classifier with the name: " + classifierIdentifier);
         }
     }
 
-    public void train(Instances trainingData) throws Exception {
+    public void train(Instances trainingData) {
         log.debug("start: train");
         this.classifier.train(trainingData);
         log.debug("finished: train");
     }
 
-    public File save(File folder) throws IOException {
+    public File save(File folder) {
         Classifier classifier = this.classifier.getClassifier();
         return ModelPersistence.save(classifier, folder, this.classifier.getFilename());
     }
