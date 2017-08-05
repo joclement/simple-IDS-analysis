@@ -132,7 +132,15 @@ public class CSV2ArffConverter {
         LineNumberReader lnr = new LineNumberReader(new FileReader(csv));
 
         FileOutputStream fileOut = new FileOutputStream(temp,true);
+
         String first = lnr.readLine();
+
+        if(first == null) {
+            lnr.close();
+            fileOut.close();
+            scanner.close();
+            throw new RuntimeException("string is null");
+        }
         fileOut.write(first.getBytes(),0,first.length());
         fileOut.write("\n".getBytes(),0,"\n".length());
         fileOut.close();
@@ -213,7 +221,6 @@ public class CSV2ArffConverter {
         boolean flag = false;
         for (File csv: csvsCopy ){
             if(flag){
-                //TODO Code is copied from StackOverflow :)
                 RandomAccessFile raf = new RandomAccessFile(csv, "rw");
                 long writePosition = raf.getFilePointer();
                 raf.readLine();
@@ -267,7 +274,6 @@ public class CSV2ArffConverter {
     }
 
     private static File convert(File mergedSrcFile) throws Exception  {
-        // TODO code is copied from weka website
         CSVLoader loader = new CSVLoader();
         loader.setNumericAttributes(NUMERIC_LIST);
         loader.setDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
@@ -275,16 +281,14 @@ public class CSV2ArffConverter {
         loader.setBufferSize(4800000);
         loader.setSource(mergedSrcFile);
         ArrayList<Instances> splitData = new ArrayList<>();
-        log.debug("before everything");
         Instances structure = loader.getStructure();
-        log.debug("after getStructure");
+        log.debug("before getStructure");
         Instance next = loader.getNextInstance(structure);
-        log.debug("after first getStructure");
+        log.debug("after getStructure");
 
         while(next != null){
             Instances temp = new Instances(structure, 0);
             int i = 0;
-            log.debug("inside first while");
             while(next != null && i<25000){
                 temp.add(next);
                 next = loader.getNextInstance(structure);
@@ -292,7 +296,6 @@ public class CSV2ArffConverter {
             }
             splitData.add(temp);
         }
-        log.debug("after  first while");
         splitData.trimToSize();
         Instances fullData = new Instances(splitData.get(0),0);
         for(Instances i : splitData){
