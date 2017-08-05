@@ -69,10 +69,6 @@ public class IDSAppTest
             IDSApp.main(argv);
         }
         {
-            String[] argv = {"-f", TestHelper.ARFF_FOLDER};
-            IDSApp.main(argv);
-        }
-        {
             String[] argv = {"-o", "wrong",
                              "-f", TestHelper.ARFF_FOLDER,
                              "-p", BASIC_NN_PARAMS};
