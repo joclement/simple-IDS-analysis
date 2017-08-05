@@ -33,22 +33,28 @@ public class ArffLoaderTest {
     @Test
     public void testBasic() {
         ArffLoader loader = new ArffLoader(TestHelper.ARFF_FOLDER);
-        Instances testData = loader.loadTest();
-        assertTrue(testData.classIndex() >= 0);
-        assertTrue(testData.numClasses() >= 0);
-        assertTrue(testData.attribute(IP_SRC_IDX).isNumeric());
-        assertTrue(testData.attribute(PORT_SRC_IDX).isNumeric());
-        assertTrue(testData.attribute(IP_DEST_IDX).isNumeric());
-        assertTrue(testData.attribute(PORT_DEST_IDX).isNumeric());
-        assertTrue(testData.attribute(TOS_IDX).isNumeric());
-        assertTrue(testData.attribute(TOS_DEST_IDX).isNumeric());
-        Instances trainingData = loader.loadTraining();
-        assertTrue(trainingData.classIndex() >= 0);
-        assertTrue(trainingData.numClasses() >= 0);
-        assertTrue(trainingData.attribute(IP_SRC_IDX).isNumeric());
-        assertTrue(trainingData.attribute(IP_DEST_IDX).isNumeric());
-        assertTrue(trainingData.attribute(TOS_IDX).isNumeric());
-        assertTrue(trainingData.attribute(TOS_DEST_IDX).isNumeric());
+        {
+            Instances training = loader.loadTraining();
+            assertTrue(training.classIndex() == (training.numAttributes() - 1));
+            assertTrue(training.numClasses() >= 0);
+            assertTrue(training.attribute(IP_SRC_IDX).isNumeric());
+            assertTrue(!training.attribute(PORT_SRC_IDX).isNominal());
+            assertTrue(training.attribute(IP_DEST_IDX).isNumeric());
+            assertTrue(!training.attribute(PORT_DEST_IDX).isNominal());
+            assertTrue(training.attribute(TOS_IDX).isNumeric());
+            assertTrue(training.attribute(TOS_DEST_IDX).isNumeric());
+        }
+        {
+            Instances test = loader.loadTest();
+            assertTrue(test.classIndex() == (test.numAttributes() - 1));
+            assertTrue(test.numClasses() >= 0);
+            assertTrue(test.attribute(IP_SRC_IDX).isNumeric());
+            assertTrue(!test.attribute(PORT_SRC_IDX).isNominal());
+            assertTrue(test.attribute(IP_DEST_IDX).isNumeric());
+            assertTrue(!test.attribute(PORT_DEST_IDX).isNominal());
+            assertTrue(test.attribute(TOS_IDX).isNumeric());
+            assertTrue(test.attribute(TOS_DEST_IDX).isNumeric());
+        }
     }
 
     @Test
