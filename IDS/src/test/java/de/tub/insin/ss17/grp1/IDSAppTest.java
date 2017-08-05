@@ -88,12 +88,26 @@ public class IDSAppTest
                              "-p", BASIC_NN_PARAMS};
             IDSApp.main(argv);
         }
+        {
+            String[] argv = {"-f", TestHelper.ARFF_FOLDER,
+                             "-n", "wrong"};
+            IDSApp.main(argv);
+        }
     }
 
     @Test
     public void testJ48() {
         String[] argv = {"-c", Trainer.J48,
                          "-f", TestHelper.ARFF_FOLDER};
+        IDSApp.main(argv);
+        assertEquals(1, ModelPersistence.loadAll(TestHelper.arffFolder()).size());
+        assertEquals(1, TestHelper.countResultFolders());
+    }
+
+    @Test
+    public void testNumToNominalConversion() {
+        String[] argv = {"-f", TestHelper.ARFF_FOLDER,
+                         "-n", ArffLoaderTest.NUMERIC_TO_NOMINAL_COLS};
         IDSApp.main(argv);
         assertEquals(1, ModelPersistence.loadAll(TestHelper.arffFolder()).size());
         assertEquals(1, TestHelper.countResultFolders());

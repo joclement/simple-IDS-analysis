@@ -59,6 +59,11 @@ public class IDSCliManager {
     @Parameter(names = {"--help", "-h"}, help = true)
     private boolean help;
 
+    @Parameter(names = {"--nominal", "-n"},
+               description = "to specify a list of columns of the arff data, "
+                           + "which should be converted from numeric to nominal.")
+    private String nominal = null;
+
     // @formatter:on
 
     /**
@@ -71,7 +76,7 @@ public class IDSCliManager {
     public void run() {
         this.validateParams();
 
-        ArffLoader arffLoader = new ArffLoader(this.dataFolder);
+        ArffLoader arffLoader = new ArffLoader(this.dataFolder, this.nominal);
         File classifierFile = null;
 
         if (!TEST.equals(only)) {

@@ -105,6 +105,8 @@ There should be a folder named "scenarios=4,5,6,7,11,12_percentageTrain=80_seper
     * -I, to set inverse distweight
     * ..., for more options check weka
 * `-o|--only`: can be used to specify the usage of the IDS. The options of usage are train and test.
+* `-n|--nominal`: can be used to specify a list of columns in the arff folder,
+                  which should be converted from numeric to nominal.
 
 
 #### Examples:
@@ -114,9 +116,12 @@ java -jar data-preparation-1.0-SNAPSHOT-jar-with-dependencies.jar -h
 ```
 
 Using the following command you start the IDS using the prepared data `scenarios=4,5,6,7,11,12\_percentageTrain=80\_seperateTestScenario=false`, the classifier LinearNearestNeighbour with the parameters k=2 and inverse dist weighting.
+The columns 3 and 6 in the training and test arff file will be converted from
+numeric to nominal. If the arff files are prepared using our tool, then column 3
+and 6 should be the ip address of the source and the destination.
 
 ```
-java -jar IDS-1.0-SNAPSHOT-jar-with-dependencies.jar -f ..IDS/src/main/resource/scenarios=4,5,6,7,11,12_percentageTrain=80_seperateTestScenario=false -p -k=2,-I -c lnns
+java -jar IDS-1.0-SNAPSHOT-jar-with-dependencies.jar -f ..IDS/src/main/resource/scenarios=4,5,6,7,11,12_percentageTrain=80_seperateTestScenario=false -p -k=2,-I -c lnns -n 3,6
 ```
 
 If a message similar to this " INFO IDSCliManager: 116 - --- finished test ---" is shown,
