@@ -7,6 +7,16 @@ import java.nio.file.Files;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.tub.insin.ss17.grp1.shared.SharedConstants;
+import de.tub.insin.ss17.grp1.shared.SharedUtil;
+
+
+/**
+ * Class to handle the saving of the evaluation results.
+ *
+ * @author Joris Clement
+ *
+ */
 public class ResultPersistence {
 
     private static final Logger log = LoggerFactory.getLogger(ResultPersistence.class);
@@ -17,16 +27,22 @@ public class ResultPersistence {
 
     private final File resultFolder;
 
+    /**
+     * Initialize result persistence using the given arff folder and a name for the sub-folder,
+     * where the results should be saved in.
+     *
+     * @param dataFolder the arff folder.
+     * @param name the name of the sub-folder.
+     */
     public ResultPersistence(String dataFolder, String name) {
-        // TODO Auto-generated constructor stub
         this.resultFolder = new File(dataFolder, RESULTS_FOLDER + name);
-        this.resultFolder.mkdirs();
+        SharedUtil.checkedMkDirs(this.resultFolder);
     }
 
     public void saveSummary(String summary) {
         File file = new File(resultFolder, SUMMARY_FILENAME);
         try {
-            Files.write(file.toPath(), summary.getBytes());
+            Files.write(file.toPath(), summary.getBytes(SharedConstants.ENCODING));
         } catch (IOException e) {
             log.error("Failed to write the result summary to file,"
                     + " path: " + file.getAbsolutePath());

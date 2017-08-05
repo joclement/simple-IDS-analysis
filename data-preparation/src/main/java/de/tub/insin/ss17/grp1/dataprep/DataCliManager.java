@@ -1,4 +1,4 @@
-package de.tub.insin.ss17.grp1;
+package de.tub.insin.ss17.grp1.dataprep;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,13 +7,15 @@ import java.nio.file.StandardCopyOption;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
 import com.beust.jcommander.Parameter;
+
+import de.tub.insin.ss17.grp1.shared.RuntimeWekaException;
+import de.tub.insin.ss17.grp1.shared.SharedUtil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-
-// TODO should we add printStackTrace on debug level?
 
 public class DataCliManager {
 
@@ -25,16 +27,16 @@ public class DataCliManager {
 
     private final String ARFF_FILENAME = "data.arff";
 
-    private final String TRAINING_ARFF_FILENAME = "./training/" + this.ARFF_FILENAME;
+    private final String TRAINING_ARFF_FILENAME = "./training/" + ARFF_FILENAME;
 
-    private final String TEST_ARFF_FILENAME = "./test/" + this.ARFF_FILENAME;
+    private final String TEST_ARFF_FILENAME = "./test/" + ARFF_FILENAME;
 
     private static final Logger log = LoggerFactory.getLogger(DataCliManager.class);
 
 
     @Parameter(names = {"--ctu", "-c"},
                description = "Path to the ctu13 folder")
-    private String ctuFolder = this.DEFAULT_CTU_DIR;
+    private String ctuFolder = DEFAULT_CTU_DIR;
 
     @Parameter(names = { "--scenarios", "-s" },
                description = "The number for the scenarios in the ctu dataset",
@@ -62,82 +64,80 @@ public class DataCliManager {
     @Parameter(names = {"--help", "-h"}, help = true)
     private boolean help;
 
-    // TODO add better error reporting
-    public void run() throws Exception {
+    public void run() {
         log.debug("start: run");
 
         if (this.arffFolder == null) {
-            this.arffFolder = this.generateDestFolder();
+            this.arffFolder = generateDestFolder();
         }
 
-        List<File> csvs = this.getScenarios();
+        List<File> csvs = getScenarios();
 
         if (this.separateTestScenario) {
             this.parseSeparateTestScenario(csvs);
         }
 
-        File arff = this.parse(csvs);
+        File arff = parse(csvs);
         if (this.separateTestScenario) {
-            this.moveToArffFolder(arff, this.TRAINING_ARFF_FILENAME);
-        }
-        else {
-            this.split(arff);
+            moveToArffFolder(arff, TRAINING_ARFF_FILENAME);
+        } else {
+            split(arff);
         }
 
-        log.info("Arff files moved to: {}", this.arffFolder);
+        log.info("Arff files moved to: {}", arffFolder);
         log.debug("finished: run");
     }
 
     private void split(File arff) {
         log.debug("split into training and test");
-        DataSplitter dataSplitter = new DataSplitter(this.percentageTrain);
+        DataSplitter dataSplitter = new DataSplitter(percentageTrain);
         List<File> splitted = null;
         try {
             splitted = dataSplitter.split(arff);
         } catch (Exception e) {
-            shutdown("failed to split data into training and test instances");
+            throw new RuntimeException("failed to split data into training and test instances."
+                                     + e.getLocalizedMessage());
         }
 
         log.debug("move training arff file to destination");
-        this.moveToArffFolder(splitted.get(0), this.TRAINING_ARFF_FILENAME);
+        moveToArffFolder(splitted.get(0), TRAINING_ARFF_FILENAME);
         log.debug("move test arff file to destination");
-        this.moveToArffFolder(splitted.get(1), this.TEST_ARFF_FILENAME);
+        moveToArffFolder(splitted.get(1), TEST_ARFF_FILENAME);
     }
 
-    private File parse(List<File> csvs) throws Exception {
+    private File parse(List<File> csvs) {
         log.debug("convert from csv to arff");
         File arff = null;
         try {
             arff = CSV2ArffConverter.parse(csvs, this.removeBackground);
         } catch (IOException e) {
-            shutdown("failed to convert data from csv to arff"+ e.getMessage());
+            throw new RuntimeException("failed to convert data from csv to arff."
+                                     + "IOException: " + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeWekaException("failed to convert data from csv to arff."
+                                         + "Weka: " + e.getMessage());
         }
         return arff;
     }
 
-    private void parseSeparateTestScenario(List<File> csvs) throws Exception {
+    private void parseSeparateTestScenario(List<File> csvs) {
         log.debug("convert seperate test scenario");
-        File arff = null;
-        try {
-            File testScenario = this.extractTestScenario(csvs);
-            List<File> testScenarioList = new LinkedList<>();
-            testScenarioList.add(testScenario);
-            arff = this.parse(testScenarioList);
-        } catch (IOException e) {
-            shutdown("failed to extract test scenario");
-        }
-        this.moveToArffFolder(arff, this.TEST_ARFF_FILENAME);
+        List<File> testScenarioList = new LinkedList<File>();
+        File testScenario = extractTestScenario(csvs);
+        testScenarioList.add(testScenario);
+        File arff = this.parse(testScenarioList);
+        this.moveToArffFolder(arff, TEST_ARFF_FILENAME);
     }
 
     public List<File> getScenarios() {
         log.debug("get scenarios");
 
-        CTUManager ctuManager = new CTUManager(this.ctuFolder, this.CSV_FILENAME);
+        CTUManager ctuManager = new CTUManager(ctuFolder, CSV_FILENAME);
         List<File> csvs = null;
         try {
             csvs = ctuManager.find(this.scenarios);
         } catch (IOException e) {
-            shutdown(e.getMessage());
+            throw new RuntimeException("Failed to load ctu scenarios");
         }
         log.debug("list of scenarios {}", csvs);
         return csvs;
@@ -163,12 +163,12 @@ public class DataCliManager {
         name.append("separateTestScenario=");
         name.append(this.separateTestScenario);
 
-        return new File(this.DEFAULT_DEST_PARENT_DIR, name.toString());
+        return new File(DEFAULT_DEST_PARENT_DIR, name.toString());
     }
 
     private void moveToArffFolder(File arff, String arffFilename) {
         File destinationArff = new File(this.arffFolder, arffFilename);
-        destinationArff.getParentFile().mkdirs();
+        SharedUtil.checkedMkDirs(destinationArff.getParentFile());
         try {
             Files.move(arff.toPath(), destinationArff.toPath(), StandardCopyOption.ATOMIC_MOVE);
         } catch (IOException e) {
@@ -176,7 +176,7 @@ public class DataCliManager {
                     "Failed to move resulting training arff to destination folder, "
                     + "from: " + arff.toPath()
                     + " , to: " + destinationArff.toPath();
-            shutdown(description);
+            throw new RuntimeException(description);
         }
     }
 
@@ -185,13 +185,5 @@ public class DataCliManager {
 
         log.debug("extracted test scenario: {}", testCsv);
         return testCsv;
-    }
-
-    private static void shutdown(String description) {
-        if (!description.isEmpty()) {
-            log.error(description);
-        }
-        log.error("Shutdown programm");
-        System.exit(1);
     }
 }

@@ -1,6 +1,5 @@
-package de.tub.insin.ss17.grp1.validation;
+package de.tub.insin.ss17.grp1.evaluation;
 
-import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.classifiers.Classifier;
@@ -12,10 +11,21 @@ import java.util.Iterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.tub.insin.ss17.grp1.shared.RuntimeWekaException;
+import de.tub.insin.ss17.grp1.shared.SharedConstants;
+import de.tub.insin.ss17.grp1.shared.SharedUtil;
 import de.tub.insin.ss17.grp1.util.ClassIndexs;
-import de.tub.insin.ss17.grp1.util.IDSSharedConstants;
 import de.tub.insin.ss17.grp1.util.ResultPersistence;
 
+/**
+ * Class for the evaluation of a trained classifier model. It measures the performance of the
+ * selected classifier. The evaluation result are stored in files next to the arff data.
+ *
+ * This class uses the test data of the arff folder for the evaluation.
+ *
+ * @author Joris Clement
+ *
+ */
 public class Evaluater {
 
     private final static Logger log = LoggerFactory.getLogger(Evaluater.class);
@@ -26,38 +36,60 @@ public class Evaluater {
 
     private ClassIndexs classIndexs;
 
-    public Evaluater(Classifier classifier, Instances trainingData) throws Exception {
+    /**
+     * Initializes the evaluation with a trained classifier and the training data.
+     * The training data is just there to check the format.
+     *
+     * @param classifier the trained classifier.
+     * @param trainingData the training data
+     */
+    public Evaluater(Classifier classifier, Instances trainingData) {
         this.classifier = classifier;
-        this.evaluation = new Evaluation(trainingData);
-
-        Attribute classAttr = trainingData.classAttribute();
-        assert classAttr.isNominal();
-        assert classAttr.numValues() == IDSSharedConstants.CLASS_COUNT;
+        try {
+            this.evaluation = new Evaluation(trainingData);
+        } catch (Exception e) {
+            throw new RuntimeWekaException("Failed to start evaluation."
+                                         + "Probably wrong classifier or training data."
+                                         + e.getLocalizedMessage());
+        }
         this.classIndexs = new ClassIndexs(trainingData);
     }
 
+    /**
+     * Removes the instances, which are labeled Background, because they are not tested.
+     *
+     * @param testData the test data containing the background data
+     */
     public void removeBackground(Instances testData) {
-        assert this.classIndexs.equals(new ClassIndexs(testData));
-
         Iterator<Instance> it = testData.iterator();
         while(it.hasNext()) {
             Instance instance = it.next();
-            int classValue = (int) instance.classValue();
-            assert instance.classValue() == classValue;
-
+            int classValue = SharedUtil.checkedConvert(instance.classValue());
             if (classValue == this.classIndexs.BACKGROUND) {
                 it.remove();
             }
         }
     }
 
-    public void evaluate(Instances testData, ResultPersistence resultPersistence) throws Exception {
+    /**
+     * Performs the evaluation on given test data.
+     * The results of the evaluation are stored in files.
+     *
+     * @param testData the test data
+     * @param resultPersistence the class, which manages the storing of the results
+     */
+    public void evaluate(Instances testData, ResultPersistence resultPersistence) {
         log.debug("start: evaluate");
         int sizeWithBackground = testData.size();
         this.removeBackground(testData);
 
         long startTime = System.nanoTime();
-        evaluation.evaluateModel(classifier, testData);
+        try {
+            evaluation.evaluateModel(classifier, testData);
+        } catch (Exception e) {
+            throw new RuntimeWekaException("Failed to do evaluation."
+                                         + e.getLocalizedMessage());
+        }
         long duration = System.nanoTime() - startTime;
 
         Metrics metrics = new Metrics(evaluation.confusionMatrix(), this.classIndexs);
@@ -73,9 +105,13 @@ public class Evaluater {
                                       long duration) {
         StringBuilder result = new StringBuilder();
 
-        // TODO add info about classifier, which is evaluated
+        result.append("Information about evaluated classifier: " + System.lineSeparator());
+        result.append(this.classifier.toString());
+        result.append(System.lineSeparator());
+        result.append(System.lineSeparator());
 
         result.append("Test Set size with background: " + sizeWithBackground);
+        result.append(System.lineSeparator());
         result.append(System.lineSeparator());
         result.append("Results: " + System.lineSeparator());
         result.append(System.lineSeparator());
@@ -115,13 +151,13 @@ public class Evaluater {
         confDesc.append(System.lineSeparator());
         confDesc.append("Confusion Matrix: ");
         confDesc.append(System.lineSeparator());
-        confDesc.append("Row, Column for " + IDSSharedConstants.BACKGROUND + " is: "
+        confDesc.append("Row, Column for " + SharedConstants.BACKGROUND + "(BACKGROUND) is: "
                 + this.classIndexs.BACKGROUND);
         confDesc.append(System.lineSeparator());
-        confDesc.append("Row, Column for " + IDSSharedConstants.NORMAL + " is: "
+        confDesc.append("Row, Column for " + SharedConstants.NORMAL + "(NORMAL) is: "
                 + this.classIndexs.NORMAL);
         confDesc.append(System.lineSeparator());
-        confDesc.append("Row, Column for " + IDSSharedConstants.BOTNET + " is: "
+        confDesc.append("Row, Column for " + SharedConstants.BOTNET + "(BOTNET) is: "
                 + this.classIndexs.BOTNET);
         confDesc.append(System.lineSeparator());
         for (int i = 0; i < confusionMatrix.length; i++) {

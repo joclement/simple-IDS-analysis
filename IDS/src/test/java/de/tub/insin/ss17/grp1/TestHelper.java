@@ -31,7 +31,6 @@ public class TestHelper {
         try {
             return loader.loadTraining();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
@@ -43,7 +42,6 @@ public class TestHelper {
         try {
             return loader.loadTest();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
@@ -54,30 +52,48 @@ public class TestHelper {
         try {
             cvr.buildClassifier(loadTraining());
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return null;
+        return cvr;
     }
 
     public static Classifier quickClassifier() {
-        J48 cvr = new J48();
+        J48 j48 = new J48();
         try {
-            cvr.buildClassifier(loadTraining());
+            j48.buildClassifier(loadTraining());
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return null;
+        return j48;
     }
 
+    public static File arffFolder() {
+        File arffFolder = new File(ARFF_FOLDER);
+        return arffFolder;
+    }
 
     public static boolean hasArff() {
-        File arffFolder = new File(ARFF_FOLDER);
-        return arffFolder.exists();
+        return arffFolder().exists();
     }
 
     public static void assertArff() {
         assert hasArff(): NO_ARFF_FOLDER_TXT;
+    }
+
+    public static List<String> prepareParams(String params) {
+        List<String> preparedParams =
+                IDSCliManager.prepareParams(Arrays.asList(params.split(",")));
+        return preparedParams;
+    }
+
+    public static int countResultFolders() {
+        File resultsFolder = new File(TestHelper.arffFolder(), "results");
+
+        if (resultsFolder.exists()) {
+            File[] results = resultsFolder.listFiles();
+            return results.length;
+        } else {
+            return 0;
+        }
     }
 }

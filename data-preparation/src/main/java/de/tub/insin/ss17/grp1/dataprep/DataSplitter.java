@@ -1,4 +1,4 @@
-package de.tub.insin.ss17.grp1;
+package de.tub.insin.ss17.grp1.dataprep;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -10,13 +10,12 @@ import weka.core.converters.ConverterUtils.DataSource;
 
 public class DataSplitter {
 
-    // TODO add option to split by other type than percentage of number of lines
-
     private Integer percentageTrain;
 
     public DataSplitter(Integer percentageTrain) {
         if (percentageTrain > 100 || percentageTrain < 0) {
-            throw new IllegalArgumentException("the parameter percentageTrain has to be between 0 and 100");
+            throw new IllegalArgumentException(
+                "the parameter percentageTrain has to be between 0 and 100");
         }
         this.percentageTrain = percentageTrain;
     }
@@ -40,7 +39,6 @@ public class DataSplitter {
 
         splittedArffs.add(trainArff);
         splittedArffs.add(testArff);
-        assert splittedArffs.size() == 2;
 
         return splittedArffs;
     }

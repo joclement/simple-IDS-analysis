@@ -9,9 +9,9 @@ import java.io.File;
 import org.apache.commons.io.FileUtils;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
+import de.tub.insin.ss17.grp1.dataprep.App;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 
@@ -37,6 +37,18 @@ public class AppTest {
         FileUtils.deleteQuietly(new File(destFolder));
     }
 
+    @Test
+    public void testHelp() throws Exception {
+        String[] argv = {"-h"};
+        App.main(argv);
+    }
+
+    @Test
+    public void testNoArgs() {
+        String[] argv = {};
+        App.main(argv);
+    }
+
     // TODO add checking for this test
     @Test
     public void testSplittedScenarios() throws Exception {
@@ -44,7 +56,6 @@ public class AppTest {
                          "-d", destFolder,
                          "--ctu", ctuFolder};
         App.main(argv);
-        
     }
 
     @Test
@@ -106,11 +117,4 @@ public class AppTest {
         
     }
 
-    //TODO fix test
-    @Ignore
-    @Test(expected = Exception.class)
-    public void testNoArgs() throws Exception {
-        String[] argv = {};
-        App.main(argv);
-    }
 }

@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import de.tub.insin.ss17.grp1.util.IDSSharedConstants;
-import de.tub.insin.ss17.grp1.validation.Evaluater;
+import de.tub.insin.ss17.grp1.evaluation.Evaluater;
+import de.tub.insin.ss17.grp1.shared.SharedConstants;
 import weka.core.Instance;
 import weka.core.Instances;
 
@@ -22,12 +22,11 @@ public class EvaluaterTest {
             assertTrue(data.size() < TestHelper.loadTest().size());
             for (Instance instance : data) {
                 String classValue = instance.stringValue(instance.classIndex());
-                assertFalse(IDSSharedConstants.BACKGROUND.equals(classValue));
-                assertTrue(IDSSharedConstants.NORMAL.equals(classValue) ||
-                           IDSSharedConstants.BOTNET.equals(classValue));
+                assertFalse(SharedConstants.BACKGROUND.equals(classValue));
+                assertTrue(SharedConstants.NORMAL.equals(classValue) ||
+                           SharedConstants.BOTNET.equals(classValue));
             }
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             assertTrue(false);
         }

@@ -1,4 +1,4 @@
-package de.tub.insin.ss17.grp1;
+package de.tub.insin.ss17.grp1.dataprep;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,7 +23,7 @@ public class Util {
     }
 
     public static int hex2decimal(String s) {
-    	s = s.substring(2);
+        s = s.substring(2);
         String digits = "0123456789ABCDEF";
         s = s.toUpperCase();
         int val = 0;

@@ -5,6 +5,12 @@ import weka.classifiers.Classifier;
 import weka.classifiers.trees.J48;
 import weka.core.Instances;
 
+/**
+ * Wrapper class for weka j48 decision tree
+ *
+ * @author Joris Clement
+ *
+ */
 public class DecisionTree implements MlAlgo {
 
     private J48 j48;
@@ -14,8 +20,8 @@ public class DecisionTree implements MlAlgo {
     }
 
     @Override
-    public void train(Instances trainingData) throws Exception {
-        this.j48.buildClassifier(trainingData);
+    public void train(Instances trainingData) {
+        ClassifierHelper.catchedBuildClassifier(this.j48, trainingData);
     }
 
     @Override
