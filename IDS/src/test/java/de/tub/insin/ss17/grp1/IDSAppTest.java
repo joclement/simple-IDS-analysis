@@ -101,6 +101,14 @@ public class IDSAppTest
     }
 
     @Test
+    public void testDefault() {
+        String[] argv = {"-f", TestHelper.ARFF_FOLDER};
+        IDSApp.main(argv);
+        assertEquals(1, ModelPersistence.loadAll(TestHelper.arffFolder()).size());
+        assertEquals(1, TestHelper.countResultFolders());
+    }
+
+    @Test
     public void testNumToNominalConversion() {
         String[] argv = {"-f", TestHelper.ARFF_FOLDER,
                          "-n", ArffLoaderTest.NUMERIC_TO_NOMINAL_COLS};
