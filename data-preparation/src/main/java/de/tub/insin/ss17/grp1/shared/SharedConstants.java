@@ -5,6 +5,13 @@ import java.util.Collections;
 import java.util.List;
 
 
+/**
+ * Class to store the shared constants between the 2 sub-projects.
+ *
+ * @author Joris Clement
+ * @author Philip Wilson
+ *
+ */
 public class SharedConstants {
 
     /**
