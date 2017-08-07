@@ -2,16 +2,17 @@ package de.tub.insin.ss17.grp1.dataprep;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
+import de.tub.insin.ss17.grp1.shared.SharedConstants;
 import weka.core.Instances;
-
 
 public class Util {
 
     public static void saveAsArff(Instances data, File arff) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(arff));
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(arff), SharedConstants.ENCODING));
         writer.write(data.toString());
         writer.flush();
         writer.close();
@@ -31,7 +32,7 @@ public class Util {
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             int d = digits.indexOf(c);
-            val = 16 * val + d;
+            val = 16*val + d;
         }
         return val;
     }

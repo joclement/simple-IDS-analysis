@@ -2,12 +2,15 @@ package de.tub.insin.ss17.grp1.dataprep;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
+
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
 import java.io.Reader;
 import java.io.Writer;
@@ -26,7 +29,6 @@ import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.CSVLoader;
 
-
 /**
  * Converts .csv into .arff.
  *
@@ -44,19 +46,20 @@ public class CSV2ArffConverter {
     private final static String NORMAL = "Normal";
     private final static String BACKGROUND = "Background";
 
-    private static String findIp(String line, int attrIndex) throws IOException {
+    private static String findIp(String line, int attrIndex) throws IOException{
         int commas = 0;
         int start = 0;
         int counter = 0;
         boolean beginningIsFound = false;
-        while (commas < attrIndex) {
-            if (commas == attrIndex - 1 && !beginningIsFound) {
+        while(commas < attrIndex){
+            if(commas == attrIndex - 1 && !beginningIsFound) {
                 start = counter;
                 beginningIsFound = true;
             }
-            if (line.charAt(counter) == ',') {
+            if(line.charAt(counter) == ','){
                 commas++;
             }
+
 
             counter++;
         }
@@ -69,16 +72,18 @@ public class CSV2ArffConverter {
         line = line.replace("From-", "");
         line = line.replace("To-", "");
         int index = line.lastIndexOf(traffic);
-        while (index != line.length()) {
+        while(index != line.length()) {
             toDel.append(line.charAt(index));
             index++;
         }
         String toDelete = toDel.toString();
-        if (traffic.equals(BOTNET)) {
+        if(traffic.equals(BOTNET)) {
             line = line.replace(toDelete, SharedConstants.BOTNET);
-        } else if (traffic.equals(NORMAL)) {
+        }
+        else if(traffic.equals(NORMAL)) {
             line = line.replace(toDelete, SharedConstants.NORMAL);
-        } else if (traffic.equals(BACKGROUND)) {
+        }
+        else if(traffic.equals(BACKGROUND)) {
             line = line.replace(toDelete, SharedConstants.BACKGROUND);
         }
 
@@ -86,13 +91,14 @@ public class CSV2ArffConverter {
     }
 
     private static final String hexaPortsToDecimal(String line) {
-        while (line.contains("0x")) {
+        while(line.contains("0x")) {
             int hexaIndex = line.lastIndexOf("0x");
-            // Some hexa ports were larger than 65536
-            if (line.charAt(hexaIndex + 6) == ',') {
-                String hexa = line.substring(hexaIndex, hexaIndex + 6);
+            //Some hexa ports were larger than 65536
+            if(line.charAt(hexaIndex + 6) == ','){
+                String hexa = line.substring(hexaIndex, hexaIndex + 6 );
                 line = line.replace(hexa, String.valueOf((Util.hex2decimal(hexa))));
-            } else {
+            }
+            else {
                 line = "";
             }
         }
@@ -103,9 +109,9 @@ public class CSV2ArffConverter {
                                            int lineNum, int totLines,
                                            File temp, boolean rB)
             throws IOException {
-        if (!(traffic.equals(BACKGROUND) && rB)) {
-            try {
-                FileOutputStream fileOut = new FileOutputStream(temp, true);
+        if(!(traffic.equals(BACKGROUND) && rB)) {
+            try{
+                Writer fileOut = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(temp, true), SharedConstants.ENCODING));
 
                 line = deleteLabelExcess(line, traffic);
 
@@ -114,44 +120,45 @@ public class CSV2ArffConverter {
 
                 line = hexaPortsToDecimal(line);
 
-                fileOut.write(line.getBytes(), 0, line.length());
+                fileOut.write(line,0,line.length());
 
-                if (lineNum < totLines - 1) {
-                    fileOut.write("\n".getBytes(), 0, "\n".length());
+                if(lineNum < totLines-1){
+                    fileOut.write("\n",0,"\n".length());
                 }
                 fileOut.close();
-            } catch (IOException e) {
-                throw new RuntimeWekaException(
-                        "Failed to clean up OutputStream: " + e.getMessage());
+            }
+            catch (IOException e) {
+                throw new RuntimeWekaException("Failed to clean up OutputStream: "+ e.getMessage());
             }
         }
     }
 
     private static final void parseLabel(File csv, boolean rB)
             throws FileNotFoundException, IOException {
-        Scanner scanner = new Scanner(csv);
-        File temp = File.createTempFile("temp", ".csv");
-        // now read the file line by line...
+        Scanner scanner = new Scanner(csv,SharedConstants.ENCODING);
+        File temp = File.createTempFile("temp",".csv");
+        //now read the file line by line...
         int totLines = 0;
-        LineNumberReader lnr = new LineNumberReader(new FileReader(csv));
+        LineNumberReader lnr = new LineNumberReader(new InputStreamReader(new FileInputStream(csv), SharedConstants.ENCODING));
 
         try {
-            FileOutputStream fileOut = new FileOutputStream(temp, true);
+            Writer fileOut = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(temp, true), SharedConstants.ENCODING));
 
             String first = lnr.readLine();
 
-            if (first == null) {
+            if(first == null) {
                 lnr.close();
                 fileOut.close();
                 scanner.close();
                 throw new RuntimeException("string is null");
             }
-            fileOut.write(first.getBytes(), 0, first.length());
-            fileOut.write("\n".getBytes(), 0, "\n".length());
+            fileOut.write(first,0,first.length());
+            fileOut.write("\n",0,"\n".length());
             fileOut.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             scanner.close();
-            throw new RuntimeWekaException("Failed to clean up OutputStream: " + e.getMessage());
+            throw new RuntimeWekaException("Failed to clean up OutputStream: "+ e.getMessage());
         }
 
         while (lnr.readLine() != null) {
@@ -162,67 +169,76 @@ public class CSV2ArffConverter {
         int id = 0;
 
         scanner.nextLine();
-        for (int j = 0; j < totLines; j++) {
+        for(int j = 0; j < totLines; j++){
+
 
             if (j == 0) {
                 log.debug("0%");
-            } else if (j == totLines / 4) {
+            }
+            else if (j == totLines / 4) {
                 log.debug("25%");
-            } else if (j == totLines / 2) {
+            }
+            else if (j == totLines / 2) {
                 log.debug("50%");
-            } else if (j == totLines * 3 / 4) {
+            }
+            else if (j == totLines * 3 / 4) {
                 log.debug("75%");
-            } else if (j == totLines - 1) {
+            }
+            else if (j == totLines - 1) {
                 log.debug("100%");
             }
 
             String line = scanner.nextLine();
 
-            if (!rB || !line.contains(BACKGROUND)) {
+            if(!rB || !line.contains(BACKGROUND)) {
                 String valueSrc = findIp(line, 4);
                 String valueDest = findIp(line, 7);
 
                 int position = tree.idOf(valueSrc);
-                if (position != 0) {
+                if(position != 0){
                     line = line.replaceFirst(valueSrc, String.valueOf(position));
-                } else {
+                }
+                else {
                     id++;
                     tree.insert(valueSrc, id);
                     line = line.replaceFirst(valueSrc, String.valueOf(id));
                 }
 
                 position = tree.idOf(valueDest);
-                if (position != 0) {
+                if(position != 0){
                     line = line.replaceFirst(valueDest, String.valueOf(position));
-                } else {
+                }
+                else {
                     id++;
                     tree.insert(valueDest, id);
                     line = line.substring(0, 28) +
-                            line.substring(30).replaceFirst(valueDest, String.valueOf(id));
+                           line.substring(30).replaceFirst(valueDest,String.valueOf(id));
                 }
             }
 
-            if (line.contains(BOTNET)) {
-                deleteExcess(line, BOTNET, j, totLines, temp, rB);
-            } else if (line.contains(NORMAL)) {
-                deleteExcess(line, NORMAL, j, totLines, temp, rB);
-            } else if (line.contains(BACKGROUND)) {
-                deleteExcess(line, BACKGROUND, j, totLines, temp, rB);
+            if(line.contains(BOTNET)) {
+                deleteExcess(line,BOTNET,j, totLines,temp, rB);
+            }
+            else if(line.contains(NORMAL)) {
+                deleteExcess(line,NORMAL,j,totLines,temp, rB);
+            }
+            else if(line.contains(BACKGROUND)) {
+                deleteExcess(line,BACKGROUND,j,totLines,temp, rB);
             }
         }
         tree.root = null;
         lnr.close();
         scanner.close();
         Files.copy(temp.toPath(), csv.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        if (!temp.delete()) {
+        if(!temp.delete()){
             throw new RuntimeWekaException("tempFile wasnt deleted correctly");
         }
     }
 
     private static final void removeCsvHeader(List<File> csvsCopy) throws IOException {
         boolean flag = false;
-        for (File csv : csvsCopy) {
-            if (flag) {
+        for (File csv: csvsCopy ){
+            if(flag){
                 RandomAccessFile raf = new RandomAccessFile(csv, "rw");
                 long writePosition = raf.getFilePointer();
                 raf.readLine();
@@ -245,7 +261,7 @@ public class CSV2ArffConverter {
     }
 
     private static final void transfer(final Reader source, final Writer destination)
-            throws IOException {
+            throws IOException  {
         char[] buffer = new char[1024 * 16];
         int len = 0;
         while ((len = source.read(buffer)) >= 0) {
@@ -254,20 +270,19 @@ public class CSV2ArffConverter {
     }
 
     private static void appendCSVs(final List<File> csvs, final File combination)
-            throws IOException {
+        throws IOException {
         for (File csv : csvs) {
-            try (Reader source = new LineNumberReader(new FileReader(csv));
-                    Writer destination = new BufferedWriter(new FileWriter(combination, true));) {
+            try (Reader source = new LineNumberReader(new InputStreamReader(new FileInputStream(csv), SharedConstants.ENCODING));
+                Writer destination = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(combination, true), SharedConstants.ENCODING)); ) {
                 log.debug("transfer {},{}", source, destination);
                 transfer(source, destination);
-            }
+                    }
         }
     }
 
     private static File combine(List<File> csvs) throws IOException {
         File combination = File.createTempFile("combination", ".netflow");
-        Files.copy(csvs.remove(0).toPath(), combination.toPath(),
-                StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(csvs.remove(0).toPath(), combination.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
         log.debug("appendCSVs");
         appendCSVs(csvs, combination);
@@ -276,7 +291,7 @@ public class CSV2ArffConverter {
         return combination;
     }
 
-    private static File convert(File mergedSrcFile) throws Exception {
+    private static File convert(File mergedSrcFile) throws Exception  {
         CSVLoader loader = new CSVLoader();
         loader.setNumericAttributes(NUMERIC_LIST);
         loader.setDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
@@ -289,10 +304,10 @@ public class CSV2ArffConverter {
         Instance next = loader.getNextInstance(structure);
         log.debug("after getStructure");
 
-        while (next != null) {
+        while(next != null){
             Instances temp = new Instances(structure, 0);
             int i = 0;
-            while (next != null && i < 25000) {
+            while(next != null && i<25000){
                 temp.add(next);
                 next = loader.getNextInstance(structure);
                 i++;
@@ -300,8 +315,8 @@ public class CSV2ArffConverter {
             splitData.add(temp);
         }
         splitData.trimToSize();
-        Instances fullData = new Instances(splitData.get(0), 0);
-        for (Instances i : splitData) {
+        Instances fullData = new Instances(splitData.get(0),0);
+        for(Instances i : splitData){
             fullData.addAll(i);
         }
         File arffTmp = Util.saveAsArff(fullData);
@@ -311,18 +326,16 @@ public class CSV2ArffConverter {
     /**
      * JUnit tests for data-preparation.
      *
-     * @param csvs
-     *            List of scenarios to be converted
-     * @param removeBackground
-     *            If true will not include Background Traffic into ARFF.
+     * @param csvs List of scenarios to be converted
+     * @param removeBackground If true will not include Background
+     * Traffic into ARFF.
      *
      */
     public static File parse(List<File> csvs, boolean removeBackground) throws Exception {
         File combinedCsv = prepare(csvs, removeBackground);
-        System.gc();
         log.debug("convert");
         File combinedArff = convert(combinedCsv);
-        if (!combinedCsv.delete()) {
+        if(!combinedCsv.delete()){
             throw new RuntimeWekaException("tempFile wasnt deleted correctly");
         }
         log.debug("finished: File parse");
@@ -332,9 +345,9 @@ public class CSV2ArffConverter {
     private static File prepare(List<File> csvs, boolean rB)
             throws IOException, FileNotFoundException {
         log.debug("start: File parse");
-        List<File> copyList = new ArrayList<>(csvs.size());
-        for (File csv : csvs) {
-            File copy = File.createTempFile("copy", ".csv");
+        List<File> copyList = new ArrayList<File>(csvs.size());
+        for(File csv : csvs){
+            File copy = File.createTempFile("copy",".csv");
             copyList.add(copy);
             Files.copy(csv.toPath(), copy.toPath(), StandardCopyOption.REPLACE_EXISTING);
         }
@@ -342,8 +355,8 @@ public class CSV2ArffConverter {
         removeCsvHeader(copyList);
         log.debug("combine");
         File combinedCsv = combine(copyList);
-        for (File copy : copyList) {
-            if (!copy.delete()) {
+        for(File copy : copyList){
+            if(!copy.delete()){
                 throw new RuntimeWekaException("tempFile wasnt deleted correctly");
             }
         }
