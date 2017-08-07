@@ -20,6 +20,7 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.tub.insin.ss17.grp1.shared.RuntimeWekaException;
 import de.tub.insin.ss17.grp1.shared.SharedConstants;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -63,22 +64,23 @@ public class CSV2ArffConverter {
     }
 
     private static final String deleteLabelExcess(String line, String traffic) {
-        String toDelete = "";
+        StringBuilder toDel = new StringBuilder();
         line = line.replace("flow=", "");
         line = line.replace("From-", "");
         line = line.replace("To-", "");
         int index = line.lastIndexOf(traffic);
         while(index != line.length()) {
-            toDelete += line.charAt(index);
+            toDel.append(line.charAt(index));
             index++;
         }
-        if(traffic == BOTNET) {
+        String toDelete = toDel.toString();
+        if(traffic.equals(BOTNET)) {
             line = line.replace(toDelete, SharedConstants.BOTNET);
         }
-        else if(traffic == NORMAL) {
+        else if(traffic.equals(NORMAL)) {
             line = line.replace(toDelete, SharedConstants.NORMAL);
         }
-        else if(traffic == BACKGROUND) {
+        else if(traffic.equals(BACKGROUND)) {
             line = line.replace(toDelete, SharedConstants.BACKGROUND);
         }
 
@@ -104,22 +106,27 @@ public class CSV2ArffConverter {
                                            int lineNum, int totLines,
                                            File temp, boolean rB)
             throws IOException {
-        if(!(traffic == BACKGROUND && rB)) {
-            FileOutputStream fileOut = new FileOutputStream(temp,true);
+        if(!(traffic.equals(BACKGROUND) && rB)) {
+            try{
+                FileOutputStream fileOut = new FileOutputStream(temp,true);
 
-            line = deleteLabelExcess(line, traffic);
+                line = deleteLabelExcess(line, traffic);
 
-            // Date format only accepts 3 digits after the seconds and not 6
-            line = line.substring(0, 23) + line.substring(26);
+                // Date format only accepts 3 digits after the seconds and not 6
+                line = line.substring(0, 23) + line.substring(26);
 
-            line = hexaPortsToDecimal(line);
+                line = hexaPortsToDecimal(line);
 
-            fileOut.write(line.getBytes(),0,line.length());
+                fileOut.write(line.getBytes(),0,line.length());
 
-            if(lineNum < totLines-1){
-                fileOut.write("\n".getBytes(),0,"\n".length());
+                if(lineNum < totLines-1){
+                    fileOut.write("\n".getBytes(),0,"\n".length());
+                }
+                fileOut.close();
             }
-            fileOut.close();
+            catch (IOException e) {
+                throw new RuntimeWekaException("Failed to clean up OutputStream: "+ e.getMessage());
+            }
         }
     }
 
@@ -131,19 +138,25 @@ public class CSV2ArffConverter {
         int totLines = 0;
         LineNumberReader lnr = new LineNumberReader(new FileReader(csv));
 
-        FileOutputStream fileOut = new FileOutputStream(temp,true);
+        try {
+            FileOutputStream fileOut = new FileOutputStream(temp,true);
 
-        String first = lnr.readLine();
+            String first = lnr.readLine();
 
-        if(first == null) {
-            lnr.close();
+            if(first == null) {
+                lnr.close();
+                fileOut.close();
+                scanner.close();
+                throw new RuntimeException("string is null");
+            }
+            fileOut.write(first.getBytes(),0,first.length());
+            fileOut.write("\n".getBytes(),0,"\n".length());
             fileOut.close();
-            scanner.close();
-            throw new RuntimeException("string is null");
         }
-        fileOut.write(first.getBytes(),0,first.length());
-        fileOut.write("\n".getBytes(),0,"\n".length());
-        fileOut.close();
+        catch (IOException e) {
+            scanner.close();
+            throw new RuntimeWekaException("Failed to clean up OutputStream: "+ e.getMessage());
+        }
 
         while (lnr.readLine() != null) {
             totLines++;
@@ -214,7 +227,9 @@ public class CSV2ArffConverter {
         lnr.close();
         scanner.close();
         Files.copy(temp.toPath(), csv.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        temp.delete();
+        if(!temp.delete()){
+            throw new RuntimeWekaException("tempFile wasnt deleted correctly");
+        }
     }
 
     private static final void removeCsvHeader(List<File> csvsCopy) throws IOException {
@@ -318,7 +333,9 @@ public class CSV2ArffConverter {
         System.gc();
         log.debug("convert");
         File combinedArff = convert(combinedCsv);
-        combinedCsv.delete();
+        if(!combinedCsv.delete()){
+            throw new RuntimeWekaException("tempFile wasnt deleted correctly");
+        }
         log.debug("finished: File parse");
         return combinedArff;
     }
@@ -337,7 +354,9 @@ public class CSV2ArffConverter {
         log.debug("combine");
         File combinedCsv = combine(copyList);
         for(File copy : copyList){
-            copy.delete();
+            if(!copy.delete()){
+                throw new RuntimeWekaException("tempFile wasnt deleted correctly");
+            }
         }
         copyList.clear();
         log.debug("parseLabel");
