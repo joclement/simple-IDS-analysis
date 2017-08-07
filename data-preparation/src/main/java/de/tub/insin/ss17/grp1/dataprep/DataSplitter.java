@@ -7,11 +7,24 @@ import java.util.List;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 
+/**
+ * Class to divide data into a test ARFF and a training ARFF.
+ *
+ * @author Joris Clement
+ *
+ */
 
 public class DataSplitter {
 
     private Integer percentageTrain;
 
+    /**
+     * Constructor that cheks the parameter for validity
+     *
+     * @param percentageTrain
+     *                  Integer which corresponds to the percentage of data
+     *                  assigned to become the training set
+     */
     public DataSplitter(Integer percentageTrain) {
         if (percentageTrain > 100 || percentageTrain < 0) {
             throw new IllegalArgumentException(
@@ -20,6 +33,13 @@ public class DataSplitter {
         this.percentageTrain = percentageTrain;
     }
 
+    /**
+     * Main method of Data Splitter
+     *
+     * @param arff Arff containing one or more scenarios
+     * @return splittedArffs List of 2 arffs, one training , the other test.
+     * @throws Exception
+     */
     public List<File> split(File arff) throws Exception {
         List<File> splittedArffs = new LinkedList<File>();
 

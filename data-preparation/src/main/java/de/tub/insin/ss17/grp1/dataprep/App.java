@@ -10,10 +10,21 @@ import de.tub.insin.ss17.grp1.shared.SharedConstants;
 import de.tub.insin.ss17.grp1.shared.SharedUtil;
 
 
+/**
+ * Main Class of the data-preparation section
+ *
+ * @author Joris Clement
+ *
+ */
 public class App {
 
     private final static Logger log = LoggerFactory.getLogger(App.class);
 
+    /**
+     * Main method of the App class
+     *
+     * @param argv String array with all the parameters
+     */
     public static void main(String[] argv) {
         log.debug("--- START ---");
         DataCliManager cliManager = new DataCliManager();

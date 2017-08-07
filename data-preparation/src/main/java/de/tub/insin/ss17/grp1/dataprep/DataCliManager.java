@@ -17,6 +17,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+/**
+ * Class in charge of parsing the parameters
+ *
+ * @author Joris Clement
+ * @author Philip Wilson
+ * @author Philipp Nickel
+ *
+ */
 public class DataCliManager {
 
     private static final String CSV_FILENAME = "netflow.csv";
@@ -67,6 +75,9 @@ public class DataCliManager {
 
     // @formatter:on
 
+    /**
+     * Main method of the Manager
+     */
     public void run() {
         log.debug("start: run");
 

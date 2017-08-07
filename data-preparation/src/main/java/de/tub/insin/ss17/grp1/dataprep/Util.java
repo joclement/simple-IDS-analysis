@@ -9,6 +9,13 @@ import java.io.OutputStreamWriter;
 import de.tub.insin.ss17.grp1.shared.SharedConstants;
 import weka.core.Instances;
 
+/**
+ * Class to store Utility Methods
+ *
+ * @author Philip Wilson
+ * @author Joris Clement
+ *
+ */
 public class Util {
 
     public static void saveAsArff(Instances data, File arff) throws IOException {
