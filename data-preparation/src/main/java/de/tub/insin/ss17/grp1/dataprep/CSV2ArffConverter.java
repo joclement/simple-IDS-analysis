@@ -2,12 +2,13 @@ package de.tub.insin.ss17.grp1.dataprep;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
 import java.io.Reader;
 import java.io.Writer;
@@ -108,7 +109,7 @@ public class CSV2ArffConverter {
             throws IOException {
         if(!(traffic.equals(BACKGROUND) && rB)) {
             try{
-                FileOutputStream fileOut = new FileOutputStream(temp,true);
+                OutputStreamWriter fileOut = new OutputStreamWriter(new FileOutputStream(temp,true), SharedConstants.ENCODING);
 
                 line = deleteLabelExcess(line, traffic);
 
@@ -117,10 +118,10 @@ public class CSV2ArffConverter {
 
                 line = hexaPortsToDecimal(line);
 
-                fileOut.write(line.getBytes(),0,line.length());
+                fileOut.write(line,0,line.length());
 
                 if(lineNum < totLines-1){
-                    fileOut.write("\n".getBytes(),0,"\n".length());
+                    fileOut.write("\n",0,"\n".length());
                 }
                 fileOut.close();
             }
@@ -132,14 +133,14 @@ public class CSV2ArffConverter {
 
     private static final void parseLabel(File csv, boolean rB)
             throws FileNotFoundException, IOException {
-        Scanner scanner = new Scanner(csv);
+        Scanner scanner = new Scanner(csv,SharedConstants.ENCODING);
         File temp = File.createTempFile("temp",".csv");
         //now read the file line by line...
         int totLines = 0;
-        LineNumberReader lnr = new LineNumberReader(new FileReader(csv));
+        LineNumberReader lnr = new LineNumberReader(new InputStreamReader(new FileInputStream(csv), SharedConstants.ENCODING));
 
         try {
-            FileOutputStream fileOut = new FileOutputStream(temp,true);
+            OutputStreamWriter fileOut = new OutputStreamWriter(new FileOutputStream(temp,true), SharedConstants.ENCODING);
 
             String first = lnr.readLine();
 
@@ -149,8 +150,8 @@ public class CSV2ArffConverter {
                 scanner.close();
                 throw new RuntimeException("string is null");
             }
-            fileOut.write(first.getBytes(),0,first.length());
-            fileOut.write("\n".getBytes(),0,"\n".length());
+            fileOut.write(first,0,first.length());
+            fileOut.write("\n",0,"\n".length());
             fileOut.close();
         }
         catch (IOException e) {
@@ -269,8 +270,8 @@ public class CSV2ArffConverter {
     private static void appendCSVs(final List<File> csvs, final File combination)
         throws IOException {
         for (File csv : csvs) {
-            try (Reader source = new LineNumberReader(new FileReader(csv));
-                    Writer destination = new BufferedWriter(new FileWriter(combination, true)); ) {
+            try (Reader source = new LineNumberReader(new InputStreamReader(new FileInputStream(csv), SharedConstants.ENCODING));
+                    Writer destination = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csv), SharedConstants.ENCODING)); ) {
                 log.debug("transfer {},{}", source, destination);
                 transfer(source, destination);
                     }
@@ -321,7 +322,7 @@ public class CSV2ArffConverter {
     }
 
     /**
-     * JUnit tests for data-preparation.
+     * Main method of the converter.
      *
      * @param csvs List of scenarios to be converted
      * @param removeBackground If true will not include Background
@@ -330,7 +331,6 @@ public class CSV2ArffConverter {
      */
     public static File parse(List<File> csvs, boolean removeBackground) throws Exception {
         File combinedCsv = prepare(csvs, removeBackground);
-        System.gc();
         log.debug("convert");
         File combinedArff = convert(combinedCsv);
         if(!combinedCsv.delete()){
