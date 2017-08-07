@@ -2,9 +2,111 @@
 \begin{document}
 \section{Evaluierung des IDS}
 \subsection{Evaluierung des IDS mit dem Datensatz CTU13}
-Hier werden die Ergebnisse unseres IDS mit dem CTU13-Datensatz erfasst
+
+\subsubsection{Werte und Metriken}
+Wenn das IDS Training und Test beendet hat, werden die Werte True Negative (TN), True Positive (TP), False Positive (FP) und False Negative (FN) erfasst. Bei True Negative handelt es sich um die als Normal erkannten Ereignisse, die auch tatsächlich Normal sind. True Positive sind die korrekt erkannten Botnets. False Positive bezeichnen Fehlalarme, das heißt, dass normale Ereignisse als Botnets erkannt wurden. False Negative dagegen sind Botnets, die nicht erkannt wurden. 
+Um zu evaluieren, wie gut das IDS auf dem CTU13-Datensatz funktioniert, wurden die folgenden Metriken ausgewählt, die aus den eben genannten Werten errechnet werden:
+
+\begin{itemize}
+\item Accuracy
+\item Incorrectly Classified (IC)
+\item Recall
+\item False-Positive-Rate (FP-Rate)
+\item Specificity
+\item False-Negative-Rate (FN-Rate)
+\end{itemize}
+
+Accuracy beschreibt, inwieweit die Instanzen insgesamt richtig identifiziert wurden. Dabei wird mit folgender Formel vorgegangen:
+\begin{equation}
+\frac{TP + TN}{TP + TN + FP + FN}
+\end{equation}
+Incorrectly Classified zeigt an, wie viele Instanzen falsch zugeordnet wurden.
+Der Recall bezeichnet den Anteil der erkannten Angriffe im Verhältnis zu allen Angriffen. Er wird wie folgt berechnet:
+\begin{equation}
+\frac{TP}{TP +  FN}
+\end{equation}
+Die False-Positive-Rate beschreibt den Anteil an Fehlalarmen im Verhältnis zu allen Alarmen und wird folgendermaßen berechnet:
+\begin{equation}
+\frac{FP}{FP + TN}
+\end{equation}
+Die Specificity beschreibt, wie viele der normalen Ereignisse auch als solche identifiziert wurden. Die Formel lautet:
+\begin{equation}
+\frac{TN}{TN + FP}
+\end{equation}
+Die False-Negative-Rate gibt an, wie viele Angriffe im Verhältnis zu allen Angriffen nicht erkannt wurden. Sie wird wie folgt berechnet:
+\begin{equation}
+\frac{FN}{TP + FN}
+\end{equation}
+
+Diese Metriken wurden für die Evaluierung des IDS gewählt, da sie die Genauigkeit des IDS repräsentieren können. 
+
+\subsubsection{Ergebnisse}
+Welche Ergebnisse die vorgestellten Metriken nach der Ausführung des IDS ergeben, hängt von mehreren Faktoren ab. 
+Zum einen hängt es davon ab, welcher Classifier genutzt wird, da die Classfier unterschiedlich arbeiten. Zum anderen hängt es davon ab, welche Parameter diesen Classifiern übergeben werden. 
+Nimmt man nun beispielsweise den LinearNNClassifier, so muss man mindestens den Parameter k, der angibt, mit wie vielen direkten Nachbarn sich ein Knoten vergleicht, setzen. Optional kann aber auch noch bestimmt werden, ob bestimmte Spalten der Arff-Datei als nominal anstatt numerisch interpretiert werden sollen. 
+Für diese Evaluation wurden die Szenarien 4, 5, 6, 7, 11 und 12 auf unterschiedliche Weisen durch das IDS untersucht. Zunächst einmal wurden die Szenarien ohne den optionalen Nominal-Parameter mit verschiedenen k-Werten getestet. Die Ergebnisse wurden in der nachfolgenden Tabelle erfasst:\\
+
+\begin{tabular}{|c|c|c|c|c|c|c|}\hline
+k & Accuracy & Precision & Specificity & FP-Rate & Recall & FN-Rate \\ \hline
+15 & 92,40\% & 7,60\% & 99,99\% & 1,21\% & 59,38\% & 40,62\% \\  \hline
+20 & 92,43\% & 7,57\% & 99,96\% & 0,00\% & 59,65\% & 40,35\% \\  \hline
+30 &  92,47\% & 7,53\% & 99,96\% & 0,00\% & 59,86\% & 40,14\% \\  \hline
+45 & 92,49\% & 7,51\% & 99,95\% & 0,00\% & 60,02\% & 39,98\%\\  \hline
+ \end{tabular} 
+
+\ \\  \\ Wie zu erkennen ist, verbessert sich der Anteil der korrekt erkannten Instanzen (Accuracy) mit steigendem k. Im Umkehrschluss verringert sich der Anteil der falsch erkannten Instanzen (IC) sowie die FP-Rate und die FN-Rate entsprechend. Der Recall dagegen steigt leicht an. Die Specificity sinkt in geringerem Maße. Zusammenfassend lassen sich diese Trends in den Metriken darin begründen, dass das IDS Instanzen genauer identifizieren kann, wenn es mehr Nachbarn zum Vergleich heranzieht. 
+
+\ \\  Die Szenarion wurden erneut mit den k-Werten 15, 20, 30 und 40 getestet. Allerdings wurde nun der Nominal-Paramter auf 3 gesetzt. Das bedeutet, dass die dritte Spalte der Arff-Datei nominal anstatt numerisch interpretiert wurde. In der dritten Spalte der Arff-Datei befinden sich die Source-IP-Adressen. Die aus dieser Konstellation resultierenden Ergebnisse wurden in der nachfolgenden Tabelle festgehalten: \\
+
+% n = 3
+\begin{tabular}{|c|c|c|c|c|c|c|}\hline
+k & Accuracy & IC & Specificity & FP-Rate & Recall & FN-Rate \\ \hline
+15 & 98,01\% & 1,99\% & 100\% & 0,00\% & 89,00\% & 10,66\% \\  \hline
+20 & 98,03\% & 1,97\% & 100\% & 0,00\% & 89,45\% & 10,55\% \\  \hline
+30 &  98,15\% & 1,85\% & 100\% & 0,00\% & 90,08\% & 9,92\% \\  \hline
+45 & 99,51\% & 0,19\% & 100\% & 0,00\% & 98,99\% & 1,01\%\\  \hline
+ \end{tabular} 
+
+\ \\ \\ Zu Beginn fällt auf, dass der Anteil der korrekt erkannten Instanzen (Accuracy) bereits bei k=15 größer ist, als in der IDS-Evaluierung ohne Nominal-Paramter. Auch hier verbessert sich der Anteil der korrekt erkannten Instanzen (Accuracy) mit steigendem k, während die nicht korrekt erkannten Instanzen (IC) in gleichem Maß sinken. Auffällig ist, dass die Specificity unabhängig von den hier gewählten k-Werten 100\% beträgt. Normale Ereignisse wurden also ausnahmslos als solche identifiziert. Dementsprechend beträgt die FP-Rate, die angibt, wie viele normale Ereignisse als Botnets identifiziert wurden, 0\%. Auch der Recall ist deutlich höher als in der Evaluierung ohne Nominal-Paramter. Wie der Anteil der korrekt erkannten Instanzen steigt auch der Recall mit steigendem k. Die FN-Rate dagegen sinkt stark mit steigendem k. Im Vergleich zu der Evaluierung ohne Nominal-Parameter ist die FN-Rate niedriger. Auch bei dieser Evaluation lässt sich sagen, dass das IDS mit steigendem k-Wert Instanzen genauer identifizieren kann. Allerdings lässt sich auch feststellen, dass der Nominal-Parameter zu verbesserte Metriken führt.
+
+\ \\ Schließlich wurden die Szenarien erneut mit den k-Werten 15, 20, 30 und 45 getestet. Diesesmal wurde aber der Nominal-Paramater nicht auf 3 sondern auf 3 und 6 gesetzt. Es wurden also die dritte und die sechste Spalte der Arff-Datei nominal anstatt numerisch interpretiert. In der dritten Spalte der Arff-Datei befinden sich nach wie vor die Source-IP-Adressen. In der sechsten Spalte dagegen wurden die Destination-IP-Adressen hinterlegt. Es werden nun also alle IP-Adressen nominal anstatt numerisch interpretiert. Die daraus folgenden Resultate sind in der nachfolgenden Tabelle festgehalten:  \\
+
+% n = 3, 6
+\begin{tabular}{|c|c|c|c|c|c|c|}\hline
+k & Accuracy & IC & Specificity & FP-Rate & Recall & FN-Rate \\ \hline
+15 & 98,53\% & 1,47\% & 100\% & 0,00\% & 92,15\% &7,85\% \\  \hline
+20 & 99,03\% & 0,97\% & 100\% & 0,00\% & 94,80\% & 5,20\% \\  \hline
+30 &  99,46\% & 0,54\% & 100\% & 0,00\% & 97,14\% & 2,86\% \\  \hline
+45 & 99,51\% & 0,49\% & 100\% & 0,00\% & 97,40\% & 2,59\%\\  \hline
+ \end{tabular} 
+
+\ \\ \\ Auch hier fällt auf, dass der Anteil der korrekt erkannten Instanzen (Accuracy) mit steigendem k-Wert erneut höher ausfällt, während die nicht korrekt erkannten Instanzen im Umkehrschluss sinken. Die Specificity weist unabhängig von den k-Werten 100\% auf, während die FP-Rate dementsprechend 0\% aufweist. Der Recall wächst mit steigendem k-Wert, während die FN-Rate entsprechend sinkt. Auch hier ist zu sehen, dass das IDS mit höheren k-Werten genauere Ergebnisse erzielt.
+
+Es wurde also getestet, wie sich die Metriken mit unterschiedlichen k-Werten verhalten. Die Werte CC und Specificity liegen bereits bei k=15 mindestens bei 92,40\%. Das IDS identifiziert die Instanzen also zu großen Teilen richtig. Die FP-Rate sinkt durchgängig mit steigendem k-Wert. Auch die FN-Rate sinkt mit steigendem k-Wert.Dementsprechend wächst der Recall mit steigendem k-Wert. Je höher also k ist, desto weniger Fehlalarme treten auf und desto weniger Botnets bleiben unentdeckt. 
+Zusammenfassend kann also gesagt werden, dass das IDS mit steigendem k-Wert Instanten besser zuordnen kann und somit bessere Ergebnisse erzielt. 
+
+Nun stellt sich allerdings auch die Frage, welchen Einfluss der Nominal-Parameter auf die Resultate der IDS-Evaluierung haben. Um dies festzustellen, werden nun die Ergebnisse abhängig vom Nominal-Parameter n  in der folgenden Tabelle abgebildet: \\
+
+\begin{tabular}{|c|c|c|c|c|c|c|}\hline
+n & Accuracy & IC & Specificity & FP-Rate & Recall & FN-Rate \\ \hline
+ \multicolumn{7}{|c|}{k = 15}\\ \hline
+- & 92,40\% & 7,60\% & 99,99\% & 1,21\% & 59,38\% & 40,62\% \\  \hline
+3 & 98,01\% & 1,99\% & 100\% & 0,00\% & 89,00\% & 10,66\% \\  \hline
+3, 6 & 98,53\% & 1,47\% & 100\% & 0,00\% & 92,15\% &7,85\% \\  \hline
+ \multicolumn{7}{|c|}{k = 45}\\ \hline
+- & 92,49\% & 7,51\% & 99,95\% & 0,00\% & 60,02\% & 39,98\%\\  \hline
+3 & 99,51\% & 0,19\% & 100\% & 0,00\% & 98,99\% & 1,01\%\\  \hline
+3,6 &  99,51\% & 0,49\% & 100\% & 0,00\% & 97,40\% & 2,59\%\\  \hline
+ \end{tabular} 
+
+\ \\ \\ Da das Verhalten der Werte mit steigendem k-Wert bereits aufgezeigt wurde, werden hier nur noch die beiden bereits abgebildeten k=15 und k=45 betrachtet, da sie die Extrema der jeweiligen Wertebereiche bilden. \\
+Vergleicht man die Zeilen, in denen der Nominal-Parameter nicht gesetzt wurde mit den Zeilen, in denen der Nominal-Parameter auf 3 gesetzt wurde, fällt auf, dass die Werte Accuracy und IC um rund 7\% steigen bzw. sinken. Die Specificity steigt von 99,99\% bzw. 99,95\% auf 100\%. Auffällig ist, dass Recall und FN-Rate sich im Fall k=15 um 29,62\% und im Fall k=45 um 38,97\% ändern. Die Angrifferkennung hat sich also um durchschnittlich 34,295\% verbessert. Dagegen hat sich die Erkennung der normalen Ereignissen nur marginal verbessert. Da die Werte der Specificity und der FP-Rate bereits nah an 100\% bzw. 0\%, den beiden möglichen Extrema, lagen, war eine Verbesserung auch nur marginal möglich. \\
+Vergleicht man nun die Zeilen, in denen die Nominal-Parameter 3 sowie 3 und 6 betragen, fällt auf, dass die Werte Accuracy, IC, FP-Rate und Specificity kaum von einander abweichen. Allerdings ist der Recall im Fall k=15  um 3,15\% gestiegen und im Fall von k=45 um 1,59\% gefallen. Komplementär dazu ist die FN-Rate um diese Werte gestiegen. Es wurden also weniger Angriffe erkannt. 
+Trotz dessen kann festgestellt werden, dass das unterschiedliche Setzen des Nominal-Parameters (n= -, n= 3, n=3, 6) zu unterschiedlichen Ergebnissen führt. Diese Unterschiede sind darin begründet, dass es sich bei den durch den Nominal-Parameter ausgewählten Elementen m IP-Adressen handelt, die zuvor numerisch behandelt wurden. IP-Adressen numerisch zu vergleichen ist für ein IDS unter Nutzung des Nearest-Neighbour-Algorithmus nicht optimal, da die IP-Adressen in diesem Fall wie gewöhnliche Zahlen miteinander verglichen werden, um festzustellen, wie die Entfernung zwischen den Nachbarn ist. Allerdings bilden IP-Adressen nicht auf die tatsächliche Entfernung ab. Dementsprechend erzielt die nominale Behandlung von IP-Adressen verbesserte Ergebnisse.
+
+
 \subsection{Evaluierung des IDS mit den Datensätzen DARPA und KDD}
-Hier werden die Ergebnisse unseres IDS mit dem DARPA- und dem KDD-Datensatz erfasst
+Hier werden die Ergebnisse unseres IDS mit dem DARPA- und dem KDD-Datensatz erfasst.
 
 \end{document}
 
