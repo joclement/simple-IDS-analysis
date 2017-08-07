@@ -324,7 +324,7 @@ public class CSV2ArffConverter {
     }
 
     /**
-     * JUnit tests for data-preparation.
+     * Main method of converter.
      *
      * @param csvs List of scenarios to be converted
      * @param removeBackground If true will not include Background
