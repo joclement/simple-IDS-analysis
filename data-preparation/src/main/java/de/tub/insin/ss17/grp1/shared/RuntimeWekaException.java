@@ -2,7 +2,8 @@ package de.tub.insin.ss17.grp1.shared;
 
 /**
  * Simple own weka runtime exception class to prevent
- * explicit exception specification in functions.
+ * explicit exception specification in functions,
+ * because Weka just throws exceptions of the type `Exception`.
  *
  * @author Joris Clement
  *
