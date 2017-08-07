@@ -36,11 +36,13 @@ public class Trainer {
     private MlAlgo classifier;
 
     /**
-     * Construct a trainer with a given identifier for the classifier, which will be trained,
-     * and a list of parameters for that classifier.
+     * Construct a trainer with a given identifier for the classifier, which
+     * will be trained, and a list of parameters for that classifier.
      *
-     * @param classifierIdentifier the classifier identifier
-     * @param params the list of parameter for the classifier
+     * @param classifierIdentifier
+     *            the classifier identifier
+     * @param params
+     *            the list of parameter for the classifier
      */
     public Trainer(String classifierIdentifier, List<String> params) {
         this.setClassifier(classifierIdentifier, params);
@@ -59,7 +61,7 @@ public class Trainer {
                 break;
             default:
                 throw new IllegalArgumentException(
-                    "there is no classifier with the name: " + classifierIdentifier);
+                        "there is no classifier with the name: " + classifierIdentifier);
         }
     }
 

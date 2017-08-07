@@ -17,9 +17,11 @@ import de.tub.insin.ss17.grp1.shared.SharedUtil;
 import de.tub.insin.ss17.grp1.util.ClassIndexs;
 import de.tub.insin.ss17.grp1.util.ResultPersistence;
 
+
 /**
- * Class for the evaluation of a trained classifier model. It measures the performance of the
- * selected classifier. The evaluation result are stored in files next to the arff data.
+ * Class for the evaluation of a trained classifier model. It measures the
+ * performance of the selected classifier. The evaluation result are stored in
+ * files next to the arff data.
  *
  * This class uses the test data of the arff folder for the evaluation.
  *
@@ -37,32 +39,36 @@ public class Evaluater {
     private ClassIndexs classIndexs;
 
     /**
-     * Initializes the evaluation with a trained classifier and the training data.
-     * The training data is just there to check the format.
+     * Initializes the evaluation with a trained classifier and the training
+     * data. The training data is just there to check the format.
      *
-     * @param classifier the trained classifier.
-     * @param trainingData the training data
+     * @param classifier
+     *            the trained classifier.
+     * @param trainingData
+     *            the training data
      */
     public Evaluater(Classifier classifier, Instances trainingData) {
         this.classifier = classifier;
         try {
             this.evaluation = new Evaluation(trainingData);
         } catch (Exception e) {
-            throw new RuntimeWekaException("Failed to start evaluation."
-                                         + "Probably wrong classifier or training data."
-                                         + e.getLocalizedMessage());
+            throw new RuntimeWekaException("Failed to start evaluation." +
+                                           "Probably wrong classifier or training data." +
+                                           e.getLocalizedMessage());
         }
         this.classIndexs = new ClassIndexs(trainingData);
     }
 
     /**
-     * Removes the instances, which are labeled Background, because they are not tested.
+     * Removes the instances, which are labeled Background, because they are not
+     * tested.
      *
-     * @param testData the test data containing the background data
+     * @param testData
+     *            the test data containing the background data
      */
     public void removeBackground(Instances testData) {
         Iterator<Instance> it = testData.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             Instance instance = it.next();
             int classValue = SharedUtil.checkedConvert(instance.classValue());
             if (classValue == this.classIndexs.BACKGROUND) {
@@ -72,11 +78,13 @@ public class Evaluater {
     }
 
     /**
-     * Performs the evaluation on given test data.
-     * The results of the evaluation are stored in files.
+     * Performs the evaluation on given test data. The results of the evaluation
+     * are stored in files.
      *
-     * @param testData the test data
-     * @param resultPersistence the class, which manages the storing of the results
+     * @param testData
+     *            the test data
+     * @param resultPersistence
+     *            the class, which manages the storing of the results
      */
     public void evaluate(Instances testData, ResultPersistence resultPersistence) {
         log.debug("start: evaluate");
@@ -94,7 +102,8 @@ public class Evaluater {
 
         Metrics metrics = new Metrics(evaluation.confusionMatrix(), this.classIndexs);
 
-        resultPersistence.saveSummary(this.generateTextResult(metrics, sizeWithBackground, duration));
+        resultPersistence
+                .saveSummary(this.generateTextResult(metrics, sizeWithBackground, duration));
         Visualizer visualizer = new Visualizer(resultPersistence);
         visualizer.plotAll(metrics);
         log.debug("finished: evaluate");
@@ -138,7 +147,7 @@ public class Evaluater {
         result.append(System.lineSeparator());
         result.append(System.lineSeparator());
 
-        final double seconds = ((double)duration / 1000000000);
+        final double seconds = ((double) duration / 1000000000);
         result.append("Time duration of the weka test set evaluation of this classifier: ");
         result.append(System.lineSeparator());
         result.append(new DecimalFormat("#.##########").format(seconds) + " Seconds");
