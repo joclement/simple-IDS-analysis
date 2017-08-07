@@ -9,6 +9,7 @@ import com.beust.jcommander.ParameterException;
 import de.tub.insin.ss17.grp1.shared.SharedConstants;
 import de.tub.insin.ss17.grp1.shared.SharedUtil;
 
+
 public class App {
 
     private final static Logger log = LoggerFactory.getLogger(App.class);
@@ -17,8 +18,8 @@ public class App {
         log.debug("--- START ---");
         DataCliManager cliManager = new DataCliManager();
         JCommander commander = JCommander.newBuilder()
-            .addObject(cliManager)
-            .build();
+                .addObject(cliManager)
+                .build();
         try {
             commander.parse(argv);
             if (SharedUtil.helpNeeded(commander)) {
@@ -30,7 +31,7 @@ public class App {
             log.error("Wrong input, explanation: " + System.lineSeparator()
                     + e.getLocalizedMessage());
             log.info(SharedConstants.HELP_TXT);
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             log.error("Wrong input, explanation: " + System.lineSeparator()
                     + e.getLocalizedMessage());
             log.info(SharedConstants.HELP_TXT);
