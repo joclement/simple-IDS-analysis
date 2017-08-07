@@ -29,7 +29,7 @@ abstract public class NNClassifier implements MlAlgo {
         } catch (Exception e) {
             throw new IllegalArgumentException(
                     "Parameters specified for nn classifer were invalid." +
-                    " Weka: " + e.getLocalizedMessage());
+                    " Weka: " + e.getMessage());
         }
     }
 

@@ -54,10 +54,10 @@ public class ModelPersistence {
             oos.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException("Failed to find file to store classifier in."
-                                     + "FileNotFoundException: " + e.getLocalizedMessage());
+                                     + "FileNotFoundException: " + e.getMessage());
         } catch (IOException e) {
             throw new RuntimeException("Failed to save classifier."
-                                     + "IOException: " + e.getLocalizedMessage());
+                                     + "IOException: " + e.getMessage());
         }
     }
 
@@ -69,12 +69,12 @@ public class ModelPersistence {
             ois.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException("Failed to find file to load classifier from."
-                                     + "FileNotFoundException: " + e.getLocalizedMessage());
+                                     + "FileNotFoundException: " + e.getMessage());
         } catch (IOException e) {
             throw new RuntimeException("Failed to load classifier."
-                                     + "IOException: " + e.getLocalizedMessage());
+                                     + "IOException: " + e.getMessage());
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("ClassNotFound: " + e.getLocalizedMessage());
+            throw new RuntimeException("ClassNotFound: " + e.getMessage());
         }
 
         return classifier;

@@ -44,7 +44,7 @@ class ClassifierHelper {
             classifier.buildClassifier(trainingData);
         } catch (Exception e) {
             throw new RuntimeWekaException("Failed to build classifier. "
-                    + e.getLocalizedMessage());
+                    + e.getMessage());
         }
     }
 }
