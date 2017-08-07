@@ -24,6 +24,7 @@ import weka.classifiers.Classifier;
  * It manages all the parameters and calls all corresponding functions to do the IDS computation.
  *
  * @author Joris Clement
+ * @author Philipp Nickel
  *
  */
 public class IDSCliManager {
