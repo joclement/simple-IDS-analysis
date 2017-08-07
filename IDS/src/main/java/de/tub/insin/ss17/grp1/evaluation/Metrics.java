@@ -4,10 +4,11 @@ import de.tub.insin.ss17.grp1.util.ClassIndexs;
 
 
 /**
- * Class to compute metrics especially for the CTU data-set. That data-set has 3 class
- * labels(NORMAL, BOTNET, BACKGROUND). But the metrics can just be computed for the labels
- * NORMAL and BOTNET. So the calculations of the True Positives, True Negatives, False Positives
- * and False Negatives need to be adapted.
+ * Class to compute metrics especially for the CTU data-set. That data-set has 3
+ * class labels(NORMAL, BOTNET, BACKGROUND). But the metrics can just be
+ * computed for the labels NORMAL and BOTNET. So the calculations of the True
+ * Positives, True Negatives, False Positives and False Negatives need to be
+ * adapted.
  *
  * @author Joris Clement
  *
@@ -22,8 +23,10 @@ public class Metrics {
      * Constructs an object to get the metrics based on a given confusion matrix
      * and information about the class labels on that confusion matrix.
      *
-     * @param confusionMatrix the confusion matrix
-     * @param classIndexs information about class labels in confusion matrix
+     * @param confusionMatrix
+     *            the confusion matrix
+     * @param classIndexs
+     *            information about class labels in confusion matrix
      */
     protected Metrics(double[][] confusionMatrix, ClassIndexs classIndexs) {
         this.confMat = confusionMatrix;
