@@ -83,9 +83,9 @@ There should be a folder named "scenarios=4,5,6,7,11,12_percentageTrain=80_seper
         check weka for the parameters you can use. Seperate them by comma. Links:
         for [linear search and ball tree search nearest neighbor classifier](http://weka.sourceforge.net/doc.dev/weka/classifiers/lazy/IBk.html),
         for [j48 decision tree](http://weka.sourceforge.net/doc.dev/weka/classifiers/trees/J48.html)
-      * `-o|--only`: can be used to specify the usage of the IDS. The options of usage are train and test.
-      * `-n|--nominal`: can be used to specify a list of columns in the arff folder,
-                      which should be converted from numeric to nominal.
+      * `-o | --only`: can be used to specify the usage of the IDS. The options of usage are train and test.
+      * `-n | --nominal`: can be used to specify a list of columns in the arff folder,
+                          which should be converted from numeric to nominal.
 
 
 #### Examples:
