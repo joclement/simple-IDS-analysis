@@ -1,6 +1,5 @@
 # Project InSiN, Group 1
-
-This project is developed an intrusion detection system(IDS)
+This project is about development of an intrusion detection system(IDS)
 in the course _Intelligente Sicherheit in Netzwerken_
 at the _Technische Universitaet Berlin_ in the summer term 2017.
 We are _group 1_. The members(contributors) are listed below.<br/>
@@ -12,7 +11,7 @@ some others.
 
 
 ## Basic description
-This section focuses on hot to use our project. We divided the project into two
+This section focuses on how to use our project. We divided the project into two
 parts.
 The first part _data-preparation_ has the purpose to convert the CTU dataset to
 [arff](https://weka.wikispaces.com/ARFF) files,
@@ -24,7 +23,6 @@ anomalies is done.
 
 
 ## How-To
-
 You can use both parts using a jar via the command line.
 Therefore you have to clone this project.
 Run ```mvn package``` and use the existing jars. They should be in the
@@ -32,21 +30,26 @@ Run ```mvn package``` and use the existing jars. They should be in the
 They are described in the following.
 
 
-
 ### Convert data from CTU-13 to Arff
-
 
 #### To execute the data-preparation:
 1. run the jar via the command line f.x. like this
    ```
    java -jar data-preparation-1.0-SNAPSHOT-jar-with-dependencies.jar
    ```
-2. Use `-h | --help` to get a help message to know how to use the parameters.
-3. add the scenario you want to prepare (multiple are possible):
-   ` -s | --scenarios SCENARIO1, SCENARIO2, ...`
-4. add the CTU13 dataset-directory:
-    `-c | --ctu DIR`
-
+2. This program(jar) takes required and optional parameters.
+  * Use `-h | --help` to get a help message to know the parameters,
+    how to use them and their default values.
+  * Required Options:
+    * Add the scenario you want to prepare (multiple are possible):
+      `-s | --scenarios SCENARIO1, SCENARIO2, ...`
+  * Optional Parameters:
+    * Add the CTU13 dataset-directory:
+      `-c | --ctu DIR`
+    * Add the destination folder, in which the results are saved: `-d | --destFolder`
+    * Set percentage of the data for the training set: `-p | --percentageTrain`
+    * Set the last number from option `-s` as the test scenario: `-t | --seperateTestScenario`
+    * Use `-r` to remove all Background Instances: `-r | --removeBackground`
 
 
 #### Examples:
@@ -62,51 +65,27 @@ There should be a folder named "scenarios=4,5,6,7,11,12_percentageTrain=80_seper
 
 
 
-#### Optional Parameters:
-1. add the destination folder, in which the results are saved: `-d | --destFolder`
-    Default value: ./ (current folder)
-2. set percentage of the data for the training set: `-p | --percentageTrain`
-    Default value: 80
-3. set the last number from option -s as the test scenario: `-t | --seperateTestScenario`
-    Default value: false
-4. set -r true to remove all Background Instances: `-r | --removeBackground`
-    Default value: false
-
-
-
-# TODO rework this part
 ### Perform intrusion detection
-
 
 #### To execute the intrusion detection:
 1. run the jar via the command line f.x. like this
    ```
    java -jar IDS-1.0-SNAPSHOT-jar-with-dependencies.jar
    ```
-2. Use `-h | --help` to get a help message to know how to use the parameters.
-3. add the arffFolder you created before:
-   `-f | --arffFolder`
-4. add the classifier you want to use:
-   `-c | --classifier`
-5. add the parameters you want to use:
-   `-p | --parameters`
-
-
-#### Parameter Description:
-* `-h|--help`: can be used to show possible options.
-* `-f | --arffFolder`: Describes the folder that contains the prepared data.
-* `-c|--classifier`: Name of the classifier you want to use.
-  Implemented classifiers and their names used in the commandline are the following:
-  * LinearNearestNeighbourClassifier: _lnns_ (Default)
-  * BallTreeNearestNeighbourClassifier: ballTreeNN
-* `-p|--parameters`: Describes the parameters the classifier requires.
-  * paremeters for lnns and balltree, check weka for reference
-    * -k, k describes the amount of the nearest neighbours. k must be positive.
-    * -I, to set inverse distweight
-    * ..., for more options check weka
-* `-o|--only`: can be used to specify the usage of the IDS. The options of usage are train and test.
-* `-n|--nominal`: can be used to specify a list of columns in the arff folder,
-                  which should be converted from numeric to nominal.
+2. This program(jar) takes required and optional parameters.
+  * Use `-h | --help` to get a help message to know the parameters,
+    how to use them and their default values.
+  * Required Options:
+    * add the arffFolder you created before: `-f | --arffFolder`
+  * Optional Parameters:
+    * add the classifier you want to use: `-c | --classifier`
+    * add the parameters for the classifier: `-p | --parameters`
+      check weka for the parameters you can use. Seperate them by comma. Links:
+      for [linear search and ball tree search nearest neighbor classifier](http://weka.sourceforge.net/doc.dev/weka/classifiers/lazy/IBk.html),
+      for [j48 decision tree](http://weka.sourceforge.net/doc.dev/weka/classifiers/trees/J48.html)
+    * `-o|--only`: can be used to specify the usage of the IDS. The options of usage are train and test.
+    * `-n|--nominal`: can be used to specify a list of columns in the arff folder,
+                      which should be converted from numeric to nominal.
 
 
 #### Examples:
@@ -121,12 +100,18 @@ numeric to nominal. If the arff files are prepared using our tool, then column 3
 and 6 should be the ip address of the source and the destination.
 
 ```
-java -jar IDS-1.0-SNAPSHOT-jar-with-dependencies.jar -f ..IDS/src/main/resource/scenarios=4,5,6,7,11,12_percentageTrain=80_seperateTestScenario=false -p -k=2,-I -c lnns -n 3,6
+java -jar IDS-1.0-SNAPSHOT-jar-with-dependencies.jar -f ./scenarios=4,5,6,7,11,12_percentageTrain=80_seperateTestScenario=false -p -k=2,-I -c lnns -n 3,6
 ```
-
 If a message similar to this " INFO IDSCliManager: 116 - --- finished test ---" is shown,
 it means the intrusion detection was successful.
 In the destination folder (in this example "scenarios=4,5,6,7,11,12_percentageTrain=80_seperateTestScenario=false") there now should be a folder "model" which contains the training model and a folder "results" which contains a report and a plotted overview.
+
+The following uses the same data, but just trains the default classifier with no
+parameters. So there will a model for the linear search nearest neighbor
+classifier in the folder model.
+```
+java -jar IDS-1.0-SNAPSHOT-jar-with-dependencies.jar -f ./scenarios=4,5,6,7,11,12_percentageTrain=80_seperateTestScenario=false --only train
+```
 
 
 
