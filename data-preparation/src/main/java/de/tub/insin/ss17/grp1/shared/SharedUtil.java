@@ -8,6 +8,7 @@ import java.util.Iterator;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterDescription;
 
+
 public class SharedUtil {
 
     public static String stackTraceToString(Exception e) {
@@ -19,7 +20,7 @@ public class SharedUtil {
 
     public static int checkedConvert(double num) {
         int converted = new Double(num).intValue();
-        if (converted != num){
+        if (converted != num) {
             throw new RuntimeException("Number conversion error.");
         }
         return converted;
@@ -28,7 +29,7 @@ public class SharedUtil {
     public static boolean helpNeeded(JCommander commander) {
         Iterator<ParameterDescription> it = commander.getParameters().iterator();
         boolean helpNeeded = false;
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             ParameterDescription parameter = it.next();
             if (parameter.isHelp() && parameter.isAssigned()) {
                 helpNeeded = true;
@@ -39,8 +40,8 @@ public class SharedUtil {
 
     public static void checkedMkDirs(File dir) {
         if (!dir.isDirectory() && !dir.mkdirs()) {
-            throw new RuntimeException("Failed to create folder(including parents) "
-                                       + dir.toPath());
+            throw new RuntimeException("Failed to create folder(including parents) " +
+                                       dir.toPath());
         }
     }
 

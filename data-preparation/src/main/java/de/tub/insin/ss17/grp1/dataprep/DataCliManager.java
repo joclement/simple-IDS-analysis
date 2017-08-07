@@ -19,20 +19,21 @@ import org.slf4j.LoggerFactory;
 
 public class DataCliManager {
 
-    private final String CSV_FILENAME = "netflow.csv";
+    private static final String CSV_FILENAME = "netflow.csv";
 
-    private final String DEFAULT_DEST_PARENT_DIR = "./";
+    private static final String DEFAULT_DEST_PARENT_DIR = "./";
 
-    private final String DEFAULT_CTU_DIR = "./src/main/resources/CTU13/";
+    private static final String DEFAULT_CTU_DIR = "./src/main/resources/CTU13/";
 
-    private final String ARFF_FILENAME = "data.arff";
+    private static final String ARFF_FILENAME = "data.arff";
 
-    private final String TRAINING_ARFF_FILENAME = "./training/" + ARFF_FILENAME;
+    private static final String TRAINING_ARFF_FILENAME = "./training/" + ARFF_FILENAME;
 
-    private final String TEST_ARFF_FILENAME = "./test/" + ARFF_FILENAME;
+    private static final String TEST_ARFF_FILENAME = "./test/" + ARFF_FILENAME;
 
     private static final Logger log = LoggerFactory.getLogger(DataCliManager.class);
 
+    // @formatter:off
 
     @Parameter(names = {"--ctu", "-c"},
                description = "Path to the ctu13 folder")
@@ -64,45 +65,47 @@ public class DataCliManager {
     @Parameter(names = {"--help", "-h"}, help = true)
     private boolean help;
 
+    // @formatter:on
+
     public void run() {
         log.debug("start: run");
 
         if (this.arffFolder == null) {
-            this.arffFolder = generateDestFolder();
+            this.arffFolder = this.generateDestFolder();
         }
 
-        List<File> csvs = getScenarios();
+        List<File> csvs = this.getScenarios();
 
         if (this.separateTestScenario) {
             this.parseSeparateTestScenario(csvs);
         }
 
-        File arff = parse(csvs);
+        File arff = this.parse(csvs);
         if (this.separateTestScenario) {
-            moveToArffFolder(arff, TRAINING_ARFF_FILENAME);
+            this.moveToArffFolder(arff, TRAINING_ARFF_FILENAME);
         } else {
-            split(arff);
+            this.split(arff);
         }
 
-        log.info("Arff files moved to: {}", arffFolder);
+        log.info("Arff files moved to: {}", this.arffFolder);
         log.debug("finished: run");
     }
 
     private void split(File arff) {
         log.debug("split into training and test");
-        DataSplitter dataSplitter = new DataSplitter(percentageTrain);
+        DataSplitter dataSplitter = new DataSplitter(this.percentageTrain);
         List<File> splitted = null;
         try {
             splitted = dataSplitter.split(arff);
         } catch (Exception e) {
-            throw new RuntimeException("failed to split data into training and test instances."
-                                     + e.getLocalizedMessage());
+            throw new RuntimeException("failed to split data into training and test instances." +
+                                       e.getLocalizedMessage());
         }
 
         log.debug("move training arff file to destination");
-        moveToArffFolder(splitted.get(0), TRAINING_ARFF_FILENAME);
+        this.moveToArffFolder(splitted.get(0), TRAINING_ARFF_FILENAME);
         log.debug("move test arff file to destination");
-        moveToArffFolder(splitted.get(1), TEST_ARFF_FILENAME);
+        this.moveToArffFolder(splitted.get(1), TEST_ARFF_FILENAME);
     }
 
     private File parse(List<File> csvs) {
@@ -111,19 +114,19 @@ public class DataCliManager {
         try {
             arff = CSV2ArffConverter.parse(csvs, this.removeBackground);
         } catch (IOException e) {
-            throw new RuntimeException("failed to convert data from csv to arff."
-                                     + "IOException: " + e.getMessage());
+            throw new RuntimeException("failed to convert data from csv to arff. " +
+                                       "IOException: " + e.getMessage());
         } catch (Exception e) {
-            throw new RuntimeWekaException("failed to convert data from csv to arff."
-                                         + "Weka: " + e.getMessage());
+            throw new RuntimeWekaException("failed to convert data from csv to arff." +
+                                           "Weka: " + e.getMessage());
         }
         return arff;
     }
 
     private void parseSeparateTestScenario(List<File> csvs) {
         log.debug("convert seperate test scenario");
-        List<File> testScenarioList = new LinkedList<File>();
-        File testScenario = extractTestScenario(csvs);
+        List<File> testScenarioList = new LinkedList<>();
+        File testScenario = this.extractTestScenario(csvs);
         testScenarioList.add(testScenario);
         File arff = this.parse(testScenarioList);
         this.moveToArffFolder(arff, TEST_ARFF_FILENAME);
@@ -132,7 +135,7 @@ public class DataCliManager {
     public List<File> getScenarios() {
         log.debug("get scenarios");
 
-        CTUManager ctuManager = new CTUManager(ctuFolder, CSV_FILENAME);
+        CTUManager ctuManager = new CTUManager(this.ctuFolder, CSV_FILENAME);
         List<File> csvs = null;
         try {
             csvs = ctuManager.find(this.scenarios);
@@ -148,7 +151,7 @@ public class DataCliManager {
         name.append("scenarios=");
         Iterator<Integer> it = this.scenarios.iterator();
         name.append(it.next());
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             name.append(",");
             name.append(it.next());
         }
@@ -172,10 +175,8 @@ public class DataCliManager {
         try {
             Files.move(arff.toPath(), destinationArff.toPath(), StandardCopyOption.ATOMIC_MOVE);
         } catch (IOException e) {
-            String description =
-                    "Failed to move resulting training arff to destination folder, "
-                    + "from: " + arff.toPath()
-                    + " , to: " + destinationArff.toPath();
+            String description = "Failed to move resulting training arff to destination folder, " +
+                                 "from: " + arff.toPath() + " , to: " + destinationArff.toPath();
             throw new RuntimeException(description);
         }
     }

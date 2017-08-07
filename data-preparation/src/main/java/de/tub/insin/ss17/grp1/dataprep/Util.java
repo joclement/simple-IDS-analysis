@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import weka.core.Instances;
 
+
 public class Util {
 
     public static void saveAsArff(Instances data, File arff) throws IOException {
@@ -30,7 +31,7 @@ public class Util {
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             int d = digits.indexOf(c);
-            val = 16*val + d;
+            val = 16 * val + d;
         }
         return val;
     }
