@@ -19,9 +19,9 @@ public class SharedUtil {
     }
 
     public static int checkedConvert(double num) {
-        int converted = new Double(num).intValue();
+        int converted = (int) num;
         if (converted != num) {
-            throw new RuntimeException("Number conversion error.");
+            throw new NumberFormatException("Number conversion error.");
         }
         return converted;
     }

@@ -7,6 +7,12 @@ import weka.classifiers.AbstractClassifier;
 import weka.core.Instances;
 
 
+/**
+ * Class for some functions related to teh weka classifiers
+ *
+ * @author Joris Clement
+ *
+ */
 class ClassifierHelper {
 
     static void removeBackgroundFromPredictions(double[] predictions, ClassIndexs classIndexs) {
@@ -38,7 +44,7 @@ class ClassifierHelper {
             classifier.buildClassifier(trainingData);
         } catch (Exception e) {
             throw new RuntimeWekaException("Failed to build classifier. "
-                    + e.getLocalizedMessage());
+                    + e.getMessage());
         }
     }
 }

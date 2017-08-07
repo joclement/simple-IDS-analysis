@@ -16,7 +16,8 @@ import de.tub.insin.ss17.grp1.util.ResultPersistence;
 
 
 /**
- * Class to handle the visualization of the evaluation results. It plots the metrics.
+ * Class to handle the visualization of the evaluation results. It plots the
+ * metrics.
  *
  * @author Joris Clement
  *
@@ -31,9 +32,11 @@ public class Visualizer {
     private final ResultPersistence resultPersistence;
 
     /**
-     * Initialize the visualizer with an object to handle the saving of the plots.
+     * Initialize the visualizer with an object to handle the saving of the
+     * plots.
      *
-     * @param resultPersistence Object to handle results saving.
+     * @param resultPersistence
+     *            Object to handle results saving.
      */
     public Visualizer(ResultPersistence resultPersistence) {
         this.resultPersistence = resultPersistence;
@@ -98,9 +101,10 @@ public class Visualizer {
     }
 
     /**
-     * Generate  and save plots.
+     * Generate and save plots.
      *
-     * @param metrics the metrics values, which should be plotted.
+     * @param metrics
+     *            the metrics values, which should be plotted.
      */
     public void plotAll(Metrics metrics) {
         plotCounts(metrics);

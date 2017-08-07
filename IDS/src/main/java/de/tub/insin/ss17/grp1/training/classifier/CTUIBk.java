@@ -6,11 +6,11 @@ import weka.core.Instance;
 
 
 /**
- * Special CTU nearest neighbor classifier. Because of the 3 labels in the CTU data-set,
- * the distribution prediction for an instance needs to be adapted,
- * because at the end the only 2 labels, which count are NORMAL and BOTNET.
- * This overrode function `distributionForInstance` removes the background probability,
- * if it is possible.
+ * Special CTU nearest neighbor classifier. Because of the 3 labels in the CTU
+ * data-set, the distribution prediction for an instance needs to be adapted,
+ * because at the end the only 2 labels, which count are NORMAL and BOTNET. This
+ * overrode function `distributionForInstance` removes the background
+ * probability, if it is possible.
  *
  * @author Joris Clement
  *

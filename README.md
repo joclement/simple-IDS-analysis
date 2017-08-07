@@ -41,7 +41,7 @@ They are described as follows.
   * Use `-h | --help` to get a help message and view all parameters,
     how to use them and their default values.
   * Required Parameters:
-     * Add the scenario you desire to prepare (multiple are possible):
+     * Add the scenario you desire to convert (multiple are possible):
        `-s | --scenarios SCENARIO1, SCENARIO2, ...`
   * Optional Parameters:
       * Add the CTU13 dataset-directory:
