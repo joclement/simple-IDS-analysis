@@ -45,7 +45,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>${project.groupId}.App</mainClass>
+              <mainClass>${project.groupId}.dataprep.App</mainClass>
             </manifest>
           </archive>
         </configuration>
