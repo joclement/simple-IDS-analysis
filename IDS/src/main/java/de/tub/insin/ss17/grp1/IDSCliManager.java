@@ -48,7 +48,7 @@ public class IDSCliManager {
     @Parameter(names = {"--parameters", "-p"},
                description = "Parameters for the ml algorithm. "
                            + "Value depends on chosen classifier(--classifierName). "
-                           + "Check the documentation or weka for the specific values.")
+                           + "Check the README or weka directly for the specific values.")
     private List<String> mlParams = new LinkedList<String>();
 
 
