@@ -27,11 +27,11 @@ public class IDSApp {
             }
         } catch (ParameterException e) {
             log.error("Wrong input, explanation: " + System.lineSeparator()
-                    + e.getLocalizedMessage());
+                    + e.getMessage());
             log.info(SharedConstants.HELP_TXT);
         } catch(IllegalArgumentException e) {
             log.error("Wrong input, explanation: " + System.lineSeparator()
-                    + e.getLocalizedMessage());
+                    + e.getMessage());
             log.info(SharedConstants.HELP_TXT);
         }
         log.debug("--- FINISHED ---");

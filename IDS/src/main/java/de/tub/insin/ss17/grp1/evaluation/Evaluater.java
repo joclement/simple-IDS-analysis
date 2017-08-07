@@ -54,7 +54,7 @@ public class Evaluater {
         } catch (Exception e) {
             throw new RuntimeWekaException("Failed to start evaluation." +
                                            "Probably wrong classifier or training data." +
-                                           e.getLocalizedMessage());
+                                           e.getMessage());
         }
         this.classIndexs = new ClassIndexs(trainingData);
     }
@@ -96,7 +96,7 @@ public class Evaluater {
             evaluation.evaluateModel(classifier, testData);
         } catch (Exception e) {
             throw new RuntimeWekaException("Failed to do evaluation."
-                                         + e.getLocalizedMessage());
+                                         + e.getMessage());
         }
         long duration = System.nanoTime() - startTime;
 
