@@ -1,14 +1,14 @@
 # Project InSiN, Group 1
-This project consists in the development of an intrusion detection system(IDS)
+This project is about the development of an intrusion detection system(IDS)
 in the course _Intelligente Sicherheit in Netzwerken_
 at the _Technische Universitaet Berlin_ in the summer term 2017.
 We are _group 1_. The members(contributors) are listed below.<br/>
 More precisely, the goal is to develop an IDS on a given dataset, in our case
 [CTU-13](http://mcfp.weebly.com/the-ctu-13-dataset-a-labeled-dataset-with-botnet-normal-and-background-traffic.html),
 with a number of self chosen machine learning algorithms.
-We focus on the K-Nearest-Neighbor algorithm, but we will also implement and test
-some others.
-
+We focus on the K-Nearest-Neighbor algorithm, using 2 ways for searching through
+the trained instances, linear search and ball tree.
+For comparison there is the j48 decision tree available.
 
 ## Basic description
 This section focuses on how to use our project. We divided the project into two
