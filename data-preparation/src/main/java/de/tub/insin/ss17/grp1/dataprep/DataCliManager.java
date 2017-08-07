@@ -99,7 +99,7 @@ public class DataCliManager {
             splitted = dataSplitter.split(arff);
         } catch (Exception e) {
             throw new RuntimeException("failed to split data into training and test instances." +
-                                       e.getLocalizedMessage());
+                                       e.getMessage());
         }
 
         log.debug("move training arff file to destination");
