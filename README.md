@@ -41,15 +41,15 @@ They are described in the following.
   * Use `-h | --help` to get a help message to know the parameters,
     how to use them and their default values.
   * Required Options:
-    * Add the scenario you want to prepare (multiple are possible):
-      `-s | --scenarios SCENARIO1, SCENARIO2, ...`
+     * Add the scenario you want to prepare (multiple are possible):
+       `-s | --scenarios SCENARIO1, SCENARIO2, ...`
   * Optional Parameters:
-    * Add the CTU13 dataset-directory:
-      `-c | --ctu DIR`
-    * Add the destination folder, in which the results are saved: `-d | --destFolder`
-    * Set percentage of the data for the training set: `-p | --percentageTrain`
-    * Set the last number from option `-s` as the test scenario: `-t | --seperateTestScenario`
-    * Use `-r` to remove all Background Instances: `-r | --removeBackground`
+      * Add the CTU13 dataset-directory:
+        `-c | --ctu DIR`
+      * Add the destination folder, in which the results are saved: `-d | --destFolder`
+      * Set percentage of the data for the training set: `-p | --percentageTrain`
+      * Set the last number from option `-s` as the test scenario: `-t | --seperateTestScenario`
+      * Use `-r` to remove all Background Instances: `-r | --removeBackground`
 
 
 #### Examples:
@@ -76,15 +76,15 @@ There should be a folder named "scenarios=4,5,6,7,11,12_percentageTrain=80_seper
   * Use `-h | --help` to get a help message to know the parameters,
     how to use them and their default values.
   * Required Options:
-    * add the arffFolder you created before: `-f | --arffFolder`
+      * add the arffFolder you created before: `-f | --arffFolder`
   * Optional Parameters:
-    * add the classifier you want to use: `-c | --classifier`
-    * add the parameters for the classifier: `-p | --parameters`
-      check weka for the parameters you can use. Seperate them by comma. Links:
-      for [linear search and ball tree search nearest neighbor classifier](http://weka.sourceforge.net/doc.dev/weka/classifiers/lazy/IBk.html),
-      for [j48 decision tree](http://weka.sourceforge.net/doc.dev/weka/classifiers/trees/J48.html)
-    * `-o|--only`: can be used to specify the usage of the IDS. The options of usage are train and test.
-    * `-n|--nominal`: can be used to specify a list of columns in the arff folder,
+      * add the classifier you want to use: `-c | --classifier`
+      * add the parameters for the classifier: `-p | --parameters`
+        check weka for the parameters you can use. Seperate them by comma. Links:
+        for [linear search and ball tree search nearest neighbor classifier](http://weka.sourceforge.net/doc.dev/weka/classifiers/lazy/IBk.html),
+        for [j48 decision tree](http://weka.sourceforge.net/doc.dev/weka/classifiers/trees/J48.html)
+      * `-o|--only`: can be used to specify the usage of the IDS. The options of usage are train and test.
+      * `-n|--nominal`: can be used to specify a list of columns in the arff folder,
                       which should be converted from numeric to nominal.
 
 
