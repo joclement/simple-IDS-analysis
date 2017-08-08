@@ -6,18 +6,13 @@
 
 Das Intrusion Detection System kann grundlegend in zwei Subsysteme unterteilt werden: Einerseits in die Datenaufbereitung, die Data-Preparation, andererseits in die eigentliche Anomalieerkennung, das Intrusion Detection System.
 
-In der Data-Preparation ist es dem Nutzer möglich aus einer beliebigen Anzahl ausgewählter Szenarien, die zunächst im csv-Format hinterlegt sind, zwei Arff-Dateien zu generieren. Es werden zwei Arff-Dateien generiert, da eine der beiden Dateien zum Trainieren des IDS und die andere Datei zum Testen des IDS vorgesehen sind. Die prozentuale Aufteilung der Daten in Training und Test kann individuell angepasst werden. Die nachfolgende Abbildung gibt einen detaillierten Überblick über den Aufbau der Data-Preparation.\\
+In der Data-Preparation ist es dem Nutzer möglich aus einer beliebigen Anzahl ausgewählter Szenarien, die zunächst im csv-Format hinterlegt sind, zwei Arff-Dateien zu generieren. Es werden zwei Arff-Dateien generiert, da eine der beiden Dateien zum Trainieren des IDS und die andere Datei zum Testen des IDS vorgesehen sind. Die prozentuale Aufteilung der Daten in Training und Test kann individuell angepasst werden.
 
-%
-\begin{figure}[ht]
- \centering
- \includegraphics[width=0.65\textwidth]{images/Schema_Data_Preparation.jpg}
- \caption{Schema Data-Preparation}
- \label{schema_data_preparation}
-\end{figure}
-\ \\
+Die beiden folgenden Abschnitte~\ref{subsec:VorgehenDatenaufbereitung}
+und~\ref{subsec:VorgehenIDS} beschreiben den Aufbau und das Vorgehen zur
+Umsetzung der beiden Subsysteme.
 
-\subsection {Vorgehen Datenaufbereitung}
+\subsection{Datenaufbereitung Teil} \label{subsec:VorgehenDatenaufbereitung}
 
 Um unseren Datensatz analysieren zu können, müssen wir die Szenarien, die im csv-Format sind, in Arff umwandeln.
 Diese Umwandlung von csv zu arff müssen wir machen, weil wir uns entschieden
@@ -74,22 +69,85 @@ Somit lohnt es sich diese auch zu konvertieren.
 Dazu wurde jeder eindeutigen IP-Adresse mithilfe eines AVL-Baums eine ID zugewiesen.
 Der AVL-Baum wurde benutzt, um die Laufzeit dieser Umrechnung performant zu
 gestalten.
+Dieser ist als Klasse in Abbildung~\ref{fig:schema_data_preparation}
+dargestellt.
 
 Die unternommen Schritte haben das Problem nicht vollständig lösen können.
 Schließlich konnten bis auf die vier größten Szenarien alle Szenarien individuell konvertiert werden.
 
-\subsection {Vorgehen IDS}
 
-Im Intrusion Detection System kann der Nutzer zwischen mehreren Classifiern auswählen. Hat der Nutzer einen Classifier ausgewählt und die Parameter gesetzt, trainiert das IDS auf dem in der Data-Preparation vorbereiteten Trainings-Datensatz und testet anschließend auf dem Test-Datensatz. Es ist auch möglich nur ein Training oder nur einen Test durchzuführen. Nachdem das IDS getestet hat, evaluiert es die Testergebnisse. Die Resultate der Evaluierung, die Berechnung der Metriken True Positive, True Negative, False Positive und False Negative werden sowohl in Text- als auch in grafischer Form hinterlegt, um den Nutzer einen Überblick zu verschaffen.
-Die nachfolgende Abbildung gibt einen detaillierten Überblick über den Aufbaudes Intrusion Detection Systems. \\
+Die nachfolgende Abbildung~\ref{fig:schema_data_preparation} gibt einen detaillierten Überblick über den Aufbau der Data-Preparation.
+Die Klasse mit der Hauptarbeit der Konvertierung ist die Klasse
+\textit{CSV2ArffCArffConverter}.
+In dieser Klasse wurden vor Allem die beschriebenen Probleme bei der
+Konvertierung angegangen.
+Dann gibt es noch Klassen, die ein paar spezielle Funktionen haben. Z.B. lädt
+die Klasse \textit{CTUManager} die CSV Dateien und die Klasse
+\textit{DataSplitter} hat die Aufgabe die konvertierten Dateien in Training und
+Test aufzuteilen.
+
+In dieser Abbildung sieht man ebenfalls einen \textit{Shared} Teil.
+Dieser wird von beiden Subsystemen genutzt, um z.B. Konstanten festzulegen oder
+Redundanz zu vermeiden, indem bestimmte Hilfsfunktionen nur ein Mal definiert
+werden müssen.
+
+\begin{figure}[ht]
+ \centering
+ \includegraphics[width=0.65\textwidth]{images/Schema_Data_Preparation.jpg}
+ \caption{Schema Data-Preparation}
+ \label{fig:schema_data_preparation}
+\end{figure}
+
+
+\subsection{IDS Teil} \label{subsec:VorgehenIDS}
+
+Im Intrusion Detection System kann der Nutzer zwischen mehreren Classifiern auswählen.
+Hat der Nutzer einen Classifier ausgewählt und die Parameter gesetzt, trainiert das IDS auf dem in der Data-Preparation vorbereiteten Trainings-Datensatz und testet anschließend auf dem Test-Datensatz.
+Es ist auch möglich nur ein Training oder nur einen Test durchzuführen.
+Dies kann manchmal hilfreich sein, weil die einzelnen Rechnenschritte recht
+zeitintensiv sein können.
+Diese Option hat also nur praktische Zwecke.
+Nachdem das IDS getestet hat, evaluiert es die Testergebnisse.
+Die Resultate der Evaluierung, die Berechnung der Metriken True Positive, True
+Negative, False Positive, False Negative, etc. werden sowohl in Text- als auch in
+grafischer Form hinterlegt, um den Nutzer einen Überblick zu verschaffen.
+
+Der Nutzer kann die Ausführung des IDS noch weiter einstellen.
+Es gibt eine Option um einen Teil der Attribute, die in der ARFF Datei vom Typ
+\textit{numeric} als \textit{nominal} zu interpretieren.
+Wie im vorigen Abschnitt~\ref{subsec:VorgehenDatenaufbereitung} beschrieben,
+wurden vorher einige der Attribute von \textit{nominal} zu \textit{numeric}
+konvertiert, um Speicherplatz zu sparen.
+Dies kann aber die Arbeit des IDS beeinflussen.
+Es wäre möglich, dass sich dadurch die Berechnung des nächsten Nachbarn ändert.
+
+Die nachfolgende Abbildung~\ref{fig:schema_ids} gibt einen detaillierten Überblick über den Aufbau des Intrusion Detection Systems. \\
+Dabei sollte auffallen, dass wie schon einige Mal angedeutet auch die
+Implementierung des IDS Systems die Trennung von Training(training) und
+Test(evaluation) wiederspiegelt.
+
+Der Training Teil besteht hauptsächlich aus Wrappern fuer die Weka Classifier,
+um den Zugriff und die Speicherung von diesen zu erleichtern und Helfern, die
+die Berechnung der Classifier anpassen auf unseren CTU Datensatz.
+Eine dieser JAVA Klassen zur Anpassung ist die Klasse \textit{CTUIBk}.
+Diese ist abgeleitet vom normalen \textit{nearest Neighbour WEKA classifier}.
+Er passt die Prediction des normalen Classifiers an, indem er die ursprünglichen
+drei Klassen, die der CTU-Datensatz hat, auf zwei Klassen runterrechnet, weil
+wir fuer unsere Metriken, die in Abschnitt~\ref{subsubsec:WerteMetriken} näher
+betrachtet werden, nur betrachten, ob eine Instanz normales oder Botnet
+Verhalten darstellt.
+Für die meisten Fälle rechnet dafür diese Klasse die Wahrscheinlichkeit heraus,
+dass eine Instanz als Hintergrund klassifiziert wird, indem die
+Wahrscheinlichkeit auf $0$ gesetzt wird.
+Dafür werden die beiden anderen Wahrscheinlichkeiten entsprechnend vergrößert, wenn
+sie nicht selbst $0$ sind.
 
 \begin{figure}[ht]
  \centering
  \includegraphics[width=1\textwidth]{images/Schema_IDS.jpg}
  \caption{Schema IDS}
- \label{schema_ids}
+ \label{fig:schema_ids}
 \end{figure}
-
 
 \section{Machine Learning}
 \subsection{Classifier}
