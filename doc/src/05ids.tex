@@ -2,17 +2,21 @@
 \begin{document}
 
 
-\section{Aufbau des Intrusion Detection Systems}
+\section{Aufbau des Intrusion Detection Systems, JC}
 
 Das Intrusion Detection System kann grundlegend in zwei Subsysteme unterteilt werden: Einerseits in die Datenaufbereitung, die Data-Preparation, andererseits in die eigentliche Anomalieerkennung, das Intrusion Detection System.
 
-In der Data-Preparation ist es dem Nutzer möglich aus einer beliebigen Anzahl ausgewählter Szenarien, die zunächst im csv-Format hinterlegt sind, zwei Arff-Dateien zu generieren. Es werden zwei Arff-Dateien generiert, da eine der beiden Dateien zum Trainieren des IDS und die andere Datei zum Testen des IDS vorgesehen sind. Die prozentuale Aufteilung der Daten in Training und Test kann individuell angepasst werden.
+In der Data-Preparation ist es dem Nutzer möglich aus einer beliebigen Anzahl
+ausgewählter Szenarien, die zunächst im CSV-Format hinterlegt sind, zwei
+ARFF-Dateien zu generieren. Es werden zwei Arff-Dateien generiert, da eine der
+beiden Dateien zum Trainieren des IDS und die andere Datei zum Testen des IDS
+vorgesehen ist.
 
 Die beiden folgenden Abschnitte~\ref{subsec:VorgehenDatenaufbereitung}
 und~\ref{subsec:VorgehenIDS} beschreiben den Aufbau und das Vorgehen zur
-Umsetzung der beiden Subsysteme.
+Umsetzung der beiden Subsysteme genauer.
 
-\subsection{Datenaufbereitung Teil} \label{subsec:VorgehenDatenaufbereitung}
+\subsection{Datenaufbereitung Teil, JC} \label{subsec:VorgehenDatenaufbereitung}
 
 Um unseren Datensatz analysieren zu können, müssen wir die Szenarien, die im csv-Format sind, in Arff umwandeln.
 Diese Umwandlung von csv zu arff müssen wir machen, weil wir uns entschieden
@@ -99,7 +103,7 @@ werden müssen.
 \end{figure}
 
 
-\subsection{IDS Teil} \label{subsec:VorgehenIDS}
+\subsection{IDS Teil, JC} \label{subsec:VorgehenIDS}
 
 Im Intrusion Detection System kann der Nutzer zwischen mehreren Classifiern auswählen.
 Hat der Nutzer einen Classifier ausgewählt und die Parameter gesetzt, trainiert das IDS auf dem in der Data-Preparation vorbereiteten Trainings-Datensatz und testet anschließend auf dem Test-Datensatz.
