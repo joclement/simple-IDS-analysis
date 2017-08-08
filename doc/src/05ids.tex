@@ -5,7 +5,8 @@
 \section{Aufbau des Intrusion Detection Systems}
 
 Das Intrusion Detection System kann grundlegend in zwei Subsysteme unterteilt werden: Einerseits in die Datenaufbereitung, die Data-Preparation, andererseits in die eigentliche Anomalieerkennung, das Intrusion Detection System.
-In der Data-Preparation ist es dem Nutzer möglich,aus einer beliebigen Anzahl ausgewählter Szenarien, die zunächst im csv-Format hinterlegt sind, zwei Arff-Dateien zu generieren. Es werden zwei Arff-Dateien generiert, da eine der beiden Dateien zum Trainieren des IDS und die andere Datei zum Testen des IDS vorgesehen sind. Die prozentuale Aufteilung der Daten in Training und Test kann individuell angepasst werden. Die nachfolgende Abbildung gibt einen detaillierten Überblick über den Aufbau der Data-Preparation.\\
+
+In der Data-Preparation ist es dem Nutzer möglich aus einer beliebigen Anzahl ausgewählter Szenarien, die zunächst im csv-Format hinterlegt sind, zwei Arff-Dateien zu generieren. Es werden zwei Arff-Dateien generiert, da eine der beiden Dateien zum Trainieren des IDS und die andere Datei zum Testen des IDS vorgesehen sind. Die prozentuale Aufteilung der Daten in Training und Test kann individuell angepasst werden. Die nachfolgende Abbildung gibt einen detaillierten Überblick über den Aufbau der Data-Preparation.\\
 
 %
 \begin{figure}[ht]
@@ -14,30 +15,72 @@ In der Data-Preparation ist es dem Nutzer möglich,aus einer beliebigen Anzahl a
  \caption{Schema Data-Preparation}
  \label{schema_data_preparation}
 \end{figure}
-\ \\ 
-\subsection {Vorgehen}
-Um unseren Datensatz analysieren zu können, müssen wir die Szenarien die in csv-Format sind, in Arff umwandeln.
-Dazu benutzen wir die Machine Learning Library von WEKA.
-Wir nehmen ein oder mehrere Szenarien (wenn es mehrere sind konkatenieren wir sie einfach), konvertieren sie, und am Ende teilen wir sie in Test und Training.\\
+\ \\
 
-Beim Konvertieren der größeren Szenarien haben wir ein OutOfMemory Error, Java Heap Space, bekommen. Wir haben versucht die Heap Size manuell zu vergrößern und explizit den Garbage Collector aufzurufen, aber es hat nicht geholfen.\\
+\subsection {Vorgehen Datenaufbereitung}
 
-Das letzte Attribut der csv-Datei ist das Label, z.B. flow=Background-Established-cmpgw-CVUT. 
+Um unseren Datensatz analysieren zu können, müssen wir die Szenarien, die im csv-Format sind, in Arff umwandeln.
+Diese Umwandlung von csv zu arff müssen wir machen, weil wir uns entschieden
+haben WEKA als Machine Learning Library zu benutzen.
+
+Diese Konvertierung geschieht natuerlich mit den Szenarien des CTU13
+Datensatzes.
+Dabei kann man ein einzelnes Szenario oder auch mehrere auswaehlen, um es zu
+konvertieren.
+
+Die ausgewaehlten Szenarien werden dann zu einem ausgewählten Anteil zu einer Datei
+für das Training konvertiert und zum restlichen Anteil zu einer Datei zum Testen.
+Bei dieser Aufteilung gibt es verschiedene Möglichkeiten. Einerseits kann man
+entscheiden zu welchem Prozentsatz der erste Teil aller Instanzen der
+Szenarien zum Training gehören soll und somit alle nachfolgenden Instanzen zum
+Test gehören.
+Andererseits kann man auswählen, dass ein bestimmtes Szenario vollständig und
+alleine zum Testen verwendet wird.
+Beide Verianten machen Sinn, weil man bei der einen eher sieht, wie gut das IDS
+funktioniert, wenn man die Angriffe des Szenarien ggf. schon kennt.
+Die andere Variante ist sinnvoll um zu testen, wie gut der Algorithmus mit
+unbekannten Angriffen umgehen kann. Dies ist nämlich gerade der Vorteil den
+Anomalieerkennung gegenüber regelbasierter Erkennung bieten soll.
+
+Im Detail hat die Konvertierung der Daten einige Probleme bereitet und so viel
+Zeit in Anspruch genommen.
+Im Folgenden werden hier einige dieser Probleme beschrieben.
+
+Das größte Problem bestand darin einen Fehler von WEKA zu vermeiden. Dieser hat
+dafür gesorgt, dass beim Funktionsaufruf einer WEKA Funktion zur Konvertierung
+einer vorbereiteten, validen CSV Datei zu einer ARFF Datei ein \textit{Out of Memory Error} auftritt.
+Genauer gesagt war der Speicher des Heaps voll. Das ist auch passiert, wenn man
+die Größe des Java Heaps erstmal erhöht hat. Ein Problem, das dann aber auch
+aufgetreten ist, ist wie lange das Konvertieren gedauert hat.
+Dieser eine Funktionsaufruf hat dann sehr viel Zeit gekostet.
+
+Wir haben dann einige Versuche unternommen das Problem zu beseitigen.
+Das hat auch teilweise geklappt.
+
+Eine Vorgehensweise bestand darin die Datengröße der einzelnen Instanzen zu
+verringern.
+Dazu haben wir unter anderem das Label der Instanzen bearbeitet.
+Das letzte Attribut der CSV-Datei ist das Label, z.B. flow=Background-Established-cmpgw-CVUT.
 Da das Label sehr lang ist und es nicht relevant ist, ob ein Angriff erfolgreich (Established) oder nur ein Versuch (Attempt) war, wurde das Label auf einen Buchstaben reduziert: 'B' für Background, 'N' für Normal und 'A' für Anomalie.\\
 
-Anschließen wurde versucht, den Arff-Header bestmöglich zu verkleinern,  um so wenig Speicher wie möglich zu benötigen.
+Anschließend wurde versucht, den Arff-Header bestmöglich zu verkleinern, um so
+wenig Speicher wie möglich in den entstehenden ARFF Dateien zu benötigen.
 Da es beispielsweise sehr viele verschiedene Nominalwerte gab, wurden die Attribute SrcPort, DestPort, SrcIP und DestIP in numeric umgewandelt. \\
+Beim Konvertien der Ports gab es z.B. ein Problem.
+Manche Werte der Ports waren Hexadezimal abgebildet. Dementsprechend mussten sie in mithilfe einer Funktion in der Util-Klasse in Dezimalwerte konvertiert werden.
+Die Ip Adressen sind in den CSV Dateien wie gesagt auch nominal abgebildet und
+beanspruchen bis zu 15 Zeichen.
+Somit lohnt es sich diese auch zu konvertieren.
+Dazu wurde jeder eindeutigen IP-Adresse mithilfe eines AVL-Baums eine ID zugewiesen.
+Der AVL-Baum wurde benutzt, um die Laufzeit dieser Umrechnung performant zu
+gestalten.
 
-\begin{center}
-\begin{enumerate}
-\item Manche Werte der Ports waren Hexadezimal abgebildet. Dementsprechend mussten sie in mithilfe einer Funktion in der Util-Klasse in Dezimalwerte konvertiert werden.
-\item Jeder eindeutigen IP-Adresse wurde mithilfe eines AVL-Baums eine ID zugewiesen. Der AVL-Baum wurde anstelle einer LinkedList, um die Laufzeit von $O(n)$ zu $O(\log{n})$ beim Suchen eines Knotens in einer respektiven Datenstruktur zu reduzieren.
-\end{enumerate}
-\end{center}
-Die unternommen Schritte haben das Problem nicht vollständig lösen können. Schließlich konnten bis auf die vier größten Szenarien alle Szenarien individuell konvertiert werden.
+Die unternommen Schritte haben das Problem nicht vollständig lösen können.
+Schließlich konnten bis auf die vier größten Szenarien alle Szenarien individuell konvertiert werden.
 
+\subsection {Vorgehen IDS}
 
-Im Intrusion Detection System kann der Nutzer zwischen mehreren Classifiern auswählen. Hat der Nutzer einen Classifier ausgewählt und die Parameter gesetzt, trainiert das IDS auf dem in der Data-Preparation vorbereiteten Trainings-Datensatz und testet anschließend auf dem Test-Datensatz. Es ist auch möglich nur ein Training oder nur einen Test durchzuführen. Nachdem das IDS getestet hat, evaluiert es die Testergebnisse. Die Resultate der Evaluierung, die Berechnung der Metriken True Positive, True Negative, False Positive und False Negative werden sowohl in Text- als auch in grafischer Form hinterlegt, um den Nutzer einen Überblick zu verschaffen. 
+Im Intrusion Detection System kann der Nutzer zwischen mehreren Classifiern auswählen. Hat der Nutzer einen Classifier ausgewählt und die Parameter gesetzt, trainiert das IDS auf dem in der Data-Preparation vorbereiteten Trainings-Datensatz und testet anschließend auf dem Test-Datensatz. Es ist auch möglich nur ein Training oder nur einen Test durchzuführen. Nachdem das IDS getestet hat, evaluiert es die Testergebnisse. Die Resultate der Evaluierung, die Berechnung der Metriken True Positive, True Negative, False Positive und False Negative werden sowohl in Text- als auch in grafischer Form hinterlegt, um den Nutzer einen Überblick zu verschaffen.
 Die nachfolgende Abbildung gibt einen detaillierten Überblick über den Aufbaudes Intrusion Detection Systems. \\
 
 \begin{figure}[ht]
@@ -58,4 +101,4 @@ Für das IDS wurden die Classifier implementiert.
 % Wie ist das IDS aufgebaut? (ggf. Schema einfügen)
 % Was ist der NN-Algorithmus?
 % Warum haben wir diesen Algorithmus gewählt?
-% Wie wird dieser Algorithmus auf den Datensatz angewandt? 
+% Wie wird dieser Algorithmus auf den Datensatz angewandt?
