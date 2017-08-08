@@ -29,7 +29,7 @@ public class AppTest {
     static {
         destFolder = "../IDS/src/main/resources/test/";
         ctuFolder = "src/main/resources/TestCTU13/";
-        scenarios  = "6,11,12";
+        scenarios  = "6";
     }
 
     @Before
