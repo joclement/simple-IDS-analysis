@@ -11,6 +11,7 @@ ausgewählter Szenarien, die zunächst im CSV-Format hinterlegt sind, zwei
 ARFF-Dateien zu generieren. Es werden zwei Arff-Dateien generiert, da eine der
 beiden Dateien zum Trainieren des IDS und die andere Datei zum Testen des IDS
 vorgesehen ist.
+% TODO add reference to general machine learning paper
 
 Die beiden folgenden Abschnitte~\ref{subsec:VorgehenDatenaufbereitung}
 und~\ref{subsec:VorgehenIDS} beschreiben den Aufbau und das Vorgehen zur
@@ -18,16 +19,16 @@ Umsetzung der beiden Subsysteme genauer.
 
 \subsection{Datenaufbereitung Teil, JC} \label{subsec:VorgehenDatenaufbereitung}
 
-Um unseren Datensatz analysieren zu können, müssen wir die Szenarien, die im csv-Format sind, in Arff umwandeln.
-Diese Umwandlung von csv zu arff müssen wir machen, weil wir uns entschieden
+Um unseren Datensatz analysieren zu können, müssen wir die Szenarien, die im CSV-Format sind, in aRFF umwandeln.
+Diese Umwandlung von CSV zu ARFF müssen wir machen, weil wir uns entschieden
 haben WEKA als Machine Learning Library zu benutzen.
 
-Diese Konvertierung geschieht natuerlich mit den Szenarien des CTU13
+Diese Konvertierung geschieht natürlich mit den Szenarien des CTU-13
 Datensatzes.
-Dabei kann man ein einzelnes Szenario oder auch mehrere auswaehlen, um es zu
+Dabei kann man ein einzelnes Szenario oder auch mehrere auswählen, um es zu
 konvertieren.
 
-Die ausgewaehlten Szenarien werden dann zu einem ausgewählten Anteil zu einer Datei
+Die ausgewählten Szenarien werden dann zu einem ausgewählten Anteil zu einer Datei
 für das Training konvertiert und zum restlichen Anteil zu einer Datei zum Testen.
 Bei dieser Aufteilung gibt es verschiedene Möglichkeiten. Einerseits kann man
 entscheiden zu welchem Prozentsatz der erste Teil aller Instanzen der
@@ -35,11 +36,12 @@ Szenarien zum Training gehören soll und somit alle nachfolgenden Instanzen zum
 Test gehören.
 Andererseits kann man auswählen, dass ein bestimmtes Szenario vollständig und
 alleine zum Testen verwendet wird.
-Beide Verianten machen Sinn, weil man bei der einen eher sieht, wie gut das IDS
+Beide Varianten machen Sinn, weil man bei der einen eher sieht, wie gut das IDS
 funktioniert, wenn man die Angriffe des Szenarien ggf. schon kennt.
 Die andere Variante ist sinnvoll um zu testen, wie gut der Algorithmus mit
 unbekannten Angriffen umgehen kann. Dies ist nämlich gerade der Vorteil den
 Anomalieerkennung gegenüber regelbasierter Erkennung bieten soll.
+% TODO add a reference to 2009 paper here
 
 Im Detail hat die Konvertierung der Daten einige Probleme bereitet und so viel
 Zeit in Anspruch genommen.
@@ -65,9 +67,9 @@ Da das Label sehr lang ist und es nicht relevant ist, ob ein Angriff erfolgreich
 Anschließend wurde versucht, den Arff-Header bestmöglich zu verkleinern, um so
 wenig Speicher wie möglich in den entstehenden ARFF Dateien zu benötigen.
 Da es beispielsweise sehr viele verschiedene Nominalwerte gab, wurden die Attribute SrcPort, DestPort, SrcIP und DestIP in numeric umgewandelt. \\
-Beim Konvertien der Ports gab es z.B. ein Problem.
+Beim Konvertieren der Ports gab es z.B. ein Problem.
 Manche Werte der Ports waren Hexadezimal abgebildet. Dementsprechend mussten sie in mithilfe einer Funktion in der Util-Klasse in Dezimalwerte konvertiert werden.
-Die Ip Adressen sind in den CSV Dateien wie gesagt auch nominal abgebildet und
+Die IP Adressen sind in den CSV Dateien wie gesagt auch nominal abgebildet und
 beanspruchen bis zu 15 Zeichen.
 Somit lohnt es sich diese auch zu konvertieren.
 Dazu wurde jeder eindeutigen IP-Adresse mithilfe eines AVL-Baums eine ID zugewiesen.
@@ -108,7 +110,7 @@ werden müssen.
 Im Intrusion Detection System kann der Nutzer zwischen mehreren Classifiern auswählen.
 Hat der Nutzer einen Classifier ausgewählt und die Parameter gesetzt, trainiert das IDS auf dem in der Data-Preparation vorbereiteten Trainings-Datensatz und testet anschließend auf dem Test-Datensatz.
 Es ist auch möglich nur ein Training oder nur einen Test durchzuführen.
-Dies kann manchmal hilfreich sein, weil die einzelnen Rechnenschritte recht
+Dies kann manchmal hilfreich sein, weil die einzelnen Rechenschritte recht
 zeitintensiv sein können.
 Diese Option hat also nur praktische Zwecke.
 Nachdem das IDS getestet hat, evaluiert es die Testergebnisse.
@@ -128,7 +130,7 @@ Es wäre möglich, dass sich dadurch die Berechnung des nächsten Nachbarn ände
 Die nachfolgende Abbildung~\ref{fig:schema_ids} gibt einen detaillierten Überblick über den Aufbau des Intrusion Detection Systems. \\
 Dabei sollte auffallen, dass wie schon einige Mal angedeutet auch die
 Implementierung des IDS Systems die Trennung von Training(training) und
-Test(evaluation) wiederspiegelt.
+Test(evaluation) widerspiegelt.
 
 Der Training Teil besteht hauptsächlich aus Wrappern fuer die Weka Classifier,
 um den Zugriff und die Speicherung von diesen zu erleichtern und Helfern, die
@@ -137,13 +139,13 @@ Eine dieser JAVA Klassen zur Anpassung ist die Klasse \textit{CTUIBk}.
 Diese ist abgeleitet vom normalen \textit{nearest Neighbour WEKA classifier}.
 Er passt die Prediction des normalen Classifiers an, indem er die ursprünglichen
 drei Klassen, die der CTU-Datensatz hat, auf zwei Klassen runterrechnet, weil
-wir fuer unsere Metriken, die in Abschnitt~\ref{subsubsec:WerteMetriken} näher
+wir für unsere Metriken, die in Abschnitt~\ref{subsubsec:WerteMetriken} näher
 betrachtet werden, nur betrachten, ob eine Instanz normales oder Botnet
 Verhalten darstellt.
 Für die meisten Fälle rechnet dafür diese Klasse die Wahrscheinlichkeit heraus,
 dass eine Instanz als Hintergrund klassifiziert wird, indem die
 Wahrscheinlichkeit auf $0$ gesetzt wird.
-Dafür werden die beiden anderen Wahrscheinlichkeiten entsprechnend vergrößert, wenn
+Dafür werden die beiden anderen Wahrscheinlichkeiten entsprechend vergrößert, wenn
 sie nicht selbst $0$ sind.
 
 \begin{figure}[ht]
@@ -154,6 +156,7 @@ sie nicht selbst $0$ sind.
 \end{figure}
 
 \section{Machine Learning}
+
 \subsection{Classifier}
 Für das IDS wurden die Classifier implementiert.
 
